@@ -13,10 +13,10 @@ public class AppliTesBLL {
 		Personnels.add(new Personnels(02, "Elie", "Eliegui", "sec", false));
 		 
 		
-		LoginManager manager = null;
+		PersonnelsBLL manager = null;
 		
 		try {
-			manager = LoginManager.getInstance();
+			manager = PersonnelsBLL.getInstance();
 		} catch (BLLException e1) {
 			e1.printStackTrace();
 		}

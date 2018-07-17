@@ -10,8 +10,9 @@ public class Personnels {
 
 	
 	//Constructeur
-	public Personnels(String nom, String mdp, String role) {
+	public Personnels(int codePersonnel, String nom, String mdp, String role) {
 		super();
+		this.codePersonnel = codePersonnel;
 		this.nom = nom;
 		this.mdp = mdp;
 		this.role = role;

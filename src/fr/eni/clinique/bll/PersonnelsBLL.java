@@ -11,26 +11,26 @@ import fr.eni.clinique.bo.*;
 
 
 
-public class LoginManager {
+public class PersonnelsBLL {
 	//Création d'une variable d'instance 
 	//pour le Singleton
-	private static LoginManager INSTANCE = null;
+	private static PersonnelsBLL INSTANCE = null;
 	
 	private PersonnelsDAO daoPersonnels;
 	
-	private LoginManager() throws BLLException {
+	private PersonnelsBLL() throws BLLException {
 		//Obtention du DAO Personnels
 		
 	}
 	//Singleton
-	public static synchronized LoginManager getInstance() throws BLLException{	
+	public static synchronized PersonnelsBLL getInstance() throws BLLException{	
 		if (INSTANCE == null){
-			INSTANCE = new LoginManager();	
+			INSTANCE = new PersonnelsBLL();	
 		}
 		return INSTANCE;
 	}
 	
-	public void validerPersonnels(Personnels p) throws BLLException
+	public void validerConnection(Personnels p) throws BLLException
 	{
 		boolean valide = true;
 		StringBuffer sb = new StringBuffer();
