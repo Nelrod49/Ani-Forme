@@ -17,7 +17,12 @@ public class Personnels {
 		this.mdp = mdp;
 		this.role = role;
 	}
-	
+
+	public Personnels(String nom, String mdp) {
+		super();
+		this.nom = nom;
+		this.mdp = mdp;
+	}
 	public Personnels(){
 		super();
 	}

@@ -1,14 +1,10 @@
 package fr.eni.clinique.bll;
 
-import fr.eni.clinique.dal.*;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
-
-import java.awt.List;
-import fr.eni.clinique.bo.*;
-
-
+import fr.eni.clinique.dal.DAOFactory;
+import fr.eni.clinique.dal.PersonnelsDAO;
 
 
 public class PersonnelsBLL {
@@ -16,9 +12,12 @@ public class PersonnelsBLL {
 	//pour le Singleton
 	private static PersonnelsBLL INSTANCE = null;
 	
-	private PersonnelsDAO daoPersonnels;
 	
+<<<<<<< HEAD:src/fr/eni/clinique/bll/PersonnelsBLL.java
 	private PersonnelsBLL() throws BLLException {
+=======
+	public LoginManager() throws BLLException {
+>>>>>>> c9fe26de7cb587c8c55eeee35f72332802cb0115:src/fr/eni/clinique/bll/LoginManager.java
 		//Obtention du DAO Personnels
 		
 	}
@@ -30,33 +29,32 @@ public class PersonnelsBLL {
 		return INSTANCE;
 	}
 	
+<<<<<<< HEAD:src/fr/eni/clinique/bll/PersonnelsBLL.java
 	public void validerConnection(Personnels p) throws BLLException
+=======
+	public boolean validerPersonnels(Personnels p) throws BLLException, DALException
+>>>>>>> c9fe26de7cb587c8c55eeee35f72332802cb0115:src/fr/eni/clinique/bll/LoginManager.java
 	{
-		boolean valide = true;
+		boolean valide = false;
 		StringBuffer sb = new StringBuffer();
 		
-		if(p==null){
+		if(null == p){
 			throw new BLLException("Personnel null");
 		}
 		//Les attributs du personnels sont obligatoires
-		if(p.getMdp()==null || p.getMdp().trim().length()==0){
+		if(null == p.getMdp() || p.getMdp().trim().length() == 0){
 			sb.append("Le mdp  est obligatoire.\n");
-			valide = false;
+			return valide;
 		}
 		if(p.getNom()==null || p.getNom().trim().length()==0){
 			sb.append("Le nom  est obligatoire.\n");
-			valide = false;
+			return valide;
 		}
 		
-//		if(p.getRole()==null || p.getRole().trim().length()==0){
-//			sb.append("Le role  est obligatoire.\n");
-//			valide = false;
-//		}
+		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+
+		valide = personnelsDAO.connection(p.getNom(), p.getMdp());
 		
-		// Si le personnels n'est pas valide...
-		if(!valide){
-			// ... lancer une exception expliquant la(les) raison(s) de l'invalidité 
-			throw new BLLException(sb.toString());
-		}
+		return valide;
 	}
 }
