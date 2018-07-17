@@ -17,6 +17,8 @@ import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
+import fr.eni.clinique.dal.DAOFactory;
+import fr.eni.clinique.dal.PersonnelsDAO;
 
 public class EcranLogin extends JFrame{
 	private JPasswordField textMotPasse;
@@ -94,6 +96,8 @@ public class EcranLogin extends JFrame{
 						try {
 							if(lManager.validerPersonnels(p1)){
 								//TODO Redirect to 
+								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
+								p1 = personnelDAO.getAllData(p1);
 								System.out.println("Connection réussi");
 							}else{
 								System.out.println("Connection échoué");
