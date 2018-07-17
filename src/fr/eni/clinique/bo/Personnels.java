@@ -60,7 +60,7 @@ public class Personnels {
 		this.role = role;
 	}
 
-	public boolean isArchive() {
+	public boolean getArchive() {
 		return archive;
 	}
 	public void setArchive(boolean archive) {
