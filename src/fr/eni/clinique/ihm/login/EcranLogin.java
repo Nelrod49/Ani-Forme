@@ -14,7 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.LoginManager;
+import fr.eni.clinique.bll.PersonnelsBLL;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -91,10 +91,10 @@ public class EcranLogin extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0){
 					try {
-						LoginManager lManager = new LoginManager();
+						PersonnelsBLL lManager = new PersonnelsBLL();
 						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
 						try {
-							if(lManager.validerPersonnels(p1)){
+							if(lManager.validerConnection(p1)){
 								//TODO Redirect to 
 								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 								p1 = personnelDAO.getAllData(p1);
