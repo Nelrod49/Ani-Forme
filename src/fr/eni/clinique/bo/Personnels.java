@@ -10,21 +10,11 @@ public class Personnels {
 
 	
 	//Constructeur
-	public Personnels(int codePersonnel, String nom, String mdp, String role, boolean archive) {
-		super();
-		this.codePersonnel = codePersonnel;
-		this.nom = nom;
-		this.mdp = mdp;
-		this.role = role;
-		this.archive = archive;
-	}
-	
-	public Personnels(String nom, String mdp, String role, boolean archive) {
+	public Personnels(String nom, String mdp, String role) {
 		super();
 		this.nom = nom;
 		this.mdp = mdp;
 		this.role = role;
-		this.archive = archive;
 	}
 	
 	public Personnels(){
@@ -66,12 +56,7 @@ public class Personnels {
 	public void setArchive(boolean archive) {
 		this.archive = archive;
 	}
-	
-	//Méthodes
-	/*public Personnels addPerso(int codePersonnel, String nom, String mdp, String role){
-		Personnels newPerso = new Personnels(codePersonnel, nom, mdp, role, true);
-		return newPerso;
-	}*/
+
 
 	@Override
 	public String toString() {
