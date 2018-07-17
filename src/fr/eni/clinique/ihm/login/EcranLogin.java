@@ -99,6 +99,20 @@ public class EcranLogin extends JFrame{
 								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 								p1 = personnelDAO.getAllData(p1);
 								System.out.println("Connection réussi");
+								
+								//Renvoie vers fenetre GestionPers
+//								EcranLogin.setVisible(false);
+//								GestionPers fen = new GestionPers();
+//								fen.setVisible(true);
+								
+								final JFrame frame = new JFrame("Test");
+								frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+								frame.setSize(300, 300);
+								frame.setVisible(true);
+								
+								frame.dispose();
+
+								
 							}else{
 								System.out.println("Connection échoué");
 							}
