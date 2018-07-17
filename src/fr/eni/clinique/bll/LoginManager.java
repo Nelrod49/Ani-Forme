@@ -13,7 +13,7 @@ public class LoginManager {
 	private static LoginManager INSTANCE = null;
 	
 	
-	private LoginManager() throws BLLException {
+	LoginManager() throws BLLException {
 		//Obtention du DAO Personnels
 		
 	}
@@ -30,11 +30,11 @@ public class LoginManager {
 		boolean valide = false;
 		StringBuffer sb = new StringBuffer();
 		
-		if(p==null){
+		if(null == p){
 			throw new BLLException("Personnel null");
 		}
 		//Les attributs du personnels sont obligatoires
-		if(p.getMdp()==null || p.getMdp().trim().length()==0){
+		if(null == p.getMdp() || p.getMdp().trim().length() == 0){
 			sb.append("Le mdp  est obligatoire.\n");
 			return valide;
 		}
