@@ -1,14 +1,10 @@
 package fr.eni.clinique.bll;
 
-import fr.eni.clinique.dal.*;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
-
-import java.awt.List;
-import fr.eni.clinique.bo.*;
-
-
+import fr.eni.clinique.dal.DAOFactory;
+import fr.eni.clinique.dal.PersonnelsDAO;
 
 
 public class LoginManager {
@@ -16,7 +12,6 @@ public class LoginManager {
 	//pour le Singleton
 	private static LoginManager INSTANCE = null;
 	
-	private PersonnelsDAO daoPersonnels;
 	
 	private LoginManager() throws BLLException {
 		//Obtention du DAO Personnels
@@ -30,9 +25,9 @@ public class LoginManager {
 		return INSTANCE;
 	}
 	
-	public void validerPersonnels(Personnels p) throws BLLException
+	public boolean validerPersonnels(Personnels p) throws BLLException, DALException
 	{
-		boolean valide = true;
+		boolean valide = false;
 		StringBuffer sb = new StringBuffer();
 		
 		if(p==null){
@@ -41,22 +36,17 @@ public class LoginManager {
 		//Les attributs du personnels sont obligatoires
 		if(p.getMdp()==null || p.getMdp().trim().length()==0){
 			sb.append("Le mdp  est obligatoire.\n");
-			valide = false;
+			return valide;
 		}
 		if(p.getNom()==null || p.getNom().trim().length()==0){
 			sb.append("Le nom  est obligatoire.\n");
-			valide = false;
+			return valide;
 		}
 		
-//		if(p.getRole()==null || p.getRole().trim().length()==0){
-//			sb.append("Le role  est obligatoire.\n");
-//			valide = false;
-//		}
+		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+
+		valide = personnelsDAO.connection(p.getNom(), p.getMdp());
 		
-		// Si le personnels n'est pas valide...
-		if(!valide){
-			// ... lancer une exception expliquant la(les) raison(s) de l'invalidité 
-			throw new BLLException(sb.toString());
-		}
+		return valide;
 	}
 }
