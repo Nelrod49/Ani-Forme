@@ -13,9 +13,55 @@ import fr.eni.clinique.bo.Personnels;
 
 public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 
-	static String SQL_ADD_PERSONNELS = "Insert Into Personnels (Nom, MotPasse, Role) values(?,?,?);";
+	static String SQL_ADD_PERSONNELS = "Insert Into Personnels (Nom, MotPasse, Role, Archive) values(?,?,?,?);";
 	static String SQL_DELETE_PERSONNELS = "Update Personnels archive  = true Where code = ?;";
-	
+	static String SQL_CONNECTION_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ? AND Archive = 0;";
+	@Override
+	public boolean connection(String nom, String mdp){
+		Connection cnx = null;
+		boolean reponse = false;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_CONNECTION_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setString(1, nom);
+			commandeParemetree.setString(2, mdp);
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		ResultSet resultatDeLaRequete = null;
+		try{
+			resultatDeLaRequete = commandeParemetree.executeQuery();
+		}catch(SQLException e){
+			System.err.println("Impossible d'éxecuter la requête");
+			e.printStackTrace();
+		}
+		try {
+			boolean val = resultatDeLaRequete.next();
+			if(val){
+				reponse = true;
+			}
+		} catch (SQLException e1) {
+		}
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return reponse;
+		
+	}
 	@Override
 	public void insert(Personnels per) throws DALException {
 		Connection cnx = null;
@@ -34,6 +80,13 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 			commandeParemetree.setString(1, per.getNom());
 			commandeParemetree.setString(2, per.getMdp());
 			commandeParemetree.setString(3, per.getRole());
+			commandeParemetree.setBoolean(4, per.getArchive());
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter le statement");
+			sqle.printStackTrace();
+		}
+		try{
+			commandeParemetree.executeUpdate();
 		}catch(SQLException sqle){
 			System.err.println("Impossible d'éxecuter la requête");
 			sqle.printStackTrace();
