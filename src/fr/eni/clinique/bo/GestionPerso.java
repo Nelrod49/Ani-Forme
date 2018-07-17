@@ -14,6 +14,16 @@ public class GestionPerso {
 		perso = new Personnels(nom, role, mdp);
 		listPerso.add(perso);
 	}
+	public void addSec(String nom, String mdp){
+		this.role = "sec";
+		perso = new Personnels(nom, role, mdp);
+		listPerso.add(perso);
+	}
+	public void addAdm(String nom, String mdp){
+		this.role = "adm";
+		perso = new Personnels(nom, role, mdp);
+		listPerso.add(perso);
+	}
 	
 	public Personnels getPerso(){
 		return perso;

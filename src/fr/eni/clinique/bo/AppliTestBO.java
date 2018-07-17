@@ -10,6 +10,8 @@ public class AppliTestBO {
 		
 		perso.addVet("Jean", "JeanMDP");
 		System.out.println(perso.getPerso());
+		perso.addAdm("Admin", "AdminMDP");
+		System.out.println(perso.getPerso());
 	}
 
 }
