@@ -13,7 +13,7 @@ public class LoginManager {
 	private static LoginManager INSTANCE = null;
 	
 	
-	LoginManager() throws BLLException {
+	public LoginManager() throws BLLException {
 		//Obtention du DAO Personnels
 		
 	}

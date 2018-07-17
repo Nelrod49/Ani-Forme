@@ -12,6 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import fr.eni.clinique.bll.BLLException;
+import fr.eni.clinique.bll.LoginManager;
+import fr.eni.clinique.bo.Personnels;
+import fr.eni.clinique.dal.DALException;
+
 public class EcranLogin extends JFrame{
 	private JTextField textMotPasse;
 	private JTextField textNom;
@@ -79,6 +84,31 @@ public class EcranLogin extends JFrame{
 		if(buttonLogin == null){
 			buttonLogin = new JButton();	
 			buttonLogin.setText("Login");
+			buttonLogin.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0){
+					try {
+						LoginManager lManager = new LoginManager();
+						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
+						try {
+							if(lManager.validerPersonnels(p1)){
+								System.out.println("Connection réussi");
+							}else{
+								System.out.println("Connection échoué");
+							}
+						} catch (BLLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (DALException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} catch (BLLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
+				}
+			});
 		}
 		return buttonLogin;
 	}
