@@ -10,18 +10,9 @@ public class AppliTestDAL {
 		PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 		
 		//Instanciation du jeu dessai
-		Personnels p1 = new Personnels();
-		p1.setNom("Mélanie MALALANICH");
-		p1.setMdp("12345");
-		p1.setRole("vet");
-		Personnels p2 = new Personnels();
-		p2.setNom("Odette DEJEU");
-		p2.setMdp("123456");
-		p2.setRole("sec");
-		Personnels p3 = new Personnels();
-		p3.setNom("Edmond BOSAPIN");
-		p3.setMdp("123456");
-		p3.setRole("adm");
+		Personnels p1 = new Personnels("Mélanie MALALANICH","12345","vet");
+		Personnels p2 = new Personnels("Odette DEJEU","123456","sec");
+		Personnels p3 = new Personnels("Edmond BOSAPIN","123456","adm");
 		
 		//Test de la création
 		System.out.println("Création du personnels ...");
