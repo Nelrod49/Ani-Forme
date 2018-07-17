@@ -3,6 +3,8 @@ package fr.eni.clinique.ihm.login;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,21 +34,52 @@ public class EcranLogin extends JFrame{
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		panelPrincipal.add(new JLabel("Nom"), gbc);
+		panelPrincipal.add(new JLabel("Nom : "), gbc);
 		
 		gbc.gridx = 1;
 		gbc.gridy = 0;
+		panelPrincipal.add(getNom(), gbc);
+		
+
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		panelPrincipal.add(new JLabel("Mot de Passe : "), gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 1;
 		panelPrincipal.add(getMotPasse(), gbc);
 		
+
+		
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		panelPrincipal.add(getButtonLogin(), gbc);
 		
 		this.setContentPane(panelPrincipal);
 		
 	}
+
 	
-	public JTextField getMotPasse(){
+	private JTextField getNom(){
+		if(textNom == null){
+			textNom = new JTextField(20);
+		}
+		return textNom;
+	}
+	
+	private JTextField getMotPasse(){
 		if(textMotPasse == null){
-			textMotPasse = new JTextField(30);
+			textMotPasse = new JTextField(20);
 		}
 		return textMotPasse;
+	}
+	
+	private JButton getButtonLogin(){
+		if(buttonLogin == null){
+			buttonLogin = new JButton();	
+			buttonLogin.setText("Login");
+		}
+		return buttonLogin;
 	}
 }
