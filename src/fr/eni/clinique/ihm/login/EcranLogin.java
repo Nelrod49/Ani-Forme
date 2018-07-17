@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.bll.BLLException;
@@ -18,7 +19,7 @@ import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 
 public class EcranLogin extends JFrame{
-	private JTextField textMotPasse;
+	private JPasswordField textMotPasse;
 	private JTextField textNom;
 	private JButton buttonLogin;
 	
@@ -75,7 +76,7 @@ public class EcranLogin extends JFrame{
 	
 	private JTextField getMotPasse(){
 		if(textMotPasse == null){
-			textMotPasse = new JTextField(20);
+			textMotPasse = new JPasswordField(20);
 		}
 		return textMotPasse;
 	}
