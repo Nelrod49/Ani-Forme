@@ -93,6 +93,7 @@ public class EcranLogin extends JFrame{
 						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
 						try {
 							if(lManager.validerPersonnels(p1)){
+								//TODO Redirect to 
 								System.out.println("Connection réussi");
 							}else{
 								System.out.println("Connection échoué");

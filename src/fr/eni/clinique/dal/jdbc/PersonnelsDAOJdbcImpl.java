@@ -1,6 +1,7 @@
 package fr.eni.clinique.dal.jdbc;
 
 import java.sql.Statement;
+import java.util.Iterator;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 	static String SQL_ADD_PERSONNELS = "Insert Into Personnels (Nom, MotPasse, Role, Archive) values(?,?,?,?);";
 	static String SQL_DELETE_PERSONNELS = "Update Personnels archive  = true Where code = ?;";
 	static String SQL_CONNECTION_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ? AND Archive = 0;";
+	static String SQL_GETALLDATA_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ?";
 	@Override
 	public boolean connection(String nom, String mdp){
 		Connection cnx = null;
@@ -143,6 +145,54 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+	}
+	@Override
+	public Personnels getAllData(Personnels pers){
+		Connection cnx = null;
+		boolean reponse = false;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_GETALLDATA_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setString(1, pers.getNom());
+			commandeParemetree.setString(2, pers.getMdp());
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		ResultSet resultatDeLaRequete = null;
+		try{
+			resultatDeLaRequete = commandeParemetree.executeQuery();
+		}catch(SQLException e){
+			System.err.println("Impossible d'éxecuter la requête");
+			e.printStackTrace();
+		}
+		try {
+			if(resultatDeLaRequete.next()){
+				pers.setRole(resultatDeLaRequete.getString("Role"));
+				pers.setCodePersonnel(resultatDeLaRequete.getInt("CodePers"));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return pers;
+		
 	}
 	
 }

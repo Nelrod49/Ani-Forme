@@ -8,7 +8,7 @@ public class AppliTestDAL {
 		//Déclaration et instanciation de la DAO
 		
 		PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
-		
+		/*
 		//Instanciation du jeu dessai
 		Personnels p1 = new Personnels("Mélanie MALALANICH","12345","vet");
 		Personnels p2 = new Personnels("Odette DEJEU","123456","sec");
@@ -39,6 +39,9 @@ public class AppliTestDAL {
 			System.out.println("Connexion de " + p3.getNom() + " réussi");
 		}else{
 			System.out.println("Connexion de " + p3.getNom() + " échoué");
-		}
+		}*/
+		Personnels p4 = new Personnels("Mélanie MALALANICH","12345");
+		p4 = personnelDAO.getAllData(p4);
+		System.out.println(p4.toString());
 	}
 }

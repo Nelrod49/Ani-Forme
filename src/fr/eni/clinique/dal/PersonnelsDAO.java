@@ -6,7 +6,6 @@ public interface PersonnelsDAO{
 	
 	public boolean connection(String nom, String mdp) throws DALException;
 	public void insert(Personnels per) throws DALException;
-	
-	
+	public Personnels getAllData(Personnels per) throws DALException;
 	public void delete(Personnels per) throws DALException;
 }
