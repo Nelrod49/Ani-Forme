@@ -101,8 +101,8 @@ public class EcranRenitialiser extends JFrame {
 						try {
 							personnelsBLL = new PersonnelsBLL();
 							String passText = new String(password1.getPassword());
-							System.out.println(passText);
 							per.setMdp(passText);
+							passText = null; //Pour pas laisser le mot de passe en base mémoire
 							if(personnelsBLL.validerNouveauMotPasse(per)){
 								JComponent comp = (JComponent) e.getSource();
 					        Window win = SwingUtilities.getWindowAncestor(comp);

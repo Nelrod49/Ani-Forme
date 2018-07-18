@@ -92,7 +92,9 @@ public class EcranLogin extends JFrame{
 				public void actionPerformed(ActionEvent arg0){
 					try {
 						PersonnelsBLL lManager = new PersonnelsBLL();
-						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
+						String passText = new String(textMotPasse.getPassword());
+						Personnels p1 = new Personnels(textNom.getText(),passText);
+						passText = null;
 						try {
 							if(lManager.validerConnection(p1)){
 								//TODO Redirect to 
