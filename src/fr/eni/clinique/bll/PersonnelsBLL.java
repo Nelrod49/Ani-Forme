@@ -54,9 +54,52 @@ public class PersonnelsBLL {
 		StringBuffer sb = new StringBuffer();
 
 		if (p == null) {
-
+			throw new BLLException("Personnel invalide");
 		}
-		// if (p.getMdp() == null || )
+		
+		if (p.getNom() == null || p.getNom().trim().length() == 0){
+			sb.append("Le nom est obligatoire.\n");
+			return valide;
+		}
+		if (p.getMdp() == null || p.getMdp().trim().length() == 0){
+			sb.append("Le mot de passe est obligatoire.\n");
+			return valide;
+		}
+		if (p.getMdp().trim().length() >= 5){
+			sb.append("Le mot de passe doit contenir au moins 5 caractères.\n");
+			return valide;
+		}
+		if (p.getRole().equals("vet") || p.getRole().equals("sec") || p.getRole().equals("adm")){
+			sb.append("Le rôle n'est pas valide.\n");
+			return valide;
+		}
+		
+
+		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+		valide = personnelsDAO.connection(p.getNom(), p.getMdp(), p.getRole());
+		
 		return valide;
 	}
+	
+	//TODO vérifier que le véto à supprimer n'a plus de rendez-vous
+/*	public boolean validerSuppression(Personnels p) throws BLLException, DALException {
+		boolean valide = false;
+		StringBuffer sb = new StringBuffer();
+
+		if (p == null) {
+			throw new BLLException("Suppression impossible");
+		}
+		
+		if (p.getRole().equals("vet") && ){
+			sb.append("Ce vétérinaire n'a pas validé tous ses rendez-vous.\n");
+			return valide;
+		}
+		
+
+		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+		valide = personnelsDAO.connection(p.getNom(), p.getMdp(), p.getRole());
+		
+		return valide;
+	}*/
+	
 }

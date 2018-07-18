@@ -32,7 +32,7 @@ public class GestionPerso {
 	}
 	
 	public void updateMdp(int codePerso){
-		this.getPerso().setMdp(mdp);
+		this.getPerso().setMdp("12345");
 	}
 	
 	public void removePerso(int codePerso){

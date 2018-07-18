@@ -1,38 +1,54 @@
 package fr.eni.clinique.bo;
 
-import java.time.LocalDateTime;
-import java.time.LocalDate;
+import java.util.List;
 
 public class Agendas {
 	
+	private List<RendezVous> listRdv;
+	RendezVous rdv = new RendezVous();
 	Personnels veto = new Personnels();
+	Clients cli = new Clients();
 	Animaux animal = new Animaux();
-
-	private int codeVeto = veto.getCodePersonnel();
-	private int codeAnimal = animal.getCodeAnimal();
-	LocalDateTime currentTime = LocalDateTime.now();
 	
-	//Getter et Setter
-	public int getCodeVeto() {
-		return codeVeto;
+	//Constructeur
+	public Agendas(List<RendezVous> listRdv) {
+		super();
+		this.listRdv = listRdv;
 	}
-	public void setCodeVeto(int codeVeto) {
-		this.codeVeto = codeVeto;
-	}
-
-	public int getCodeAnimal() {
-		return codeAnimal;
-	}
-	public void setCodeAnimal(int codeAnimal) {
-		this.codeAnimal = codeAnimal;
+	public Agendas(){
+		super();
 	}
 	
-	public LocalDateTime getCurrentTime() {
-		return currentTime;
+	
+	public void selectCilent(int codeClient){
+		cli.setCodeClient(codeClient);
+		rdv.setClient(cli);
 	}
-	public void setCurrentTime(LocalDateTime currentTime) {
-		this.currentTime = currentTime;
+	
+	public void selectVeto(int codeVeto){
+		veto.setCodePersonnel(codeVeto);
+		rdv.setVeto(veto);
 	}
+	
+	public void selectAnimal(int codeAnimal){
+		animal.setCodeAnimal(codeAnimal);
+		rdv.setAnimal(animal);
+	}
+	
+	public void selectHeure(){
+		
+	}
+	
+	public void addRdv(Clients cli, Animaux animal){
+		RendezVous rdv = new RendezVous(cli.getNomClient(), animal.getNomAnimal());
+		//listRdv.add(rdv);
+	}
+	@Override
+	public String toString() {
+		return "Agendas [listRdv=" + listRdv + ", rdv=" + rdv + ", veto=" + veto + ", cli=" + cli + ", animal=" + animal
+				+ "]";
+	}
+	
 	
 	
 }

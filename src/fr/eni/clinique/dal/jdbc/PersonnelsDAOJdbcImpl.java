@@ -196,6 +196,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 		return pers;
 		
 	}
+	
 	public ArrayList<Personnels> allPersonnels(){
 		ArrayList<Personnels> resultat = new ArrayList<Personnels>();
 		Connection cnx = null;
