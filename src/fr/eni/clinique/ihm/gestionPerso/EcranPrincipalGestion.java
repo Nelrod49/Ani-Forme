@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -84,18 +85,29 @@ public class EcranPrincipalGestion extends JFrame {
 			buttonSupprimer.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e){
-			        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	        
-					try {
-						personnelsDAO.delete(personnels.get(tablePersonnels.getSelectedRow()));
-					} catch (DALException err) {
-						// TODO Auto-generated catch block
-						err.printStackTrace();
+					if(tablePersonnels.getSelectedRow() == -1){
+						JOptionPane d = new JOptionPane();
+						d.showMessageDialog(panelPrincipal,
+							    "Vous devez selectionnez quelqu'un.",
+							    "Attention",
+							    JOptionPane.WARNING_MESSAGE);
+					}else{						
+				        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	        
+						try {
+							personnelsDAO.delete(personnels.get(tablePersonnels.getSelectedRow()));
+						} catch (DALException err) {
+							// TODO Auto-generated catch block
+							err.printStackTrace();
+						}
+						
+				        JComponent comp = (JComponent) e.getSource();
+				        Window win = SwingUtilities.getWindowAncestor(comp);
+				        win.dispose(); //On ferme l'écran actuel
+						new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
+						JOptionPane d = new JOptionPane();
+						d.showMessageDialog(panelPrincipal,
+							    "Personnels archiver.");
 					}
-					
-			        JComponent comp = (JComponent) e.getSource();
-			        Window win = SwingUtilities.getWindowAncestor(comp);
-			        win.dispose(); //On ferme l'écran actuel
-					new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
 
 				}
 			});
@@ -110,12 +122,21 @@ public class EcranPrincipalGestion extends JFrame {
 			buttonReinitialiser.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e){
-			        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	
-			        JComponent comp = (JComponent) e.getSource();
-			        Window win = SwingUtilities.getWindowAncestor(comp);
-			        win.dispose(); //On ferme l'écran actuel
-			        new EcranRenitialiser("Réinitialiser mot de passe", 
-			        		personnels.get(tablePersonnels.getSelectedRow())).setVisible(true);
+
+					if(tablePersonnels.getSelectedRow() == -1){
+						JOptionPane d = new JOptionPane();
+						d.showMessageDialog(panelPrincipal,
+							    "Vous devez selectionnez quelqu'un.",
+							    "Attention",
+							    JOptionPane.WARNING_MESSAGE);
+					}else{	
+				        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	
+				        JComponent comp = (JComponent) e.getSource();
+				        Window win = SwingUtilities.getWindowAncestor(comp);
+				        win.dispose(); //On ferme l'écran actuel
+				        new EcranRenitialiser("Réinitialiser mot de passe", 
+				        		personnels.get(tablePersonnels.getSelectedRow())).setVisible(true);
+					}
 
 				}
 			});
