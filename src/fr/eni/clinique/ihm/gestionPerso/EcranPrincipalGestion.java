@@ -7,12 +7,19 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.TableColumnModel;
+
+import fr.eni.clinique.bo.Personnels;
+import fr.eni.clinique.dal.DALException;
+import fr.eni.clinique.dal.DAOFactory;
+import fr.eni.clinique.dal.PersonnelsDAO;
 
 public class EcranPrincipalGestion extends JFrame {
 
@@ -49,7 +56,7 @@ public class EcranPrincipalGestion extends JFrame {
 		panelPrincipal.add(getReinitiliser(), gbc);
 
 		
-		gbc.gridx = 0;
+		gbc.gridx = 1;
 		gbc.gridy = 1;
 		panelPrincipal.add(getPersonnels(), gbc);
 		
@@ -81,7 +88,29 @@ public class EcranPrincipalGestion extends JFrame {
 	
 	private JTable getPersonnels(){
 		if(tablePersonnels == null){
-			tablePersonnels = new JTable();
+	        String[] entetes = {"Code Personnel","Prénom Nom", "Rôle"};
+	        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+	        ArrayList<Personnels> personnels = new ArrayList<Personnels>();
+			try {
+				personnels = personnelsDAO.allPersonnels();
+				Object[][] data = new Object[personnels.size()][3];
+				int i =0 ;
+				while (i < personnels.size()){
+		            data[i][0] = personnels.get(i).getCodePersonnel();
+		            data[i][1] = personnels.get(i).getNom();
+		            data[i][2] = personnels.get(i).getRole();
+		            i=i+1;		 
+		        }
+				tablePersonnels = new JTable(data,entetes);
+				TableColumnModel columnModel = tablePersonnels.getColumnModel();
+				columnModel.getColumn(0).setPreferredWidth(50);
+				columnModel.getColumn(1).setPreferredWidth(150);
+				columnModel.getColumn(2).setPreferredWidth(50);
+			} catch (DALException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
 		}
 		return tablePersonnels;
 	}
