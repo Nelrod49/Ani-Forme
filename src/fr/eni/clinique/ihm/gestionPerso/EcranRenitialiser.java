@@ -11,6 +11,7 @@ import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
@@ -91,7 +92,11 @@ public class EcranRenitialiser extends JFrame {
 					if(Arrays.equals(password1.getPassword(), password2.getPassword())){
 						System.out.println("Mot de passe égale");
 					}else{
-						System.out.println("Mot de passe non égale");
+						JOptionPane d = new JOptionPane();
+						d.showMessageDialog(panelPrincipal,
+							    "Vous devez avoir deux mots de passe égaux.",
+							    "Attention",
+							    JOptionPane.WARNING_MESSAGE);
 					}
 
 				}
