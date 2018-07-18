@@ -194,5 +194,10 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 		return pers;
 		
 	}
+	@Override
+	public boolean connection(String nom, String mdp, String role) throws DALException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }
