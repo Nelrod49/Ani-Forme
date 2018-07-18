@@ -2,6 +2,7 @@ package fr.eni.clinique.ihm;
 
 import javax.swing.SwingUtilities;
 
+import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
 import fr.eni.clinique.ihm.login.EcranLogin;
 
 public class DemoApp {
@@ -12,8 +13,8 @@ public class DemoApp {
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){
-				EcranLogin ecranLogin = new EcranLogin("Login");
-				ecranLogin.setVisible(true);
+				EcranPrincipalGestion ecranPrincipalGestion = new EcranPrincipalGestion("Gestion du personnel");
+				ecranPrincipalGestion.setVisible(true);
 			}
 		});
 	}
