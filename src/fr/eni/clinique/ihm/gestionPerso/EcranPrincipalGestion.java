@@ -14,8 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 
+import fr.eni.clinique.bll.BLLException;
+import fr.eni.clinique.bll.PersonnelsBLL;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -27,6 +30,8 @@ public class EcranPrincipalGestion extends JFrame {
 	private JButton buttonSupprimer;
 	private JButton buttonReinitialiser;
 	private JTable tablePersonnels;
+	JPanel panelPrincipal;
+	private ArrayList<Personnels> personnels = new ArrayList<Personnels>();
 	
 	public EcranPrincipalGestion(String titre){
 		super(titre);
@@ -38,7 +43,7 @@ public class EcranPrincipalGestion extends JFrame {
 	}
 	
 	private void initIHM(){
-		JPanel panelPrincipal = new JPanel();
+		panelPrincipal = new JPanel();
 		panelPrincipal.setLayout(new GridBagLayout());
 		panelPrincipal.setOpaque(true);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -74,6 +79,22 @@ public class EcranPrincipalGestion extends JFrame {
 		if(buttonSupprimer == null){
 			buttonSupprimer = new JButton();
 			buttonSupprimer.setText("Supprimer");
+			buttonSupprimer.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0){
+			        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	        
+					try {
+						personnelsDAO.delete(personnels.get(tablePersonnels.getSelectedRow()));
+					} catch (DALException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					panelPrincipal.setVisible(false); //this will close frame i.e. NewJFrame
+
+					new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
+
+				}
+			});
 		}
 		return buttonSupprimer;
 	}
@@ -89,8 +110,7 @@ public class EcranPrincipalGestion extends JFrame {
 	private JTable getPersonnels(){
 		if(tablePersonnels == null){
 	        String[] entetes = {"Code Personnel","Prénom Nom", "Rôle"};
-	        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
-	        ArrayList<Personnels> personnels = new ArrayList<Personnels>();
+	        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	        
 			try {
 				personnels = personnelsDAO.allPersonnels();
 				Object[][] data = new Object[personnels.size()][3];

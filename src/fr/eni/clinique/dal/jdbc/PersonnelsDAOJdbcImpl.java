@@ -16,7 +16,7 @@ import fr.eni.clinique.bo.Personnels;
 public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 
 	static String SQL_ADD_PERSONNELS = "Insert Into Personnels (Nom, MotPasse, Role, Archive) values(?,?,?,?);";
-	static String SQL_DELETE_PERSONNELS = "Update Personnels archive  = true Where code = ?;";
+	static String SQL_DELETE_PERSONNELS = "Update Personnels SET Archive  = 1 Where CodePers = ?;";
 	static String SQL_CONNECTION_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ? AND Archive = 0;";
 	static String SQL_GETALLDATA_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ?";
 	static String SQL_GETALL_PERSONNELS = "Select * from Personnels where Archive = 0;";
