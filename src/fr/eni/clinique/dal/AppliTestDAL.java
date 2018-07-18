@@ -45,12 +45,12 @@ public class AppliTestDAL {
 		Personnels p4 = new Personnels("Mélanie MALALANICH","12345");
 		p4 = personnelDAO.getAllData(p4);
 		System.out.println(p4.toString());
-		*/
-		System.out.println("Test");
+		
 		ArrayList<Personnels> pers = personnelDAO.allPersonnels();
 		System.out.println(pers.toString());
 		for(int i = 0; i < pers.size(); i++){
 			System.out.println(pers.get(i).toString());
 		}
+		*/
 	}
 }

@@ -20,6 +20,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 	static String SQL_CONNECTION_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ? AND Archive = 0;";
 	static String SQL_GETALLDATA_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ?";
 	static String SQL_GETALL_PERSONNELS = "Select * from Personnels where Archive = 0;";
+	static String SQL_CHANGEMOTPASSE_PERSONNELS = "Update Personnels Set MotPasse = ? Where CodePers = ?;";
 	@Override
 	public boolean connection(String nom, String mdp){
 		Connection cnx = null;
@@ -246,6 +247,46 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 			e.printStackTrace();
 		}
 		return resultat;
+	}
+	
+	@Override
+	public boolean changeMotPasse(Personnels per){
+		boolean valide = false;
+		Connection cnx = null;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null; 	
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_CHANGEMOTPASSE_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setString(1, per.getMdp());
+			commandeParemetree.setInt(2, per.getCodePersonnel());
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		try{
+			commandeParemetree.executeUpdate();
+			valide = true;
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return valide;
 	}
 	
 }

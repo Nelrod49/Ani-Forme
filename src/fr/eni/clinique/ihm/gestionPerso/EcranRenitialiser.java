@@ -3,19 +3,24 @@ package fr.eni.clinique.ihm.gestionPerso;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
+import fr.eni.clinique.bll.BLLException;
+import fr.eni.clinique.bll.PersonnelsBLL;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -27,10 +32,11 @@ public class EcranRenitialiser extends JFrame {
 	private JPasswordField password1;
 	private JPasswordField password2;
 	private JPanel panelPrincipal;
-	private ArrayList<Personnels> personnels = new ArrayList<Personnels>();
+	private Personnels per;
 	
 	public EcranRenitialiser(String titre, Personnels pers){
 		super(titre);
+		per = pers;
 		this.setSize(new Dimension(600,400));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -88,9 +94,36 @@ public class EcranRenitialiser extends JFrame {
 			buttonModifier.setText("Modifier");
 			buttonModifier.addActionListener(new ActionListener(){
 				@Override
-				public void actionPerformed(ActionEvent arg0){
+				public void actionPerformed(ActionEvent e){
 					if(Arrays.equals(password1.getPassword(), password2.getPassword())){
-						System.out.println("Mot de passe égale");
+						System.out.println(password1.getPassword());
+						PersonnelsBLL personnelsBLL;
+						try {
+							personnelsBLL = new PersonnelsBLL();
+							String passText = new String(password1.getPassword());
+							System.out.println(passText);
+							per.setMdp(passText);
+							if(personnelsBLL.validerNouveauMotPasse(per)){
+								JComponent comp = (JComponent) e.getSource();
+					        Window win = SwingUtilities.getWindowAncestor(comp);
+					        win.dispose(); //On ferme l'écran actuel
+							new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
+							JOptionPane d = new JOptionPane();
+							d.showMessageDialog(panelPrincipal,
+								    "Mot de passe modifier.");
+							}else{
+								JOptionPane d = new JOptionPane();
+								d.showMessageDialog(panelPrincipal,
+									    "Erreur de modification du mot de passe.");
+							}
+							
+						} catch (BLLException err) {
+							// TODO Auto-generated catch block
+							err.printStackTrace();
+						} catch (DALException err) {
+							// TODO Auto-generated catch block
+							err.printStackTrace();
+						}
 					}else{
 						JOptionPane d = new JOptionPane();
 						d.showMessageDialog(panelPrincipal,

@@ -11,4 +11,5 @@ public interface PersonnelsDAO{
 	public Personnels getAllData(Personnels per) throws DALException;
 	public void delete(Personnels per) throws DALException;
 	public ArrayList<Personnels> allPersonnels() throws DALException;
+	public boolean changeMotPasse(Personnels per)throws DALException;
 }

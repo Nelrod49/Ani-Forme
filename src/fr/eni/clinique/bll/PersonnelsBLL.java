@@ -76,8 +76,22 @@ public class PersonnelsBLL {
 		
 
 		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
-		valide = personnelsDAO.connection(p.getNom(), p.getMdp(), p.getRole());
+		valide = personnelsDAO.connection(p.getNom(), p.getMdp());
 		
+		return valide;
+	}
+	
+	public boolean validerNouveauMotPasse(Personnels p) throws BLLException, DALException {
+		boolean valide = false;
+		StringBuffer sb = new StringBuffer();
+		if (p.getMdp() == null || p.getMdp().trim().length() <= 5){
+			sb.append("Le nom est obligatoire.\n");
+			return valide;
+		}else{
+			PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+			valide = personnelsDAO.changeMotPasse(p);
+			valide = true;
+		}
 		return valide;
 	}
 	
