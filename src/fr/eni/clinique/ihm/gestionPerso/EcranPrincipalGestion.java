@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +32,7 @@ public class EcranPrincipalGestion extends JFrame {
 	private JButton buttonSupprimer;
 	private JButton buttonReinitialiser;
 	private JTable tablePersonnels;
-	JPanel panelPrincipal;
+	private JPanel panelPrincipal;
 	private ArrayList<Personnels> personnels = new ArrayList<Personnels>();
 	
 	public EcranPrincipalGestion(String titre){
@@ -81,16 +83,18 @@ public class EcranPrincipalGestion extends JFrame {
 			buttonSupprimer.setText("Supprimer");
 			buttonSupprimer.addActionListener(new ActionListener(){
 				@Override
-				public void actionPerformed(ActionEvent arg0){
+				public void actionPerformed(ActionEvent e){
 			        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	        
 					try {
 						personnelsDAO.delete(personnels.get(tablePersonnels.getSelectedRow()));
-					} catch (DALException e) {
+					} catch (DALException err) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						err.printStackTrace();
 					}
-					panelPrincipal.setVisible(false); //this will close frame i.e. NewJFrame
-
+					
+			        JComponent comp = (JComponent) e.getSource();
+			        Window win = SwingUtilities.getWindowAncestor(comp);
+			        win.dispose(); //On ferme l'écran actuel
 					new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
 
 				}
@@ -103,6 +107,18 @@ public class EcranPrincipalGestion extends JFrame {
 		if(buttonReinitialiser == null){
 			buttonReinitialiser = new JButton();
 			buttonReinitialiser.setText("Réinitialiser");
+			buttonReinitialiser.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e){
+			        PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();	
+			        JComponent comp = (JComponent) e.getSource();
+			        Window win = SwingUtilities.getWindowAncestor(comp);
+			        win.dispose(); //On ferme l'écran actuel
+			        new EcranRenitialiser("Réinitialiser mot de passe", 
+			        		personnels.get(tablePersonnels.getSelectedRow())).setVisible(true);
+
+				}
+			});
 		}
 		return buttonReinitialiser;
 	}
