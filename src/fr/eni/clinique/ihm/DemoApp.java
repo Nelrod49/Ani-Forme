@@ -13,7 +13,7 @@ public class DemoApp {
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){
-				EcranLogin ecranPrincipalGestion = new EcranLogin("Gestion du personnel");
+				EcranLogin ecranPrincipalGestion = new EcranLogin("Login");
 				ecranPrincipalGestion.setVisible(true);
 			}
 		});

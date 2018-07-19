@@ -20,7 +20,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.PersonnelsBLL;
+import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -97,9 +97,9 @@ public class EcranRenitialiser extends JFrame {
 				public void actionPerformed(ActionEvent e){
 					if(Arrays.equals(password1.getPassword(), password2.getPassword())){
 						System.out.println(password1.getPassword());
-						PersonnelsBLL personnelsBLL;
+						LoginManager personnelsBLL;
 						try {
-							personnelsBLL = new PersonnelsBLL();
+							personnelsBLL = new LoginManager();
 							String passText = new String(password1.getPassword());
 							per.setMdp(passText);
 							passText = null; //Pour pas laisser le mot de passe en base mémoire
