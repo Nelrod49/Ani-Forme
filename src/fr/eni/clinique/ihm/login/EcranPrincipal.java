@@ -3,11 +3,17 @@ package fr.eni.clinique.ihm.login;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.sql.SQLException;
 
 import javax.swing.JMenuBar;
@@ -19,6 +25,8 @@ import java.awt.Dimension;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.dal.jdbc.*;
+import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
+import fr.eni.clinique.ihm.gestionPerso.EcranRenitialiser;
 
 public class EcranPrincipal extends JFrame {
 
@@ -59,7 +67,29 @@ public class EcranPrincipal extends JFrame {
 			menuBar.add(mnAgenda);
 		}
 		if( pers.getRole().equals("adm")){ //If adm then display the management of the user
-			JMenu mnGestionDuPersonnels = new JMenu("Gestion du Personnels");
+			JMenu mnGestionDuPersonnels = new JMenu("Gestion du Personnels");			
+			mnGestionDuPersonnels.addMenuListener((new MenuListener() {
+		        @Override
+		        public void menuSelected(MenuEvent e) {
+		        	JComponent comp = (JComponent) e.getSource();
+			        Window win = SwingUtilities.getWindowAncestor(comp);
+			        win.dispose(); //On ferme l'écran actuel
+			        new EcranPrincipalGestion("Gestion du personnels").setVisible(true);
+
+		        }
+
+				@Override
+				public void menuCanceled(MenuEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void menuDeselected(MenuEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+		    }));
 			menuBar.add(mnGestionDuPersonnels);
 		}
 		contentPane = new JPanel();
