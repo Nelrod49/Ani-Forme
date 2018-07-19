@@ -68,8 +68,11 @@ public class EcranPriseRendezVous extends JFrame{
 		
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		panelPriseRendezVous.add(getComboBxAnimaux(-1), gbc);
+		panelPriseRendezVous.add(getComboBxAnimaux(), gbc);
 		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		panelPriseRendezVous.add(getComboBxAnimaux(), gbc);
 		
 		this.setContentPane(panelPriseRendezVous);
 		
@@ -111,8 +114,6 @@ public class EcranPriseRendezVous extends JFrame{
 							String[] animaux = new String[lesAnimaux.size()];
 							System.out.println(lesAnimaux);
 							for (int i=0; i<lesAnimaux.size(); i++) {
-								System.out.println("i :" + i);
-								System.out.println("a :" + lesAnimaux.get(i).getNomAnimal());
 								animaux[i] = lesAnimaux.get(i).getNomAnimal();
 							}
 							System.out.println(animaux);
@@ -144,34 +145,10 @@ public class EcranPriseRendezVous extends JFrame{
 		return buttonClients;
 	}
 	
-	private JComboBox<String> getComboBxAnimaux(int client){
+	private JComboBox<String> getComboBxAnimaux(){
 		if(comboBxAnimaux == null){
 			comboBxAnimaux = new JComboBox<String>();
-			if(client == -1){
-				comboBxAnimaux.addItem("Sélectionnez un clients d'abord");
-			}
-				else{
-			AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
-			
-			ArrayList<Animaux>lesAnimaux = new ArrayList<Animaux>();
-			try {
-				lesAnimaux = animauxDAO.getAnimauxClients(client) ;
-			} catch (DALException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(!lesAnimaux.isEmpty()){
-				int i = 0;
-				while (i < lesAnimaux.size()){
-					comboBxAnimaux.addItem(
-							lesAnimaux.get(i).getNomAnimal());
-		            i=i+1;		 
-		        }
-			}else{
-				comboBxAnimaux.addItem("Aucun animal");
-			}
-			}
-			
+			comboBxAnimaux.addItem("Sélectionnez un clients d'abord");			
 		}
 		return comboBxAnimaux;
 	}
