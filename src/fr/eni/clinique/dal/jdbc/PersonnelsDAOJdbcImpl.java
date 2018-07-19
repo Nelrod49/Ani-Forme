@@ -146,6 +146,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 			e.printStackTrace();
 		}
 	}
+	
+	//Récup le rôle d'un personnels en foncion de son nom et mot de passe
 	@Override
 	public Personnels getAllData(Personnels pers){
 		Connection cnx = null;

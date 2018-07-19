@@ -5,21 +5,22 @@ import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
+import fr.eni.clinique.ihm.*;
 
-public class PersonnelsBLL {
+public class LoginManager {
 	// Création d'une variable d'instance
 	// pour le Singleton
-	private static PersonnelsBLL INSTANCE = null;
+	private static LoginManager INSTANCE = null;
 
-	public PersonnelsBLL() throws BLLException {
+	public LoginManager() throws BLLException {
 		// Obtention du DAO Personnels
 
 	}
 
 	// Singleton
-	public static synchronized PersonnelsBLL getInstance() throws BLLException {
+	public static synchronized LoginManager getInstance() throws BLLException {
 		if (INSTANCE == null) {
-			INSTANCE = new PersonnelsBLL();
+			INSTANCE = new LoginManager();
 		}
 		return INSTANCE;
 	}
@@ -59,4 +60,5 @@ public class PersonnelsBLL {
 		// if (p.getMdp() == null || )
 		return valide;
 	}
+
 }

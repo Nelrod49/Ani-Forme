@@ -14,13 +14,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.PersonnelsBLL;
+import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
 
 public class EcranLogin extends JFrame{
+	/**
+	 * 
+	 */
 	private JPasswordField textMotPasse;
 	private JTextField textNom;
 	private JButton buttonLogin;
@@ -91,7 +94,7 @@ public class EcranLogin extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0){
 					try {
-						PersonnelsBLL lManager = new PersonnelsBLL();
+						LoginManager lManager = new LoginManager();
 						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
 						try {
 							if(lManager.validerConnection(p1)){
@@ -99,20 +102,20 @@ public class EcranLogin extends JFrame{
 								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 								p1 = personnelDAO.getAllData(p1);
 								System.out.println("Connection réussi");
-								
 								//Renvoie vers fenetre GestionPers
-//								EcranLogin.setVisible(false);
-//								GestionPers fen = new GestionPers();
-//								fen.setVisible(true);
 								
-								final JFrame frame = new JFrame("Test");
-								frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-								frame.setSize(300, 300);
-								frame.setVisible(true);
 								
-								frame.dispose();
+								EcranPrincipal ecranPrincipal = new EcranPrincipal(p1);
+								ecranPrincipal.setVisible(true);
+								
+								//ferme la fenêtre EcranLogin
+								EcranLogin.this.dispose();
+								
+								//TODO fermer le JFrame EcranLogin.
+							
+								
 
-								
+							
 							}else{
 								System.out.println("Connection échoué");
 							}
