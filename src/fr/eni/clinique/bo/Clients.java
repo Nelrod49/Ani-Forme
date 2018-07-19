@@ -34,6 +34,10 @@ public class Clients {
 		this.archive = archive;
 	}
 	
+	public Clients(){
+		super();
+	}
+	
 	//Getter et Setter
 	public int getCodeClient() {
 		return codeClient;

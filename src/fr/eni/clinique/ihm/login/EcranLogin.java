@@ -94,8 +94,15 @@ public class EcranLogin extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0){
 					try {
+<<<<<<< HEAD
 						LoginManager lManager = new LoginManager();
 						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
+=======
+						PersonnelsBLL lManager = new PersonnelsBLL();
+						String passText = new String(textMotPasse.getPassword());
+						Personnels p1 = new Personnels(textNom.getText(),passText);
+						passText = null;
+>>>>>>> a863c60f96ab3ce939510f3fc6498bb046174f37
 						try {
 							if(lManager.validerConnection(p1)){
 								//TODO Redirect to 

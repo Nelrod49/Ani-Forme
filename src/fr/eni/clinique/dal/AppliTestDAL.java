@@ -1,5 +1,7 @@
 package fr.eni.clinique.dal;
 
+import java.util.ArrayList;
+
 import fr.eni.clinique.bo.Personnels;
 
 public class AppliTestDAL {
@@ -39,9 +41,16 @@ public class AppliTestDAL {
 			System.out.println("Connexion de " + p3.getNom() + " réussi");
 		}else{
 			System.out.println("Connexion de " + p3.getNom() + " échoué");
-		}*/
+		}
 		Personnels p4 = new Personnels("Mélanie MALALANICH","12345");
 		p4 = personnelDAO.getAllData(p4);
 		System.out.println(p4.toString());
+		
+		ArrayList<Personnels> pers = personnelDAO.allPersonnels();
+		System.out.println(pers.toString());
+		for(int i = 0; i < pers.size(); i++){
+			System.out.println(pers.get(i).toString());
+		}
+		*/
 	}
 }

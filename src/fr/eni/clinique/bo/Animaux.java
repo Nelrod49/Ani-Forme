@@ -15,8 +15,9 @@ public class Animaux extends Races{
 	private String archive;
 	
 	//Constructeur
-	public Animaux(String race, String espece) {
+	public Animaux(int code, String race, String espece) {
 		super(race, espece);
+		this.codeAnimal = code;
 		this.race = race;
 		this.espece = espece;
 	}
