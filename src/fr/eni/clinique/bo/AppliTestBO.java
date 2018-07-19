@@ -30,7 +30,7 @@ public class AppliTestBO {
 		perso = gp.getPerso();
 		listPerso.add(perso);
 		
-		animal = new Animaux(2, "Chien", "Pitbull");
+		//animal = new Animaux(2, "Chien", "Pitbull");
 		//System.out.println(animal.getEspece());
 		
 		
