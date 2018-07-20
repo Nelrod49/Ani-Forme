@@ -20,6 +20,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 	static String SQL_CONNECTION_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ? AND Archive = 0;";
 	static String SQL_GETALLDATA_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ?";
 	static String SQL_GETALL_PERSONNELS = "Select * from Personnels where Archive = 0;";
+	static String SQL_GETALLVETERINAIRE_PERSONNELS = "Select * from Personnels where Archive = 0 and Role = 'vet';";
 	static String SQL_CHANGEMOTPASSE_PERSONNELS = "Update Personnels Set MotPasse = ? Where CodePers = ?;";
 	@Override
 	public boolean connection(String nom, String mdp){
@@ -199,7 +200,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 		return pers;
 		
 	}
-	
+	@Override
 	public ArrayList<Personnels> allPersonnels(){
 		ArrayList<Personnels> resultat = new ArrayList<Personnels>();
 		Connection cnx = null;
@@ -289,6 +290,58 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO{
 			e.printStackTrace();
 		}
 		return valide;
+	}
+	
+	@Override
+	public ArrayList<Personnels> allPersonnelsVeterinaire(){
+		ArrayList<Personnels> resultat = new ArrayList<Personnels>();
+		Connection cnx = null;
+		boolean reponse = false;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_GETALLVETERINAIRE_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		ResultSet resultatDeLaRequete = null;
+		try{
+			resultatDeLaRequete = commandeParemetree.executeQuery();
+		}catch(SQLException e){
+			System.err.println("Impossible d'éxecuter la requête");
+			e.printStackTrace();
+		}
+		try {
+			while(resultatDeLaRequete.next()){
+				Personnels pers = new Personnels(
+						resultatDeLaRequete.getInt("CodePers"),
+						resultatDeLaRequete.getString("Nom"),
+						resultatDeLaRequete.getString("MotPasse"),
+						resultatDeLaRequete.getString("Role"));
+				pers.setArchive(false);
+				resultat.add(pers);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return resultat;
 	}
 	
 }

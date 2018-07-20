@@ -1,5 +1,6 @@
 package fr.eni.clinique.dal;
 
+import fr.eni.clinique.dal.jdbc.AnimauxDAOJDBCImpl;
 import fr.eni.clinique.dal.jdbc.ClientsDAOJdbcImpl;
 import fr.eni.clinique.dal.jdbc.PersonnelsDAOJdbcImpl;
 
@@ -15,5 +16,10 @@ public class DAOFactory {
 	public static ClientsDAO getClientsDAO(){
 		ClientsDAO daoClients = new ClientsDAOJdbcImpl();
 		return daoClients;
+	}
+	
+	public static AnimauxDAO getAnimauxDAO(){
+		AnimauxDAO dao = new AnimauxDAOJDBCImpl();
+		return dao;
 	}
 }

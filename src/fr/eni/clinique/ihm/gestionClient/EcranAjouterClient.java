@@ -23,6 +23,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class EcranAjouterClient extends JFrame {
 	
@@ -33,10 +34,16 @@ public class EcranAjouterClient extends JFrame {
 	private JTextField textFieldAdresseClient_1;
 	private JTextField textFieldCodePostalClient;
 	private JTextField textFieldVilleClient;
+	private JTextField textFieldAdresseClient_2;
+	private JTextField textFieldNumTel;
+	private JTextField textFieldAssurance;
+	private JTextField textFieldEmail;
+	private JTextField textFieldArchive;
 	
 	/*Bouttons*/
 	private JButton btnAjouter;
 	private JButton btnAnnuler;
+
 
 	/**
 	 * Launch the application.
@@ -60,7 +67,7 @@ public class EcranAjouterClient extends JFrame {
 	public EcranAjouterClient() {
 		setTitle("Ajouter un client");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 461);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -109,9 +116,9 @@ public class EcranAjouterClient extends JFrame {
 		contentPane.add(panelForm, gbc_panelForm);
 		GridBagLayout gbl_panelForm = new GridBagLayout();
 		gbl_panelForm.columnWidths = new int[]{156, 21, 86, 0};
-		gbl_panelForm.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0};
+		gbl_panelForm.rowHeights = new int[]{20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panelForm.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panelForm.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelForm.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		panelForm.setLayout(gbl_panelForm);
 		
 		JLabel lblNom = new JLabel("Nom");
@@ -162,6 +169,15 @@ public class EcranAjouterClient extends JFrame {
 		panelForm.add(textFieldAdresseClient_1, gbc_textFieldAdresseClient_1);
 		textFieldAdresseClient_1.setColumns(10);
 		
+		textFieldAdresseClient_2 = new JTextField();
+		GridBagConstraints gbc_textFieldAdresseClient_2 = new GridBagConstraints();
+		gbc_textFieldAdresseClient_2.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldAdresseClient_2.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldAdresseClient_2.gridx = 2;
+		gbc_textFieldAdresseClient_2.gridy = 3;
+		panelForm.add(textFieldAdresseClient_2, gbc_textFieldAdresseClient_2);
+		textFieldAdresseClient_2.setColumns(10);
+		
 		JLabel lblCodePostal = new JLabel("Code Postal");
 		GridBagConstraints gbc_lblCodePostal = new GridBagConstraints();
 		gbc_lblCodePostal.insets = new Insets(0, 0, 5, 5);
@@ -180,18 +196,97 @@ public class EcranAjouterClient extends JFrame {
 		
 		JLabel lblVille = new JLabel("Ville");
 		GridBagConstraints gbc_lblVille = new GridBagConstraints();
-		gbc_lblVille.insets = new Insets(0, 0, 0, 5);
+		gbc_lblVille.insets = new Insets(0, 0, 5, 5);
 		gbc_lblVille.gridx = 0;
 		gbc_lblVille.gridy = 5;
 		panelForm.add(lblVille, gbc_lblVille);
 		
 		textFieldVilleClient = new JTextField();
 		GridBagConstraints gbc_textFieldVilleClient = new GridBagConstraints();
+		gbc_textFieldVilleClient.insets = new Insets(0, 0, 5, 0);
 		gbc_textFieldVilleClient.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldVilleClient.gridx = 2;
 		gbc_textFieldVilleClient.gridy = 5;
 		panelForm.add(textFieldVilleClient, gbc_textFieldVilleClient);
 		textFieldVilleClient.setColumns(10);
+		
+		JLabel lblNumTel = new JLabel("Num Tel");
+		GridBagConstraints gbc_lblNumTel = new GridBagConstraints();
+		gbc_lblNumTel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumTel.gridx = 0;
+		gbc_lblNumTel.gridy = 6;
+		panelForm.add(lblNumTel, gbc_lblNumTel);
+		
+		textFieldNumTel = new JTextField();
+		GridBagConstraints gbc_textFieldNumTel = new GridBagConstraints();
+		gbc_textFieldNumTel.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldNumTel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldNumTel.gridx = 2;
+		gbc_textFieldNumTel.gridy = 6;
+		panelForm.add(textFieldNumTel, gbc_textFieldNumTel);
+		textFieldNumTel.setColumns(10);
+		
+		JLabel lblAssurance = new JLabel("Assurance");
+		GridBagConstraints gbc_lblAssurance = new GridBagConstraints();
+		gbc_lblAssurance.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAssurance.gridx = 0;
+		gbc_lblAssurance.gridy = 7;
+		panelForm.add(lblAssurance, gbc_lblAssurance);
+		
+		textFieldAssurance = new JTextField();
+		GridBagConstraints gbc_textFieldAssurance = new GridBagConstraints();
+		gbc_textFieldAssurance.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldAssurance.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldAssurance.gridx = 2;
+		gbc_textFieldAssurance.gridy = 7;
+		panelForm.add(textFieldAssurance, gbc_textFieldAssurance);
+		textFieldAssurance.setColumns(10);
+		
+		JLabel lblEmail = new JLabel("Email");
+		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
+		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEmail.gridx = 0;
+		gbc_lblEmail.gridy = 8;
+		panelForm.add(lblEmail, gbc_lblEmail);
+		
+		textFieldEmail = new JTextField();
+		GridBagConstraints gbc_textFieldEmail = new GridBagConstraints();
+		gbc_textFieldEmail.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldEmail.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldEmail.gridx = 2;
+		gbc_textFieldEmail.gridy = 8;
+		panelForm.add(textFieldEmail, gbc_textFieldEmail);
+		textFieldEmail.setColumns(10);
+		
+		JLabel lblRemarque = new JLabel("Remarque");
+		GridBagConstraints gbc_lblRemarque = new GridBagConstraints();
+		gbc_lblRemarque.insets = new Insets(0, 0, 5, 5);
+		gbc_lblRemarque.gridx = 0;
+		gbc_lblRemarque.gridy = 9;
+		panelForm.add(lblRemarque, gbc_lblRemarque);
+		
+		JTextArea textAreaRemarque = new JTextArea();
+		GridBagConstraints gbc_textAreaRemarque = new GridBagConstraints();
+		gbc_textAreaRemarque.insets = new Insets(0, 0, 5, 0);
+		gbc_textAreaRemarque.fill = GridBagConstraints.BOTH;
+		gbc_textAreaRemarque.gridx = 2;
+		gbc_textAreaRemarque.gridy = 9;
+		panelForm.add(textAreaRemarque, gbc_textAreaRemarque);
+		
+		JLabel lblArchive = new JLabel("Archive");
+		GridBagConstraints gbc_lblArchive = new GridBagConstraints();
+		gbc_lblArchive.insets = new Insets(0, 0, 0, 5);
+		gbc_lblArchive.gridx = 0;
+		gbc_lblArchive.gridy = 10;
+		panelForm.add(lblArchive, gbc_lblArchive);
+		
+		textFieldArchive = new JTextField();
+		GridBagConstraints gbc_textFieldArchive = new GridBagConstraints();
+		gbc_textFieldArchive.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldArchive.gridx = 2;
+		gbc_textFieldArchive.gridy = 10;
+		panelForm.add(textFieldArchive, gbc_textFieldArchive);
+		textFieldArchive.setColumns(10);
 	}
 	
 	

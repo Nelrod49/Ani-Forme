@@ -19,15 +19,8 @@ public class GestionClientManager {
 		//pas de catalogue à mettre en place
 		//Obtention du DAO Clients
 		daoClients = DAOFactory.getClientsDAO();
-//	
-//		try{
-//			catalogue = daoClients.insertClient();
-//			
-//		}catch (DALException e){
-//			throw new BLLException ("Echec du chargement du catalogue Clients - ", e);
-//		}
-	}
-		
+
+	}	
 	public static synchronized GestionClientManager getInstance() throws BLLException{	
 			if (INSTANCE == null){
 				INSTANCE = new GestionClientManager();	
@@ -57,12 +50,28 @@ public class GestionClientManager {
 				sb.append("L'adresse est obligatoire.\n");
 				return valide;
 			}
+			if (c.getAdresse2() == null || c.getAdresse2().trim().length() == 0) {
+				sb.append("L'adresse est obligatoire.\n");
+				return valide;
+			}
 			if (c.getCodePostal() == null || c.getCodePostal().trim().length() == 0) {
 				sb.append("Le code postal est obligatoire.\n");
 				return valide;
 			}
 			if (c.getVille() == null || c.getVille().trim().length() == 0) {
 				sb.append("La ville est obligatoire.\n");
+				return valide;
+			}
+			if (c.getNumTel() == null || c.getNumTel().trim().length() == 0) {
+				sb.append("Le numero de telephone est obligatoire.\n");
+				return valide;
+			}
+			if (c.getAssurance() == null || c.getAssurance().trim().length() == 0) {
+				sb.append("L'assurance est obligatoire.\n");
+				return valide;
+			}
+			if (c.getEmail() == null || c.getEmail().trim().length() == 0) {
+				sb.append("L'Email est obligatoire.\n");
 				return valide;
 			}
 			

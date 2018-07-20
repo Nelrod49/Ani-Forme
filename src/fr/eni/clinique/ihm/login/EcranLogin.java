@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -27,6 +28,7 @@ public class EcranLogin extends JFrame{
 	private JPasswordField textMotPasse;
 	private JTextField textNom;
 	private JButton buttonLogin;
+	private JPanel panelPrincipal;
 	
 	public EcranLogin(String titre){
 		super(titre);
@@ -38,7 +40,7 @@ public class EcranLogin extends JFrame{
 	}
 	
 	private void initIHM(){
-		JPanel panelPrincipal = new JPanel();
+		panelPrincipal = new JPanel();
 		panelPrincipal.setLayout(new GridBagLayout());
 		panelPrincipal.setOpaque(true);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -94,15 +96,10 @@ public class EcranLogin extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0){
 					try {
-<<<<<<< HEAD
 						LoginManager lManager = new LoginManager();
-						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
-=======
-						PersonnelsBLL lManager = new PersonnelsBLL();
 						String passText = new String(textMotPasse.getPassword());
 						Personnels p1 = new Personnels(textNom.getText(),passText);
 						passText = null;
->>>>>>> a863c60f96ab3ce939510f3fc6498bb046174f37
 						try {
 							if(lManager.validerConnection(p1)){
 								//TODO Redirect to 
@@ -124,6 +121,11 @@ public class EcranLogin extends JFrame{
 
 							
 							}else{
+								JOptionPane d = new JOptionPane();
+								d.showMessageDialog(panelPrincipal,
+									    "Connexion refuser.",
+									    "Refuser",
+									    JOptionPane.ERROR_MESSAGE);
 								System.out.println("Connection échoué");
 							}
 						} catch (BLLException e1) {

@@ -3,11 +3,17 @@ package fr.eni.clinique.ihm.login;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
 import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.sql.SQLException;
 
 import javax.swing.JMenuBar;
@@ -19,27 +25,13 @@ import java.awt.Dimension;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.dal.jdbc.*;
+import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
+import fr.eni.clinique.ihm.gestionPerso.EcranRenitialiser;
 
 public class EcranPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private Personnels pers;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EcranPrincipal frame = new EcranPrincipal();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
@@ -60,21 +52,46 @@ public class EcranPrincipal extends JFrame {
 		
 		JMenuItem mntmFermer = new JMenuItem("Fermer");
 		mnFichiers.add(mntmFermer);
+		if( pers.equals("sec")){ //If sec then display all management appointment
+			JMenu mnGestionDesRendezvous = new JMenu("Gestion des Rendez-vous");
+			menuBar.add(mnGestionDesRendezvous);
+			
+			JMenuItem mntmNewMenuItem = new JMenuItem("Prise de rendez-vous");
+			mnGestionDesRendezvous.add(mntmNewMenuItem);
 		
-		JMenu mnGestionDesRendezvous = new JMenu("Gestion des Rendez-vous");
-		menuBar.add(mnGestionDesRendezvous);
-		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Prise de rendez-vous");
-		mnGestionDesRendezvous.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Gestion des clients");
-		mnGestionDesRendezvous.add(mntmNewMenuItem_1);
-		
-		JMenu mnAgenda = new JMenu("Agenda");
-		menuBar.add(mnAgenda);
-		
-		JMenu mnGestionDuPersonnels = new JMenu("Gestion du Personnels");
-		menuBar.add(mnGestionDuPersonnels);
+			JMenuItem mntmNewMenuItem_1 = new JMenuItem("Gestion des clients");
+			mnGestionDesRendezvous.add(mntmNewMenuItem_1);
+		}
+		if( pers.getRole().equals("vet")){ //If vet then display agenda
+			JMenu mnAgenda = new JMenu("Agenda");
+			menuBar.add(mnAgenda);
+		}
+		if( pers.getRole().equals("adm")){ //If adm then display the management of the user
+			JMenu mnGestionDuPersonnels = new JMenu("Gestion du Personnels");			
+			mnGestionDuPersonnels.addMenuListener((new MenuListener() {
+		        @Override
+		        public void menuSelected(MenuEvent e) {
+		        	JComponent comp = (JComponent) e.getSource();
+			        Window win = SwingUtilities.getWindowAncestor(comp);
+			        win.dispose(); //On ferme l'écran actuel
+			        new EcranPrincipalGestion("Gestion du personnels").setVisible(true);
+
+		        }
+
+				@Override
+				public void menuCanceled(MenuEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void menuDeselected(MenuEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+		    }));
+			menuBar.add(mnGestionDuPersonnels);
+		}
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -93,23 +110,6 @@ public class EcranPrincipal extends JFrame {
 		//EcranPrincipal enfonction du rôle.
 		//Instancie toujours une classe pour la reutiliser par la suite
 		PersonnelsDAOJdbcImpl p1 = new PersonnelsDAOJdbcImpl();
-		//instancie la classe personne pour la reutiliser en paramètre de ma méthode
-		//getAllData
-		
-		
-		if( pers.equals("adm")){
-			mnAgenda.setEnabled(false);
-			mnGestionDesRendezvous.setEnabled(false);
-		}
-		if( pers.equals("sec")){
-			mnAgenda.setEnabled(false);
-			mnGestionDuPersonnels.setEnabled(false);
-		}
-		if( pers.equals("vet")){
-			mnGestionDesRendezvous.setEnabled(false);
-			mnGestionDuPersonnels.setEnabled(false);
-		}
-		
 
 		
 	}

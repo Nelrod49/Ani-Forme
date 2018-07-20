@@ -21,7 +21,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.PersonnelsBLL;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;

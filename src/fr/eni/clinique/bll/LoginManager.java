@@ -94,10 +94,7 @@ public class LoginManager {
 			valide = true;
 		}
 		return valide;
-	
-//<<<<<<< HEAD:src/fr/eni/clinique/bll/LoginManager.java
-
-//=======
+}
 	
 	//TODO vérifier que le véto à supprimer n'a plus de rendez-vous
 /*	public boolean validerSuppression(Personnels p) throws BLLException, DALException {
@@ -120,5 +117,4 @@ public class LoginManager {
 		return valide;
 	}*/
 	
-//>>>>>>> a863c60f96ab3ce939510f3fc6498bb046174f37:src/fr/eni/clinique/bll/PersonnelsBLL.java
-	}}
+}
