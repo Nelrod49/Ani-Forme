@@ -32,17 +32,18 @@ public class EcranAjouterClient extends JFrame {
 	private JTextField textFieldPrenomClient;
 	private JTextField textFieldNomClient;
 	private JTextField textFieldAdresseClient_1;
+	private JTextField textFieldAdresseClient_2;
 	private JTextField textFieldCodePostalClient;
 	private JTextField textFieldVilleClient;
-	private JTextField textFieldAdresseClient_2;
 	private JTextField textFieldNumTel;
 	private JTextField textFieldAssurance;
 	private JTextField textFieldEmail;
-	private JTextField textFieldArchive;
+
 	
 	/*Bouttons*/
 	private JButton btnAjouter;
 	private JButton btnAnnuler;
+	private JTextField textFieldRemarque;
 
 
 	/**
@@ -67,7 +68,7 @@ public class EcranAjouterClient extends JFrame {
 	public EcranAjouterClient() {
 		setTitle("Ajouter un client");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 461);
+		setBounds(100, 100, 450, 481);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -92,7 +93,16 @@ public class EcranAjouterClient extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				/*Dois-je crée un nouveau client oui je pense sinon ajouter client n'aura rien en paramère 
 				 * et devrait renvoyer un nullpointer exception*/
-				Clients c = new Clients(textFieldNomClient.getText(), textFieldPrenomClient.getText(),textFieldAdresseClient_1.getText(), textFieldCodePostalClient.getText(), textFieldVilleClient.getText());
+				Clients c = new Clients(textFieldNomClient.getText(), 
+										textFieldPrenomClient.getText(),
+										textFieldAdresseClient_1.getText(), 
+										textFieldAdresseClient_2.getText(),
+										textFieldCodePostalClient.getText(), 
+										textFieldVilleClient.getText(),
+										textFieldNumTel.getText(),
+										textFieldAssurance.getText(),
+										textFieldEmail.getText(),
+										textFieldRemarque.getText());
 				System.out.println(c);
 				
 				try {
@@ -265,28 +275,16 @@ public class EcranAjouterClient extends JFrame {
 		gbc_lblRemarque.gridy = 9;
 		panelForm.add(lblRemarque, gbc_lblRemarque);
 		
-		JTextArea textAreaRemarque = new JTextArea();
-		GridBagConstraints gbc_textAreaRemarque = new GridBagConstraints();
-		gbc_textAreaRemarque.insets = new Insets(0, 0, 5, 0);
-		gbc_textAreaRemarque.fill = GridBagConstraints.BOTH;
-		gbc_textAreaRemarque.gridx = 2;
-		gbc_textAreaRemarque.gridy = 9;
-		panelForm.add(textAreaRemarque, gbc_textAreaRemarque);
+		textFieldRemarque = new JTextField();
+		GridBagConstraints gbc_textFieldRemarque = new GridBagConstraints();
+		gbc_textFieldRemarque.insets = new Insets(0, 0, 5, 0);
+		gbc_textFieldRemarque.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textFieldRemarque.gridx = 2;
+		gbc_textFieldRemarque.gridy = 9;
+		panelForm.add(textFieldRemarque, gbc_textFieldRemarque);
+		textFieldRemarque.setColumns(10);
 		
-		JLabel lblArchive = new JLabel("Archive");
-		GridBagConstraints gbc_lblArchive = new GridBagConstraints();
-		gbc_lblArchive.insets = new Insets(0, 0, 0, 5);
-		gbc_lblArchive.gridx = 0;
-		gbc_lblArchive.gridy = 10;
-		panelForm.add(lblArchive, gbc_lblArchive);
-		
-		textFieldArchive = new JTextField();
-		GridBagConstraints gbc_textFieldArchive = new GridBagConstraints();
-		gbc_textFieldArchive.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldArchive.gridx = 2;
-		gbc_textFieldArchive.gridy = 10;
-		panelForm.add(textFieldArchive, gbc_textFieldArchive);
-		textFieldArchive.setColumns(10);
+	
 	}
 	
 	

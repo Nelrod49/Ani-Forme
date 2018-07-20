@@ -17,7 +17,7 @@ public class ClientsDAOJDBCImpl implements ClientsDAO{
 	
 	/*Constantes*/
 	private static String SQL_GETALLCLIENTS_CLIENTS = "Select * from Clients where Archive = 0;";
-	private static final String INSERT_CLIENTS = "INSERT INTO Clients (NomClient, PrenomClient, Adresse1, CodePostal, Ville) values(?,?,?,?,?);";
+	private static final String INSERT_CLIENTS = "INSERT INTO Clients (NomClient, PrenomClient, Adresse1, Adresse2, CodePostal, Ville, NumTel, Assurance, Email, Remarque, Archive) values(?,?,?,?,?,?,?,?,?,?,?);";
 	
 	@Override
 	public ArrayList<Clients> allClients() throws DALException {
@@ -61,8 +61,7 @@ public class ClientsDAOJDBCImpl implements ClientsDAO{
 						resultatDeLaRequete.getString("NumTel"),
 						resultatDeLaRequete.getString("Assurance"),
 						resultatDeLaRequete.getString("Email"),
-						resultatDeLaRequete.getString("Remarque"),
-						resultatDeLaRequete.getBoolean("Archive"));
+						resultatDeLaRequete.getString("Remarque"));
 				resultat.add(pers);
 			}
 		} catch (SQLException e1) {
@@ -102,8 +101,14 @@ public class ClientsDAOJDBCImpl implements ClientsDAO{
 					prestmt.setString(1, cli.getNomClient());
 					prestmt.setString(2, cli.getPrenomClient());
 					prestmt.setString(3, cli.getAdresse1());
-					prestmt.setString(4, cli.getCodePostal());
-					prestmt.setString(5, cli.getVille());
+					prestmt.setString(4, cli.getAdresse2());
+					prestmt.setString(5, cli.getCodePostal());
+					prestmt.setString(6, cli.getVille());
+					prestmt.setString(7, cli.getNumTel());
+					prestmt.setString(8, cli.getAssurance());
+					prestmt.setString(9, cli.getEmail());
+					prestmt.setString(10, cli.getRemarque());
+					prestmt.setBoolean(11, cli.getArchive());
 				}catch(SQLException sqle){
 					System.err.println("Impossible de préparer la requête d'insertion d'un client");
 					sqle.printStackTrace();
@@ -140,6 +145,15 @@ public class ClientsDAOJDBCImpl implements ClientsDAO{
 					
 				
 		}
+
+
+
+	@Override
+	public boolean ajouterClient(String NomClient, String PrenomClient, String Adress1, Integer CodePostal,
+			String Ville) throws DALException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 		
 		}
 

@@ -13,13 +13,11 @@ public class Clients {
 	private String assurance;
 	private String email;
 	private String remarque;
-	private boolean archive;
+	private boolean archive = false;
 	
 	//Contructeur
 	public Clients(int codeClient, String nomClient, String prenomClient, String adresse1, String adresse2,
-			String codePostal, String ville, String numTel, String assurance, String email, String remarque,
-			boolean archive) {
-		super();
+			String codePostal, String ville, String numTel, String assurance, String email, String remarque) {
 		this.codeClient = codeClient;
 		this.nomClient = nomClient;
 		this.prenomClient = prenomClient;
@@ -31,20 +29,26 @@ public class Clients {
 		this.assurance = assurance;
 		this.email = email;
 		this.remarque = remarque;
-		this.archive = archive;
 	}
 	
 	public Clients(){
 	}
 	
 
-	public Clients(String nomClient, String prenomClient, String adresse1, String codePostal, String ville ) {
+	public Clients(String nomClient, String prenomClient, String adresse1, String adresse2, String codePostal, String ville, String numTel, String assurance, String email, String remarque ) {
 		this.nomClient = nomClient;
 		this.prenomClient = prenomClient;
 		this.adresse1 = adresse1;
+		this.adresse1 = adresse2;
 		this.codePostal = codePostal;
 		this.ville = ville;
+		this.numTel = numTel;
+		this.assurance = assurance;
+		this.email = email;
+		this.remarque = remarque;
 	}
+
+
 
 	//Getter et Setter
 	public int getCodeClient() {
@@ -124,7 +128,7 @@ public class Clients {
 		this.remarque = remarque;
 	}
 
-	public boolean isArchive() {
+	public boolean getArchive() {
 		return archive;
 	}
 	public void setArchive(boolean archive) {

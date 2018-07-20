@@ -50,10 +50,7 @@ public class GestionClientManager {
 				sb.append("L'adresse est obligatoire.\n");
 				return valide;
 			}
-			if (c.getAdresse2() == null || c.getAdresse2().trim().length() == 0) {
-				sb.append("L'adresse est obligatoire.\n");
-				return valide;
-			}
+
 			if (c.getCodePostal() == null || c.getCodePostal().trim().length() == 0) {
 				sb.append("Le code postal est obligatoire.\n");
 				return valide;
