@@ -94,8 +94,7 @@ public class LoginManager {
 			valide = true;
 		}
 		return valide;
-	}
-
+}
 	
 	//TODO vérifier que le véto à supprimer n'a plus de rendez-vous
 /*	public boolean validerSuppression(Personnels p) throws BLLException, DALException {

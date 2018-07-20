@@ -22,10 +22,10 @@ public class AppliTesBLL {
 						System.out.println("Connection échoué");
 					}
 				} catch (BLLException e1) {
-					// TODO Auto-generated catch block
+
 					e1.printStackTrace();
 				} catch (DALException e1) {
-					// TODO Auto-generated catch block
+
 					e1.printStackTrace();
 				}
 				try {
@@ -35,14 +35,14 @@ public class AppliTesBLL {
 						System.out.println("Connection échoué");
 					}
 				} catch (BLLException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				} catch (DALException e) {
-					// TODO Auto-generated catch block
+
 					e.printStackTrace();
 				}
 			} catch (BLLException e2) {
-				// TODO Auto-generated catch block
+
 				e2.printStackTrace();
 			}
 			
