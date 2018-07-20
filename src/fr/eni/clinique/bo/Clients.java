@@ -35,9 +35,17 @@ public class Clients {
 	}
 	
 	public Clients(){
-		super();
 	}
 	
+
+	public Clients(String nomClient, String prenomClient, String adresse1, String codePostal, String ville ) {
+		this.nomClient = nomClient;
+		this.prenomClient = prenomClient;
+		this.adresse1 = adresse1;
+		this.codePostal = codePostal;
+		this.ville = ville;
+	}
+
 	//Getter et Setter
 	public int getCodeClient() {
 		return codeClient;
