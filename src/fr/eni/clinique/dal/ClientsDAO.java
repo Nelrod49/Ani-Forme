@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import fr.eni.clinique.bo.Clients;
 
-
 public interface ClientsDAO {
 	
 	//Méthode pour l'insertion d'un nouveau client
