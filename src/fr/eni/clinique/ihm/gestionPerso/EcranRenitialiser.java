@@ -107,7 +107,7 @@ public class EcranRenitialiser extends JFrame {
 								JComponent comp = (JComponent) e.getSource();
 					        Window win = SwingUtilities.getWindowAncestor(comp);
 					        win.dispose(); //On ferme l'écran actuel
-							new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
+							new EcranPrincipalGestion().setVisible(true);
 							JOptionPane d = new JOptionPane();
 							d.showMessageDialog(panelPrincipal,
 								    "Mot de passe modifier.");

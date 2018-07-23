@@ -30,12 +30,12 @@ public class EcranLogin extends JFrame{
 	private JButton buttonLogin;
 	private JPanel panelPrincipal;
 	
-	public EcranLogin(String titre){
-		super(titre);
+	public EcranLogin(){
 		this.setSize(new Dimension(600,400));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Login");
 		this.initIHM();
 	}
 	

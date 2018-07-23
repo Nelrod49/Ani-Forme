@@ -16,8 +16,14 @@ public class DemoApp {
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){
+<<<<<<< HEAD
 				EcranAgendas ecranPrincipalGestion = new EcranAgendas("Les Rendez-vous");
 				ecranPrincipalGestion.setVisible(true);
+=======
+
+				EcranLogin ecranLogin = new EcranLogin();
+				ecranLogin.setVisible(true);
+>>>>>>> 3fa305174d3975339018ca1276ea7b15d1af5e59
 			}
 		});
 	}
