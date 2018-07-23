@@ -13,7 +13,7 @@ import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 
-public class ClientsDAOJDBCImpl implements ClientsDAO{
+public class ClientsDAOJdbcImpl implements ClientsDAO{
 	
 	/*Constantes*/
 	private static String SQL_GETALLCLIENTS_CLIENTS = "Select * from Clients where Archive = 0;";

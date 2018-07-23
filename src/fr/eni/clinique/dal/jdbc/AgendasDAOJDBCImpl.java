@@ -2,6 +2,7 @@ package fr.eni.clinique.dal.jdbc;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 import fr.eni.clinique.bo.Agendas;
 import fr.eni.clinique.dal.AgendasDAO;
+import fr.eni.clinique.dal.DALException;
 
 public class AgendasDAOJDBCImpl implements AgendasDAO{
 
@@ -19,6 +21,7 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 				" Inner Join Clients as c On anm.CodeClient = c.CodeClient" +
 				" Where ag.CodeVeto = ? AND ag.DateRdv > sysdatetime() Order By ag.DateRdv;";
 
+	static String SQL_DELETE_DELETEAGENDAS = "DELETE FROM Agendas Where CodeVeto = ? AND CodeAnimal = ? AND DateRdv = ?;";
 	@Override
 	public ArrayList<ArrayList> getAllRdvVet(int CodeVet) {
 		Connection cnx = null;
@@ -72,4 +75,43 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 		}
 		return reponse;
 	}
+	@Override
+	public void deleteAgendas(String CodeVet, String CodeAnimal, String DateRdv) throws DALException {
+		Connection cnx = null;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null; 	
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_DELETE_DELETEAGENDAS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setString(1, CodeVet);
+			commandeParemetree.setString(2,CodeAnimal);
+			commandeParemetree.setString(3, DateRdv);
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		try{
+			commandeParemetree.executeUpdate();
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

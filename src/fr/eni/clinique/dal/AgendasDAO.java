@@ -1,9 +1,11 @@
 package fr.eni.clinique.dal;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import fr.eni.clinique.bo.Agendas;
 
 public interface AgendasDAO {
-	public ArrayList<ArrayList> getAllRdvVet(int CodeVet);
+	public ArrayList<ArrayList> getAllRdvVet(int CodeVet) throws DALException;
+	public void deleteAgendas(String CodeVet, String CodeAnimal, String DateRdv) throws DALException;
 }
