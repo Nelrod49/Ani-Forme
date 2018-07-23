@@ -2,6 +2,7 @@ package fr.eni.clinique.ihm;
 
 import javax.swing.SwingUtilities;
 
+import fr.eni.clinique.ihm.agendas.EcranAgendas;
 import fr.eni.clinique.ihm.gestionPerso.EcranAjoutPerso;
 import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
 import fr.eni.clinique.ihm.login.EcranLogin;
@@ -15,8 +16,7 @@ public class DemoApp {
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override
 			public void run(){
-
-				EcranPriseRendezVous ecranPrincipalGestion = new EcranPriseRendezVous("Prise Rendez-vous");
+				EcranAgendas ecranPrincipalGestion = new EcranAgendas("Les Rendez-vous");
 				ecranPrincipalGestion.setVisible(true);
 			}
 		});

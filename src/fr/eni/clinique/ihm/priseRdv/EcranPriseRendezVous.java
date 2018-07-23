@@ -46,6 +46,7 @@ import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
+import fr.eni.clinique.ihm.DateLabelFormatter;
 import fr.eni.clinique.ihm.gestionPerso.EcranRenitialiser;
 
 public class EcranPriseRendezVous extends JFrame {
@@ -272,28 +273,6 @@ public class EcranPriseRendezVous extends JFrame {
 			datePickerRendezVous = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 		}
 		return datePickerRendezVous;
-	}
-
-	private class DateLabelFormatter extends AbstractFormatter {
-
-		private String datePattern = "dd-MM-yyyy";
-		private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
-
-		@Override
-		public Object stringToValue(String text) throws ParseException {
-			return dateFormatter.parseObject(text);
-		}
-
-		@Override
-		public String valueToString(Object value) throws ParseException {
-			if (value != null) {
-				Calendar cal = (Calendar) value;
-				return dateFormatter.format(cal.getTime());
-			}
-
-			return "";
-		}
-
 	}
 
 	private JComboBox getComboBxHeure() {
