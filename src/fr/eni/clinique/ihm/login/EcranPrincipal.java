@@ -74,7 +74,7 @@ public class EcranPrincipal extends JFrame {
 		        	JComponent comp = (JComponent) e.getSource();
 			        Window win = SwingUtilities.getWindowAncestor(comp);
 			        win.dispose(); //On ferme l'écran actuel
-			        new EcranPrincipalGestion("Gestion du personnels").setVisible(true);
+			        new EcranPrincipalGestion().setVisible(true);
 
 		        }
 

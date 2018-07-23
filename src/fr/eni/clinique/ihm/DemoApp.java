@@ -16,7 +16,7 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranPrincipalGestion ecranPrincipalGestion = new EcranPrincipalGestion("Prise Rendez-vous");
+				EcranPrincipalGestion ecranPrincipalGestion = new EcranPrincipalGestion();
 				ecranPrincipalGestion.setVisible(true);
 			}
 		});

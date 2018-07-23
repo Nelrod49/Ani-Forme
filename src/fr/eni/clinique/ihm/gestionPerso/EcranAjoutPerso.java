@@ -27,15 +27,14 @@ public class EcranAjoutPerso extends JFrame {
 	private JLabel txtNom, txtMdp, txtConfMdp;
 	private JTextField nom, mdp, confMdp;
 	private JComboBox<String> role;
-	private JButton valider;
+	private JButton valider, annuler;
 
-	
 	public EcranAjoutPerso() {
 		super();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setBounds(400, 250, 500, 300);
+		this.setBounds(400, 250, 500, 200);
 		this.setTitle("Ajout Personnel");
 		this.initIhm();
 	}
@@ -49,16 +48,20 @@ public class EcranAjoutPerso extends JFrame {
 
 		gbc.gridy = 0;
 		gbc.gridx = 1;
+		gbc.gridwidth = 1;
 		panelPrincipal.add(getNom(), gbc);
 		gbc.gridy = 1;
 		gbc.gridx = 1;
+		gbc.gridwidth = 1;
 		panelPrincipal.add(getMdp(), gbc);
 		gbc.gridy = 2;
 		gbc.gridx = 1;
+		gbc.gridwidth = 1;
 		panelPrincipal.add(getConfMdp(), gbc);
 
 		gbc.gridy = 0;
 		gbc.gridx = 0;
+		gbc.gridwidth = 1;
 		panelPrincipal.add(getTxtNom(), gbc);
 		gbc.gridy = 1;
 		gbc.gridx = 0;
@@ -73,7 +76,11 @@ public class EcranAjoutPerso extends JFrame {
 
 		gbc.gridy = 5;
 		gbc.gridx = 0;
-		gbc.gridwidth = 2;
+		gbc.gridwidth = 1;
+		panelPrincipal.add(getAnnuler(), gbc);
+		gbc.gridy = 5;
+		gbc.gridx = 1;
+		gbc.gridwidth = 1;
 		panelPrincipal.add(getValider(), gbc);
 
 		this.setContentPane(panelPrincipal);
@@ -133,6 +140,15 @@ public class EcranAjoutPerso extends JFrame {
 		return role;
 	}
 
+	//Verif de la confirmation du MDP
+	private boolean verifMdp() {
+		boolean verif = false;
+		if (mdp.getText().equals(confMdp.getText())) {
+			verif = true;
+		}
+		return verif;
+	}
+
 	// Bouton Valider
 	private JButton getValider() {
 		if (valider == null) {
@@ -145,12 +161,16 @@ public class EcranAjoutPerso extends JFrame {
 						LoginManager control = new LoginManager();
 						Personnels p = new Personnels(nom.getText(), mdp.getText(), role.getSelectedItem().toString());
 						try {
-							if (!control.validerConnection(p)) {
-								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
-								personnelDAO.insert(p);
-								System.out.println(nom.getText() + " ajouté");
+							if (verifMdp() == true) {
+								if (!control.validerConnection(p)) {
+									PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
+									personnelDAO.insert(p);
+									System.out.println(nom.getText() + " ajouté");
+								} else {
+									System.out.println("Erreur");
+								}
 							} else {
-								System.out.println("Erreur");
+								System.out.println("Mot de passer non identique");
 							}
 						} catch (BLLException e2) {
 							e2.printStackTrace();
@@ -158,13 +178,36 @@ public class EcranAjoutPerso extends JFrame {
 							e1.printStackTrace();
 						}
 
-					} catch (BLLException e1) {	
+					} catch (BLLException e1) {
 						e1.printStackTrace();
 					}
 				}
 			});
 		}
 		return valider;
+	}
+
+	// Appel de la fenetre PrincipalGestion
+	public void fenetreRetourGestion() {
+		EcranPrincipalGestion retourGestion = new EcranPrincipalGestion();
+		retourGestion.setVisible(true);
+		EcranAjoutPerso.this.dispose();
+		
+	}
+
+	// Bouton Annuler
+	private JButton getAnnuler() {
+		if (annuler == null) {
+			annuler = new JButton("Annuler");
+
+			annuler.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent a) {
+					EcranAjoutPerso.this.fenetreRetourGestion();
+				}
+			});
+		}
+		return annuler;
 	}
 
 }

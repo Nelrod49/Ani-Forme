@@ -34,14 +34,13 @@ public class EcranPrincipalGestion extends JFrame {
 	private JTable tablePersonnels;
 	private JPanel panelPrincipal;
 	private ArrayList<Personnels> personnels = new ArrayList<Personnels>();
-	EcranAjoutPerso addPerso = new EcranAjoutPerso();
 
-	public EcranPrincipalGestion(String titre) {
-		super(titre);
+	public EcranPrincipalGestion() {
 		this.setSize(new Dimension(600, 400));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Gestion personnel");
 		this.initIHM();
 	}
 
@@ -70,9 +69,11 @@ public class EcranPrincipalGestion extends JFrame {
 		this.setContentPane(panelPrincipal);
 	}
 
+	//appel de la fenetre AjoutPerso
 	public void fenetreAjoutPerso() {	
-		this.setContentPane(addPerso.getContentPane());
-		this.validate();
+		EcranAjoutPerso addPerso = new EcranAjoutPerso();
+		addPerso.setVisible(true);
+		EcranPrincipalGestion.this.dispose();
 	}
 
 	private JButton getAjouter(){
@@ -113,7 +114,7 @@ public class EcranPrincipalGestion extends JFrame {
 						JComponent comp = (JComponent) e.getSource();
 						Window win = SwingUtilities.getWindowAncestor(comp);
 						win.dispose(); // On ferme l'écran actuel
-						new EcranPrincipalGestion("Gestion Personnel").setVisible(true);
+						new EcranPrincipalGestion().setVisible(true);
 						JOptionPane d = new JOptionPane();
 						d.showMessageDialog(panelPrincipal, "Personnels archiver.");
 					}
