@@ -23,6 +23,7 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 
 	static String SQL_DELETE_DELETEAGENDAS = "DELETE FROM Agendas Where CodeVeto = ? AND CodeAnimal = ? AND DateRdv = ?;";
 	static String SQL_ADD_ADDAGENDAS = "Insert Into Agendas (CodeVeto, DateRdv, CodeAnimal) values (?,?,?);";
+	static String SQL_SELECT_CHECKAGENDAS  = "Select * From Agendas Where CodeVeto = ? And DateRdv = ?;";
 	@Override
 	public ArrayList<ArrayList> getAllRdvVet(int CodeVet) {
 		Connection cnx = null;
@@ -114,8 +115,11 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 		}
 	}
 	@Override
-	public void insertAgendas(int CodeVet, String dateRdv, int CodeAnimal) throws DALException {
+	public boolean insertAgendas(int CodeVet, String dateRdv, int CodeAnimal) throws DALException {
 		Connection cnx = null;
+		boolean resultat = false;
+		boolean check = true;
+		//Check si il y existe déjà un rdv 
 		try {
 			cnx = JdbcTools.getConnection();			
 		}catch(SQLException e1){
@@ -127,19 +131,27 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 		
 		try{
 			commande = cnx.createStatement();
-			commandeParemetree = cnx.prepareStatement(SQL_ADD_ADDAGENDAS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree = cnx.prepareStatement(SQL_SELECT_CHECKAGENDAS, Statement.RETURN_GENERATED_KEYS);
 			commandeParemetree.setInt(1, CodeVet);
 			commandeParemetree.setString(2, dateRdv);
-			commandeParemetree.setInt(3, CodeAnimal);
-		}catch(SQLException sqle){
-			System.err.println("Impossible d'éxecuter le statement");
-			sqle.printStackTrace();
-		}
-		try{
-			commandeParemetree.executeUpdate();
 		}catch(SQLException sqle){
 			System.err.println("Impossible d'éxecuter la requête");
 			sqle.printStackTrace();
+		}
+		ResultSet resultatDeLaRequete = null;
+		try{
+			resultatDeLaRequete = commandeParemetree.executeQuery();
+		}catch(SQLException e){
+			System.err.println("Impossible d'éxecuter la requête");
+			e.printStackTrace();
+		}
+		try {
+			while(resultatDeLaRequete.next()){
+				check = false;
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 		try{
 			if(cnx != null){
@@ -148,7 +160,42 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
-		
+		//On ajoute le rendez-vous si le veto n'en as pas déjà
+		if(check == true){			
+			try {
+				cnx = JdbcTools.getConnection();			
+			}catch(SQLException e1){
+				e1.printStackTrace();
+			}
+			commande = null;
+			commandeParemetree = null;
+			appelProcedureStockee = null;			
+			try{
+				commande = cnx.createStatement();
+				commandeParemetree = cnx.prepareStatement(SQL_ADD_ADDAGENDAS, Statement.RETURN_GENERATED_KEYS);
+				commandeParemetree.setInt(1, CodeVet);
+				commandeParemetree.setString(2, dateRdv);
+				commandeParemetree.setInt(3, CodeAnimal);
+			}catch(SQLException sqle){
+				System.err.println("Impossible d'éxecuter le statement");
+				sqle.printStackTrace();
+			}
+			try{
+				commandeParemetree.executeUpdate();
+			}catch(SQLException sqle){
+				System.err.println("Impossible d'éxecuter la requête");
+				sqle.printStackTrace();
+			}
+			try{
+				if(cnx != null){
+					cnx.close();
+				}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
+			resultat = true;
+		}
+		return resultat;
 	}
 	
 	
