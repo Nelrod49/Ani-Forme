@@ -16,8 +16,8 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranAjoutPerso ecranPrincipalGestion = new EcranAjoutPerso();
-				ecranPrincipalGestion.setVisible(true);
+				EcranLogin ecranLogin = new EcranLogin();
+				ecranLogin.setVisible(true);
 			}
 		});
 	}
