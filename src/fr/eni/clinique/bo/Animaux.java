@@ -1,9 +1,7 @@
 package fr.eni.clinique.bo;
 
-public class Animaux{
-	
-	
-	
+public class Animaux {
+
 	private int codeAnimal;
 	private String nomAnimal;
 	private String sexe;
@@ -13,18 +11,21 @@ public class Animaux{
 	private String tatouage;
 	private String antecedents;
 	private int archive;
-	
-	//Constructeur
+
+	// Constructeur
+	public Animaux(int code, Races race, String espece) {
+	}
+
 	public Animaux(int code, int race) {
 		this.codeAnimal = code;
 		this.race = race;
 	}
-	
-	public Animaux(){
+
+	public Animaux() {
 	}
 
-	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race,  int codeClient,
-			String tatouage, String antecedent, int archive) {
+	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race, int codeClient, String tatouage,
+			String antecedent, int archive) {
 		this.codeAnimal = code;
 		this.nomAnimal = nomAnimal;
 		this.sexe = sexe;
@@ -36,10 +37,11 @@ public class Animaux{
 		this.archive = archive;
 	}
 
-	//Getter et Setter
+	// Getter et Setter
 	public int getCodeAnimal() {
 		return codeAnimal;
 	}
+
 	public void setCodeAnimal(int codeAnimal) {
 		this.codeAnimal = codeAnimal;
 	}
@@ -47,6 +49,7 @@ public class Animaux{
 	public String getNomAnimal() {
 		return nomAnimal;
 	}
+
 	public void setNomAnimal(String nomAnimal) {
 		this.nomAnimal = nomAnimal;
 	}
@@ -54,6 +57,7 @@ public class Animaux{
 	public String getSexe() {
 		return sexe;
 	}
+
 	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
@@ -61,6 +65,7 @@ public class Animaux{
 	public String getCouleur() {
 		return couleur;
 	}
+
 	public void setCouleur(String couleur) {
 		this.couleur = couleur;
 	}
@@ -68,19 +73,23 @@ public class Animaux{
 	public int getRace() {
 		return race;
 	}
+
 	public void setRace(int race) {
 		this.race = race;
 	}
 
-	public int getCodeClient(){
+	public int getCodeClient() {
 		return codeClient;
 	}
-	public void setCodeClient(int codeClient){
-		this.codeClient	= codeClient;
+
+	public void setCodeClient(int codeClient) {
+		this.codeClient = codeClient;
 	}
+
 	public String getTatouage() {
 		return tatouage;
 	}
+
 	public void setTatouage(String tatouage) {
 		this.tatouage = tatouage;
 	}
@@ -88,6 +97,7 @@ public class Animaux{
 	public String getAntecedents() {
 		return antecedents;
 	}
+
 	public void setAntecedents(String antecedents) {
 		this.antecedents = antecedents;
 	}
@@ -95,6 +105,7 @@ public class Animaux{
 	public int getArchive() {
 		return archive;
 	}
+
 	public void setArchive(int archive) {
 		this.archive = archive;
 	}
@@ -102,9 +113,8 @@ public class Animaux{
 	@Override
 	public String toString() {
 		return "Animaux [codeAnimal=" + codeAnimal + ", nomAnimal=" + nomAnimal + ", sexe=" + sexe + ", couleur="
-				+ couleur + ", race=" + race + ", tatouage=" + tatouage + ", antecedents="
-				+ antecedents + ", archive=" + archive + "]";
+				+ couleur + ", race=" + race + ", tatouage=" + tatouage + ", antecedents=" + antecedents + ", archive="
+				+ archive + "]";
 	}
-	
-	
+
 }
