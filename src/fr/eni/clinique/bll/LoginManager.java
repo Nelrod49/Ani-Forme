@@ -5,21 +5,22 @@ import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
+import fr.eni.clinique.ihm.*;
 
-public class PersonnelsBLL {
+public class LoginManager {
 	// Création d'une variable d'instance
 	// pour le Singleton
-	private static PersonnelsBLL INSTANCE = null;
+	private static LoginManager INSTANCE = null;
 
-	public PersonnelsBLL() throws BLLException {
+	public LoginManager() throws BLLException {
 		// Obtention du DAO Personnels
 
 	}
 
 	// Singleton
-	public static synchronized PersonnelsBLL getInstance() throws BLLException {
+	public static synchronized LoginManager getInstance() throws BLLException {
 		if (INSTANCE == null) {
-			INSTANCE = new PersonnelsBLL();
+			INSTANCE = new LoginManager();
 		}
 		return INSTANCE;
 	}
@@ -65,14 +66,13 @@ public class PersonnelsBLL {
 			sb.append("Le mot de passe est obligatoire.\n");
 			return valide;
 		}
-		/*if (p.getMdp().trim().length() >= 5) {
-			sb.append("Le mot de passe doit contenir au moins 5 caractères.\n");
-			return valide;
-		}
-		if (p.getRole().equals("vet") || p.getRole().equals("sec") || p.getRole().equals("adm")) {
-			sb.append("Le rôle n'est pas valide.\n");
-			return valide;
-		}*/
+		/*
+		 * if (p.getMdp().trim().length() >= 5) {
+		 * sb.append("Le mot de passe doit contenir au moins 5 caractères.\n");
+		 * return valide; } if (p.getRole().equals("vet") ||
+		 * p.getRole().equals("sec") || p.getRole().equals("adm")) {
+		 * sb.append("Le rôle n'est pas valide.\n"); return valide; }
+		 */
 
 		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
 		valide = personnelsDAO.add(p.getNom(), p.getMdp(), p.getRole());
@@ -81,8 +81,29 @@ public class PersonnelsBLL {
 		return valide;
 	}
 
+	public boolean validerNouveauMotPasse(Personnels p) throws BLLException, DALException {
+		boolean valide = false;
+		StringBuffer sb = new StringBuffer();
+		if (p.getMdp() == null || p.getMdp().trim().length() <= 5) {
+			sb.append("Le nom est obligatoire.\n");
+			return valide;
+		} else {
+			PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
+			valide = personnelsDAO.changeMotPasse(p);
+			valide = true;
+		}
+		return valide;
+	}
+
 	// TODO vérifier que le véto à supprimer n'a plus de rendez-vous
 	/*
+	 * public boolean validerSuppression(Personnels p) throws BLLException,
+	 * DALException { boolean valide = false; StringBuffer sb = new
+	 * StringBuffer(); >>>>>>>
+	 * ca4dbd454fbda7fe427fc225c6c5b6e7b9573d01:src/fr/eni/clinique/bll/
+	 * LoginManager.java
+	 * 
+	 * // TODO vérifier que le véto à supprimer n'a plus de rendez-vous /*
 	 * public boolean validerSuppression(Personnels p) throws BLLException,
 	 * DALException { boolean valide = false; StringBuffer sb = new
 	 * StringBuffer();

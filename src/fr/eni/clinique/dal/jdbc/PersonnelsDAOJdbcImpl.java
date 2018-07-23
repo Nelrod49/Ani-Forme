@@ -14,13 +14,16 @@ import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.bll.BLLException;
 import fr.eni.clinique.bo.Personnels;
 
+
 public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	static String SQL_ADD_PERSONNELS = "Insert Into Personnels (Nom, MotPasse, Role, Archive) values(?,?,?,?);";
-	static String SQL_DELETE_PERSONNELS = "Update Personnels archive  = true Where code = ?;";
+	static String SQL_DELETE_PERSONNELS = "Update Personnels SET Archive  = 1 Where CodePers = ?;";
 	static String SQL_CONNECTION_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ? AND Archive = 0;";
 	static String SQL_GETALLDATA_PERSONNELS = "Select * from Personnels where Nom = ? AND MotPasse = ?";
 	static String SQL_GETALL_PERSONNELS = "Select * from Personnels where Archive = 0;";
+	static String SQL_GETALLVETERINAIRE_PERSONNELS = "Select * from Personnels where Archive = 0 and Role = 'vet';";
+	static String SQL_CHANGEMOTPASSE_PERSONNELS = "Update Personnels Set MotPasse = ? Where CodePers = ?;";
 
 	@Override
 	public boolean connection(String nom, String mdp) {
@@ -69,6 +72,10 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.eni.clinique.dal.PersonnelsDAO#insert(fr.eni.clinique.bo.Personnels)
+	 * Ajoute un personnel
+	 */
 	@Override
 	public void insert(Personnels per) throws DALException {
 		Connection cnx = null;
@@ -152,6 +159,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		}
 	}
 
+	//Récup le rôle d'un personnels en foncion de son nom et mot de passe
+
 	@Override
 	public Personnels getAllData(Personnels pers) {
 		Connection cnx = null;
@@ -201,7 +210,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	}
 
-	public ArrayList<Personnels> allPersonnels() {
+	@Override
+	public ArrayList<Personnels> allPersonnels(){
 		ArrayList<Personnels> resultat = new ArrayList<Personnels>();
 		Connection cnx = null;
 		boolean reponse = false;
@@ -250,27 +260,66 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		return resultat;
 	}
 
+	
 	@Override
-	public boolean add(String nom, String mdp, String role) throws DALException {
+	public boolean changeMotPasse(Personnels per){
+		boolean valide = false;
 		Connection cnx = null;
-		boolean resultat = false;
 		try {
-			cnx = JdbcTools.getConnection();
-		} catch (SQLException e1) {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+
+		CallableStatement appelProcedureStockee = null; 	
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_CHANGEMOTPASSE_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setString(1, per.getMdp());
+			commandeParemetree.setInt(2, per.getCodePersonnel());
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		try{
+			commandeParemetree.executeUpdate();
+			valide = true;
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return valide;
+	}
+	
+	@Override
+	public ArrayList<Personnels> allPersonnelsVeterinaire(){
+		ArrayList<Personnels> resultat = new ArrayList<Personnels>();
+		Connection cnx = null;
+		boolean reponse = false;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
 			e1.printStackTrace();
 		}
 		Statement commande = null;
 		PreparedStatement commandeParemetree = null;
 		CallableStatement appelProcedureStockee = null;
-
-		try {
+		
+		try{
 			commande = cnx.createStatement();
-			commandeParemetree = cnx.prepareStatement(SQL_GETALL_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
-			commandeParemetree.setString(1, nom);
-			commandeParemetree.setString(2, mdp);
-			commandeParemetree.setString(3, mdp);
-			commandeParemetree.setString(4, role);
-		} catch (SQLException sqle) {
+			commandeParemetree = cnx.prepareStatement(SQL_GETALLVETERINAIRE_PERSONNELS, Statement.RETURN_GENERATED_KEYS);
+		}catch(SQLException sqle){
 			System.err.println("Impossible d'éxecuter la requête");
 			sqle.printStackTrace();
 		}
@@ -282,20 +331,33 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 			e.printStackTrace();
 		}
 		try {
-			boolean val = resultatDeLaRequete.next();
-			if (val) {
-				resultat = true;
+			while(resultatDeLaRequete.next()){
+				Personnels pers = new Personnels(
+						resultatDeLaRequete.getInt("CodePers"),
+						resultatDeLaRequete.getString("Nom"),
+						resultatDeLaRequete.getString("MotPasse"),
+						resultatDeLaRequete.getString("Role"));
+				pers.setArchive(false);
+				resultat.add(pers);
 			}
 		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		try {
-			if (cnx != null) {
+		try{
+			if(cnx != null){
 				cnx.close();
 			}
-		} catch (SQLException e) {
+		}catch(SQLException e){
 			e.printStackTrace();
 		}
 		return resultat;
+	}
+
+	@Override
+	public boolean add(String nom, String mdp, String role) throws DALException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

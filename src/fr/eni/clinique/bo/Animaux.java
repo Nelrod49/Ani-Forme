@@ -1,34 +1,47 @@
 package fr.eni.clinique.bo;
 
-public class Animaux extends Races{
-	
-	
-	
+public class Animaux {
+
 	private int codeAnimal;
 	private String nomAnimal;
 	private String sexe;
 	private String couleur;
-	private Races race;
-	private String espece;
+	private int race;
+	private int codeClient;
 	private String tatouage;
 	private String antecedents;
-	private String archive;
-	
-	//Constructeur
+	private int archive;
+
+	// Constructeur
 	public Animaux(int code, Races race, String espece) {
-		this.codeAnimal = code;
-		this.race = race;
-		this.espece = espece;
-	}
-	
-	public Animaux(){
-		super();
 	}
 
-	//Getter et Setter
+	public Animaux(int code, int race) {
+		this.codeAnimal = code;
+		this.race = race;
+	}
+
+	public Animaux() {
+	}
+
+	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race, int codeClient, String tatouage,
+			String antecedent, int archive) {
+		this.codeAnimal = code;
+		this.nomAnimal = nomAnimal;
+		this.sexe = sexe;
+		this.couleur = couleur;
+		this.race = race;
+		this.codeClient = codeClient;
+		this.tatouage = tatouage;
+		this.antecedents = antecedent;
+		this.archive = archive;
+	}
+
+	// Getter et Setter
 	public int getCodeAnimal() {
 		return codeAnimal;
 	}
+
 	public void setCodeAnimal(int codeAnimal) {
 		this.codeAnimal = codeAnimal;
 	}
@@ -36,6 +49,7 @@ public class Animaux extends Races{
 	public String getNomAnimal() {
 		return nomAnimal;
 	}
+
 	public void setNomAnimal(String nomAnimal) {
 		this.nomAnimal = nomAnimal;
 	}
@@ -43,6 +57,7 @@ public class Animaux extends Races{
 	public String getSexe() {
 		return sexe;
 	}
+
 	public void setSexe(String sexe) {
 		this.sexe = sexe;
 	}
@@ -50,27 +65,31 @@ public class Animaux extends Races{
 	public String getCouleur() {
 		return couleur;
 	}
+
 	public void setCouleur(String couleur) {
 		this.couleur = couleur;
 	}
 
-	public String getRace() {
+	public int getRace() {
 		return race;
 	}
-	public void setRace(String race) {
+
+	public void setRace(int race) {
 		this.race = race;
 	}
 
-	public String getEspece() {
-		return espece;
+	public int getCodeClient() {
+		return codeClient;
 	}
-	public void setEspece(String espece) {
-		this.espece = espece;
+
+	public void setCodeClient(int codeClient) {
+		this.codeClient = codeClient;
 	}
 
 	public String getTatouage() {
 		return tatouage;
 	}
+
 	public void setTatouage(String tatouage) {
 		this.tatouage = tatouage;
 	}
@@ -78,23 +97,24 @@ public class Animaux extends Races{
 	public String getAntecedents() {
 		return antecedents;
 	}
+
 	public void setAntecedents(String antecedents) {
 		this.antecedents = antecedents;
 	}
 
-	public String getArchive() {
+	public int getArchive() {
 		return archive;
 	}
-	public void setArchive(String archive) {
+
+	public void setArchive(int archive) {
 		this.archive = archive;
 	}
 
 	@Override
 	public String toString() {
 		return "Animaux [codeAnimal=" + codeAnimal + ", nomAnimal=" + nomAnimal + ", sexe=" + sexe + ", couleur="
-				+ couleur + ", race=" + race + ", espece=" + espece + ", tatouage=" + tatouage + ", antecedents="
-				+ antecedents + ", archive=" + archive + "]";
+				+ couleur + ", race=" + race + ", tatouage=" + tatouage + ", antecedents=" + antecedents + ", archive="
+				+ archive + "]";
 	}
-	
-	
+
 }

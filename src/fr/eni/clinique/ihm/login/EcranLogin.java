@@ -9,21 +9,26 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.PersonnelsBLL;
+import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
 
 public class EcranLogin extends JFrame{
+	/**
+	 * 
+	 */
 	private JPasswordField textMotPasse;
 	private JTextField textNom;
 	private JButton buttonLogin;
+	private JPanel panelPrincipal;
 	
 	public EcranLogin(String titre){
 		super(titre);
@@ -35,7 +40,7 @@ public class EcranLogin extends JFrame{
 	}
 	
 	private void initIHM(){
-		JPanel panelPrincipal = new JPanel();
+		panelPrincipal = new JPanel();
 		panelPrincipal.setLayout(new GridBagLayout());
 		panelPrincipal.setOpaque(true);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -91,15 +96,36 @@ public class EcranLogin extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0){
 					try {
-						PersonnelsBLL lManager = new PersonnelsBLL();
-						Personnels p1 = new Personnels(textNom.getText(),textMotPasse.getText());
+						LoginManager lManager = new LoginManager();
+						String passText = new String(textMotPasse.getPassword());
+						Personnels p1 = new Personnels(textNom.getText(),passText);
+						passText = null;
 						try {
 							if(lManager.validerConnection(p1)){
 								//TODO Redirect to 
 								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 								p1 = personnelDAO.getAllData(p1);
 								System.out.println("Connection réussi");
+								//Renvoie vers fenetre GestionPers
+								
+								
+								EcranPrincipal ecranPrincipal = new EcranPrincipal(p1);
+								ecranPrincipal.setVisible(true);
+								
+								//ferme la fenêtre EcranLogin
+								EcranLogin.this.dispose();
+								
+								//TODO fermer le JFrame EcranLogin.
+							
+								
+
+							
 							}else{
+								JOptionPane d = new JOptionPane();
+								d.showMessageDialog(panelPrincipal,
+									    "Connexion refuser.",
+									    "Refuser",
+									    JOptionPane.ERROR_MESSAGE);
 								System.out.println("Connection échoué");
 							}
 						} catch (BLLException e1) {

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import fr.eni.clinique.bll.BLLException;
-import fr.eni.clinique.bll.PersonnelsBLL;
+import fr.eni.clinique.bll.LoginManager;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -29,7 +29,9 @@ public class EcranAjoutPerso extends JFrame {
 	private JComboBox<String> role;
 	private JButton valider;
 
+	
 	public EcranAjoutPerso() {
+		super();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -38,7 +40,7 @@ public class EcranAjoutPerso extends JFrame {
 		this.initIhm();
 	}
 
-	private void initIhm() {
+	public void initIhm() {
 		JPanel panelPrincipal = new JPanel();
 		panelPrincipal.setLayout(new GridBagLayout());
 		panelPrincipal.setOpaque(true);
@@ -64,9 +66,6 @@ public class EcranAjoutPerso extends JFrame {
 		gbc.gridy = 2;
 		gbc.gridx = 0;
 		panelPrincipal.add(getTxtConfMdp(), gbc);
-		/*
-		 * gbc.gridy = 0; gbc.gridx = 0; panelPrincipal.add(getTxtNom(), gbc);
-		 */
 
 		gbc.gridy = 3;
 		gbc.gridx = 1;
@@ -135,7 +134,6 @@ public class EcranAjoutPerso extends JFrame {
 	}
 
 	// Bouton Valider
-	
 	private JButton getValider() {
 		if (valider == null) {
 			valider = new JButton("Valider");
@@ -144,7 +142,7 @@ public class EcranAjoutPerso extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent a) {
 					try {
-						PersonnelsBLL control = new PersonnelsBLL();
+						LoginManager control = new LoginManager();
 						Personnels p = new Personnels(nom.getText(), mdp.getText(), role.getSelectedItem().toString());
 						try {
 							if (!control.validerConnection(p)) {
