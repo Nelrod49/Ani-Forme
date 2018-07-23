@@ -63,8 +63,8 @@ public class EcranPriseRendezVous extends JFrame{
 	private JButton buttonAjouter;
 	private ArrayList<Clients>lesClients = new ArrayList<Clients>();
 	private ArrayList<Personnels> lesPersonnels = null;
-	ArrayList<ArrayList> lesRendezVous  = new ArrayList<ArrayList>();
-	
+	private ArrayList<ArrayList> lesRendezVous  = new ArrayList<ArrayList>();
+	private ArrayList<Animaux> lesAnimaux = null;
 	
 	public EcranPriseRendezVous(String titre){
 		super(titre);
@@ -184,11 +184,10 @@ public class EcranPriseRendezVous extends JFrame{
 					if(comboBxClients.getSelectedIndex() != -1){
 						AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
 						try {
-							ArrayList<Animaux> lesAnimaux = animauxDAO.getAnimauxClients(
+							lesAnimaux = animauxDAO.getAnimauxClients(
 									lesClients.get(comboBxClients.getSelectedIndex() - 1).getCodeClient());
 							if(lesAnimaux.size() > 0){
 							String[] animaux = new String[lesAnimaux.size()];
-							System.out.println(lesAnimaux);
 							for (int i=0; i<lesAnimaux.size(); i++) {
 								animaux[i] = lesAnimaux.get(i).getNomAnimal();
 							}
@@ -350,6 +349,52 @@ public class EcranPriseRendezVous extends JFrame{
 		if(null == buttonAjouter){
 			buttonAjouter = new JButton();
 			buttonAjouter.setText("Ajouter");
+			buttonAjouter.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent e){
+					JOptionPane display = new JOptionPane();
+					if(comboBxAnimaux.getSelectedItem() == "Acun Résultat" || comboBxClients.getSelectedIndex() == 0 ){
+						display.showMessageDialog(panelPriseRendezVous,								
+								"Veuillez sélectionnez un animal",
+								"Attention",
+								JOptionPane.WARNING_MESSAGE);
+					}else{
+						if(comboBxPersonnels.getSelectedIndex() == 0){
+							display.showMessageDialog(panelPriseRendezVous,								
+									"Veuillez sélectionnez un vétérinaire",
+									"Attention",
+									JOptionPane.WARNING_MESSAGE);
+						}else{
+							//Recréer la date et l'heure 
+							String dateRdv = datePickerRendezVous.getJFormattedTextField().getText() + ' ' 
+									+comboBxHeure.getSelectedItem() + ':' + comboBxMinute.getSelectedItem();
+							AgendasDAO agendasDAO = DAOFactory.getAgendasDAO();
+							boolean resultat = true; //Variable pour savoir si la suppression à fonctionner
+							try {
+								agendasDAO.insertAgendas(
+										lesPersonnels.get(comboBxPersonnels.getSelectedIndex() - 1).getCodePersonnel(), 
+										dateRdv, 
+										lesAnimaux.get(comboBxAnimaux.getSelectedIndex()).getCodeAnimal());
+							} catch (DALException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+								resultat = false;
+							}
+							if(resultat  == true){
+								display.showMessageDialog(panelPriseRendezVous,
+									    "Ajout réussi.");
+								refreshTable();
+							}else{
+								display.showMessageDialog(panelPriseRendezVous,
+										"Ajout échoué.",
+										"Erreur",								    
+										JOptionPane.ERROR_MESSAGE
+									);
+							}
+						}
+					}
+				}
+			});
 		}		 
 		return buttonAjouter;
 	}
@@ -371,11 +416,9 @@ public class EcranPriseRendezVous extends JFrame{
 					}else{
 						final String OLD_FORMAT = "yyyy-MM-dd H:m:s";
 						final String NEW_FORMAT =  "dd-MM-yyyy H:m:s";
-
 						// August 12, 2010
 						String oldDateString = (String) lesRendezVous.get(tableRendezVous.getSelectedRow()).get(2);
 						String newDateString;
-
 						SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
 						java.util.Date d = null;
 						try {

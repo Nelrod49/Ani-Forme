@@ -22,6 +22,7 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 				" Where ag.CodeVeto = ? AND ag.DateRdv > sysdatetime() Order By ag.DateRdv;";
 
 	static String SQL_DELETE_DELETEAGENDAS = "DELETE FROM Agendas Where CodeVeto = ? AND CodeAnimal = ? AND DateRdv = ?;";
+	static String SQL_ADD_ADDAGENDAS = "Insert Into Agendas (CodeVeto, DateRdv, CodeAnimal) values (?,?,?);";
 	@Override
 	public ArrayList<ArrayList> getAllRdvVet(int CodeVet) {
 		Connection cnx = null;
@@ -111,6 +112,43 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+	}
+	@Override
+	public void insertAgendas(int CodeVet, String dateRdv, int CodeAnimal) throws DALException {
+		Connection cnx = null;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_ADD_ADDAGENDAS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setInt(1, CodeVet);
+			commandeParemetree.setString(2, dateRdv);
+			commandeParemetree.setInt(3, CodeAnimal);
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter le statement");
+			sqle.printStackTrace();
+		}
+		try{
+			commandeParemetree.executeUpdate();
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

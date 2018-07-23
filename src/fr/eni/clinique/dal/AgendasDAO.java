@@ -8,4 +8,5 @@ import fr.eni.clinique.bo.Agendas;
 public interface AgendasDAO {
 	public ArrayList<ArrayList> getAllRdvVet(int CodeVet) throws DALException;
 	public void deleteAgendas(String CodeVet, String CodeAnimal, String DateRdv) throws DALException;
+	public void insertAgendas(int CodeVet, String dateRdv, int CodeAnimal) throws DALException;
 }
