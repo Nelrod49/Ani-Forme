@@ -53,7 +53,7 @@ public class EcranPrincipal extends JFrame {
 		mnFichiers.setAutoscrolls(true);
 		menuBar.add(mnFichiers);
 		
-		
+		//Déconnexion
 		JMenuItem mntmDeconnexion = new JMenuItem("Deconnexion");
 		mntmDeconnexion.addActionListener(new ActionListener() {
 			@Override
@@ -62,10 +62,18 @@ public class EcranPrincipal extends JFrame {
 			}
 		});
 		mnFichiers.add(mntmDeconnexion);
-
 		
+		//Fermer
 		JMenuItem mntmFermer = new JMenuItem("Fermer");
+		mntmFermer.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent b) {
+				EcranPrincipal.this.dispose();
+			}
+		});
 		mnFichiers.add(mntmFermer);
+		
+		
 		if (pers.equals("sec")) { // If sec then display all management
 									// appointment
 			JMenu mnGestionDesRendezvous = new JMenu("Gestion des Rendez-vous");
