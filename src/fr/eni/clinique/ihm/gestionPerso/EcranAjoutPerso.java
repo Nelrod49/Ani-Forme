@@ -7,11 +7,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.peer.PanelPeer;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -28,6 +30,8 @@ public class EcranAjoutPerso extends JFrame {
 	private JTextField nom, mdp, confMdp;
 	private JComboBox<String> role;
 	private JButton valider, annuler;
+	JOptionPane display = new JOptionPane();
+	JPanel panelPrincipal = new JPanel();
 
 	public EcranAjoutPerso() {
 		super();
@@ -40,7 +44,7 @@ public class EcranAjoutPerso extends JFrame {
 	}
 
 	public void initIhm() {
-		JPanel panelPrincipal = new JPanel();
+		panelPrincipal = new JPanel();
 		panelPrincipal.setLayout(new GridBagLayout());
 		panelPrincipal.setOpaque(true);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -72,6 +76,7 @@ public class EcranAjoutPerso extends JFrame {
 
 		gbc.gridy = 3;
 		gbc.gridx = 1;
+		
 		panelPrincipal.add(getRole(), gbc);
 
 		gbc.gridy = 5;
@@ -133,19 +138,27 @@ public class EcranAjoutPerso extends JFrame {
 	// Bande déroulante
 	private JComboBox<String> getRole() {
 		if (role == null) {
-			String[] choixRole = { "vet", "sec", "adm" };
+			String[] choixRole = { "Choissiez un rôle", "vet", "sec", "adm" };
 			role = new JComboBox<String>(choixRole);
-			role.setPreferredSize(new Dimension(100, 20));
+			role.setPreferredSize(new Dimension(130, 20));
 		}
 		return role;
 	}
 
-	//Verif de la confirmation du MDP
-	private boolean verifMdp() {
-		boolean verif = false;
-		if (mdp.getText().equals(confMdp.getText())) {
-			verif = true;
-		}
+	// Verif de la confirmation du MDP
+	private int verifMdp() {
+		// si verif est à 0, le mot de passe n'est pas identique dans les deux
+		// cases de saisie
+		int verif = 0;
+		if (mdp.getText().trim().length() >= 5) {
+			if (mdp.getText().equals(confMdp.getText())) {
+				// si verif est egale à 1, le mot de passe est valide
+				verif = 1;
+			}
+			// si verif est à 2, le mot de passe ne contient pas au moin 5
+			// caracteres
+		} else
+			verif = 2;
 		return verif;
 	}
 
@@ -161,17 +174,33 @@ public class EcranAjoutPerso extends JFrame {
 						LoginManager control = new LoginManager();
 						Personnels p = new Personnels(nom.getText(), mdp.getText(), role.getSelectedItem().toString());
 						try {
-							if (verifMdp() == true) {
+							switch (verifMdp()) {
+							case 0:
+								display.showMessageDialog(panelPrincipal, "Mot de passe non identique", "Attention",
+										JOptionPane.WARNING_MESSAGE);
+								break;
+							case 1:
+								if (role.getSelectedItem().toString().equals("vet") || role.getSelectedItem().toString().equals("sec") || role.getSelectedItem().toString().equals("adm")){
 								if (!control.validerConnection(p)) {
 									PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 									personnelDAO.insert(p);
-									System.out.println(nom.getText() + " ajouté");
+									display.showMessageDialog(panelPrincipal, "Personnel ajouté");
 								} else {
-									System.out.println("Erreur");
+									display.showMessageDialog(panelPrincipal, "Un personnel indentique existe déjà",
+											"Attention", JOptionPane.WARNING_MESSAGE);
 								}
-							} else {
-								System.out.println("Mot de passer non identique");
+								} else {
+									display.showMessageDialog(panelPrincipal, "Veuillez choisir un rôle",
+											"Attention", JOptionPane.WARNING_MESSAGE);
+								}
+								break;
+							case 2:
+								display.showMessageDialog(panelPrincipal,
+										"Le mot de passe doit contenir au moins 5 caractères", "Attention",
+										JOptionPane.WARNING_MESSAGE);
+								break;
 							}
+
 						} catch (BLLException e2) {
 							e2.printStackTrace();
 						} catch (DALException e1) {
@@ -185,6 +214,7 @@ public class EcranAjoutPerso extends JFrame {
 			});
 		}
 		return valider;
+
 	}
 
 	// Appel de la fenetre PrincipalGestion
@@ -192,7 +222,6 @@ public class EcranAjoutPerso extends JFrame {
 		EcranPrincipalGestion retourGestion = new EcranPrincipalGestion();
 		retourGestion.setVisible(true);
 		EcranAjoutPerso.this.dispose();
-		
 	}
 
 	// Bouton Annuler

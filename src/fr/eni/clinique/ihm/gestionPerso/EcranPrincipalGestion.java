@@ -83,8 +83,7 @@ public class EcranPrincipalGestion extends JFrame {
 			buttonAjouter.addActionListener(new ActionListener(){
 				@Override
 				public void actionPerformed(ActionEvent e1){
-					EcranPrincipalGestion.this.fenetreAjoutPerso();
-					
+					EcranPrincipalGestion.this.fenetreAjoutPerso();			
 				}
 			});
 		}

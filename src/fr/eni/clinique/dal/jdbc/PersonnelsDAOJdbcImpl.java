@@ -159,7 +159,7 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 		}
 	}
 
-	//Récup le rôle d'un personnels en foncion de son nom et mot de passe
+	//Récup le rôle d'un personnels en fonction de son nom et mot de passe
 
 	@Override
 	public Personnels getAllData(Personnels pers) {
@@ -356,7 +356,8 @@ public class PersonnelsDAOJdbcImpl implements PersonnelsDAO {
 
 	@Override
 	public boolean add(String nom, String mdp, String role) throws DALException {
-		// TODO Auto-generated method stub
+		
+		
 		return false;
 	}
 

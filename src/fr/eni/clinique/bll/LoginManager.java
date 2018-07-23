@@ -66,13 +66,15 @@ public class LoginManager {
 			sb.append("Le mot de passe est obligatoire.\n");
 			return valide;
 		}
-		/*
-		 * if (p.getMdp().trim().length() >= 5) {
-		 * sb.append("Le mot de passe doit contenir au moins 5 caractères.\n");
-		 * return valide; } if (p.getRole().equals("vet") ||
-		 * p.getRole().equals("sec") || p.getRole().equals("adm")) {
-		 * sb.append("Le rôle n'est pas valide.\n"); return valide; }
-		 */
+
+		if (p.getMdp().trim().length() >= 5) {
+			sb.append("Le mot de passe doit contenir au moins 5 caractères.\n");
+			return valide;
+		}
+		if (p.getRole().equals("vet") || p.getRole().equals("sec") || p.getRole().equals("adm")) {
+			sb.append("Le rôle n'est pas valide.\n");
+			return valide;
+		}
 
 		PersonnelsDAO personnelsDAO = DAOFactory.getPersonnelsDAO();
 		valide = personnelsDAO.add(p.getNom(), p.getMdp(), p.getRole());
