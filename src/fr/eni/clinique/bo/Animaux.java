@@ -8,15 +8,14 @@ public class Animaux extends Races{
 	private String nomAnimal;
 	private String sexe;
 	private String couleur;
-	private String race;
+	private Races race;
 	private String espece;
 	private String tatouage;
 	private String antecedents;
 	private String archive;
 	
 	//Constructeur
-	public Animaux(int code, String race, String espece) {
-		super(race, espece);
+	public Animaux(int code, Races race, String espece) {
 		this.codeAnimal = code;
 		this.race = race;
 		this.espece = espece;
