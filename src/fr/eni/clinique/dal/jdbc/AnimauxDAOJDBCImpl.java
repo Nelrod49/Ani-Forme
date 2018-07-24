@@ -15,8 +15,11 @@ import fr.eni.clinique.dal.DALException;
 
 public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 
+	private static final String UPDATE_ANIMALS = "Update Animals SET (NomAnimal, Sexe, Couleur, Race, Espece, Tatouage);";
+	//private static final String GET_CODECLIENT = "Select codeClient From Clients where codeAnimal = ?;";
 	/*TODO retravailler la requête pour insérer le CodeClient*/
-	private static final String INSERT_ANIMAUX = "INSERT INTO Animaux (NomAnimal, Sexe, Couleur, Race, Espece, CodeClient, Tatouage, Archive) values(?,?,?,?,?,?,?,?) WHERE CodeClient;";
+	private static final String INSERT_ANIMAUX = "INSERT INTO Animaux (NomAnimal, Sexe, Couleur, Race, Espece, CodeClient, Tatouage, Archive) "
+			+ "values(?,?,?,?,?,?,?,0) WHERE CodeClient=GET_CODECLIENT;";
 	static String SQL_GETANIMAUXCLIENTS_ANIMAUX = "Select * FROM Animaux Where CodeClient = ? and Archive = 0;";
 	
 	
@@ -57,11 +60,11 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 						resultatDeLaRequete.getString("NomAnimal"),
 						resultatDeLaRequete.getString("Sexe"),
 						resultatDeLaRequete.getString("Couleur"),
-						resultatDeLaRequete.getInt("CodeRace"),
+						resultatDeLaRequete.getString("Race"),
 						resultatDeLaRequete.getInt("CodeClient"),
 						resultatDeLaRequete.getString("Tatouage"),
 						resultatDeLaRequete.getString("Antecedents"),
-						resultatDeLaRequete.getInt("Archive"));
+						resultatDeLaRequete.getBoolean("Archive"));
 				resultat.add(animal);
 			}
 		} catch (SQLException e1) {
@@ -105,9 +108,9 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 						prestmt.setString(3, ani.getCouleur());
 						/*TODO voir exemple EcranPrise rendez-vous fait par Nelson*/
 						prestmt.setString(4, ani.getRace());
-						prestmt.setString(5, ani.getCodeClient());
+						prestmt.setInt(5, ani.getCodeClient());
 						prestmt.setString(6, ani.getTatouage());
-						prestmt.setString(7, ani.getArchive());
+						prestmt.setBoolean(7, ani.getArchive());
 						
 					}catch(SQLException sqle){
 						System.err.println("Impossible de préparer la requête d'insertion d'un animal");
@@ -146,3 +149,48 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 					
 
 }
+
+			@Override
+			public void updateAnimaux(Animaux ani) throws DALException {
+				Connection cnx = null;
+				try {
+					cnx = JdbcTools.getConnection();			
+				}catch(SQLException e1){
+					e1.printStackTrace();
+				}
+				Statement stmt = null;
+				PreparedStatement prestmt = null;
+				CallableStatement appelProcedureStockee = null; 	
+				
+				try{
+					stmt = cnx.createStatement();
+					prestmt = cnx.prepareStatement(UPDATE_ANIMALS, Statement.RETURN_GENERATED_KEYS);
+					prestmt.setString(1, ani.getNomAnimal());
+					prestmt.setString(2, ani.getSexe());
+					prestmt.setString(3, ani.getCouleur());
+					/*TODO voir exemple EcranPrise rendez-vous fait par Nelson*/
+					prestmt.setString(4, ani.getRace());
+					prestmt.setString(6, ani.getTatouage());
+				}catch(SQLException sqle){
+					System.err.println("Impossible d'éxecuter la requête d'update d'un animal");
+					sqle.printStackTrace();
+				}
+				try{
+					prestmt.executeUpdate();
+				}catch(SQLException sqle){
+					System.err.println("Impossible d'éxecuter la requête d'update d'un animal");
+					sqle.printStackTrace();
+				}
+		
+				try{
+					if(cnx != null){
+						cnx.close();
+					}
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+	
+		
+	}
+

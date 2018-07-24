@@ -1,6 +1,6 @@
 package fr.eni.clinique.bo;
 
-public abstract class Races{
+public class Races{
 
 	private String race;
 	private String espece;
@@ -10,6 +10,10 @@ public abstract class Races{
 		super();
 		this.race = race;
 		this.espece = espece;
+	}
+	
+	public Races(String race) {
+		this.race = race;
 	}
 
 	

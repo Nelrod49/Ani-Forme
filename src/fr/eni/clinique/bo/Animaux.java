@@ -8,14 +8,14 @@ public class Animaux{
 	private String nomAnimal;
 	private String sexe;
 	private String couleur;
-	private int race;
+	private String race;
 	private int codeClient;
 	private String tatouage;
 	private String antecedents;
-	private int archive;
+	private boolean archive;
 	
 	//Constructeur
-	public Animaux(int code, int race) {
+	public Animaux(int code, String race) {
 		this.codeAnimal = code;
 		this.race = race;
 	}
@@ -23,8 +23,8 @@ public class Animaux{
 	public Animaux(){
 	}
 
-	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race,  int codeClient,
-			String tatouage, String antecedent, int archive) {
+	public Animaux(int code, String nomAnimal, String sexe, String couleur, String race,  int codeClient,
+			String tatouage, String antecedent, boolean archive) {
 		this.codeAnimal = code;
 		this.nomAnimal = nomAnimal;
 		this.sexe = sexe;
@@ -65,10 +65,10 @@ public class Animaux{
 		this.couleur = couleur;
 	}
 
-	public int getRace() {
+	public String getRace() {
 		return race;
 	}
-	public void setRace(int race) {
+	public void setRace(String race) {
 		this.race = race;
 	}
 
@@ -92,10 +92,10 @@ public class Animaux{
 		this.antecedents = antecedents;
 	}
 
-	public int getArchive() {
+	public boolean getArchive() {
 		return archive;
 	}
-	public void setArchive(int archive) {
+	public void setArchive(boolean archive) {
 		this.archive = archive;
 	}
 

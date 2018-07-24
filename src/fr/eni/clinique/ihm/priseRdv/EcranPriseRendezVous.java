@@ -106,7 +106,6 @@ public class EcranPriseRendezVous extends JFrame{
 			try {
 				lesClients = clientsDAO.allClients() ;
 			} catch (DALException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if(!lesClients.isEmpty()){
