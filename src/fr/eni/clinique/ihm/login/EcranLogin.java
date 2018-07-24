@@ -105,9 +105,7 @@ public class EcranLogin extends JFrame{
 								//TODO Redirect to 
 								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 								p1 = personnelDAO.getAllData(p1);
-								System.out.println("Connection réussi");
-								//Renvoie vers fenetre GestionPers
-								
+								//Renvoie vers fenetre GestionPers	
 								
 								EcranPrincipal ecranPrincipal = new EcranPrincipal(p1);
 								ecranPrincipal.setVisible(true);

@@ -176,7 +176,6 @@ public class EcranPriseRendezVous extends JFrame {
 			comboBxClients.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.print(comboBxClients.getSelectedIndex());
 					if (comboBxClients.getSelectedIndex() != 0) {
 						AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
 						try {
