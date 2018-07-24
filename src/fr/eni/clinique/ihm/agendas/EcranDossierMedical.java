@@ -16,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
+import fr.eni.clinique.bo.Animaux;
+import fr.eni.clinique.bo.Clients;
+import fr.eni.clinique.bo.Races;
+
 /**
  * Classe en charge de
  * @author eguillard2018
@@ -30,6 +34,8 @@ public class EcranDossierMedical extends JFrame{
 	private JLabel lblClient, lblNomCli;
 	private JLabel lblAnimal, lblNomAni, lblCodeAni, lblCouleurSexe, lblEspece, lblTatou;
 	JPanel panelPrincipal = new JPanel();
+	private Clients cli = new Clients();
+	private Animaux ani = new Animaux();
 
 	public EcranDossierMedical() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +44,17 @@ public class EcranDossierMedical extends JFrame{
 		this.setBounds(400, 250, 500, 300);
 		this.setTitle("Dosssier Médical");
 		this.initIhm();
+	}
+	
+	public EcranDossierMedical(Clients cli, Animaux ani) {
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
+		this.setBounds(400, 250, 500, 300);
+		this.setTitle("Dosssier Médical");
+		this.initIhm();
+		this.cli = cli;
+		this.ani = ani;
 	}
 	
 	public void initIhm() {
@@ -49,10 +66,10 @@ public class EcranDossierMedical extends JFrame{
 		
 		this.setContentPane(panelPrincipal);
 		GridBagLayout gbl_panelPrincipal = new GridBagLayout();
-		gbl_panelPrincipal.columnWidths = new int[]{80, 120, 0, 0, 5, 0};
-		gbl_panelPrincipal.rowHeights = new int[]{14, 0, 0, 0, 0, 0, 0, 0, 10};
+		gbl_panelPrincipal.columnWidths = new int[]{63, 120, 0, 0, 17, 0};
+		gbl_panelPrincipal.rowHeights = new int[]{14, 0, 0, 0, 0, 0, 0, 0, 0, 10};
 		gbl_panelPrincipal.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panelPrincipal.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0};
+		gbl_panelPrincipal.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0};
 		panelPrincipal.setLayout(gbl_panelPrincipal);
 		
 		
@@ -81,7 +98,7 @@ public class EcranDossierMedical extends JFrame{
 		gbc_lblClient.gridy = 0;
 		panelPrincipal.add(lblClient, gbc_lblClient);
 		
-		lblNomCli = new JLabel("nomCli");
+		lblNomCli = new JLabel(cli.getNomClient());
 		GridBagConstraints gbc_lblNomcli = new GridBagConstraints();
 		gbc_lblNomcli.gridwidth = 2;
 		gbc_lblNomcli.anchor = GridBagConstraints.NORTH;
@@ -92,7 +109,7 @@ public class EcranDossierMedical extends JFrame{
 		
 		lblAnt = new JLabel("Antécédent consultations");
 		GridBagConstraints gbc_lblNote = new GridBagConstraints();
-		gbc_lblNote.gridwidth = 3;
+		gbc_lblNote.gridwidth = 2;
 		gbc_lblNote.anchor = GridBagConstraints.SOUTHWEST;
 		gbc_lblNote.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNote.gridx = 2;
@@ -107,15 +124,16 @@ public class EcranDossierMedical extends JFrame{
 		gbc_lblAnimalCode.gridy = 2;
 		panelPrincipal.add(lblAnimal, gbc_lblAnimalCode);
 		
-		lblCodeAni = new JLabel("Code Animal");
-		GridBagConstraints gbc_lblCodeAnimal = new GridBagConstraints();
+		lblCodeAni = new JLabel(ani.getCodeAnimal().toString());
+		GridBagConstraints gbc_lblCodeAnimal
+		= new GridBagConstraints();
 		gbc_lblCodeAnimal.anchor = GridBagConstraints.WEST;
 		gbc_lblCodeAnimal.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCodeAnimal.gridx = 1;
 		gbc_lblCodeAnimal.gridy = 2;
 		panelPrincipal.add(lblCodeAni, gbc_lblCodeAnimal);
 		
-		lblNomAni = new JLabel("Nom Animal");
+		lblNomAni = new JLabel(ani.getNomAnimal());
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
@@ -123,7 +141,7 @@ public class EcranDossierMedical extends JFrame{
 		gbc_lblNewLabel.gridy = 3;
 		panelPrincipal.add(lblNomAni, gbc_lblNewLabel);
 		
-		lblCouleurSexe = new JLabel("Couleur  Sexe");
+		lblCouleurSexe = new JLabel(ani.getCouleur() + "  " + ani.getSexe());
 		GridBagConstraints gbc_lblCouleurSexe = new GridBagConstraints();
 		gbc_lblCouleurSexe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblCouleurSexe.insets = new Insets(0, 0, 5, 5);
@@ -141,7 +159,7 @@ public class EcranDossierMedical extends JFrame{
 		gbc_textArea.gridy = 2;
 		panelPrincipal.add(textAreaNote, gbc_textArea);
 		
-		lblEspece = new JLabel("Espece");
+		lblEspece = new JLabel("Espece (à mettre)");
 		GridBagConstraints gbc_lblEspece = new GridBagConstraints();
 		gbc_lblEspece.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblEspece.insets = new Insets(0, 0, 5, 5);
@@ -149,7 +167,7 @@ public class EcranDossierMedical extends JFrame{
 		gbc_lblEspece.gridy = 5;
 		panelPrincipal.add(lblEspece, gbc_lblEspece);
 		
-		lblTatou = new JLabel("Tatouage");
+		lblTatou = new JLabel(ani.getTatouage());
 		GridBagConstraints gbc_lblTatouage = new GridBagConstraints();
 		gbc_lblTatouage.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblTatouage.insets = new Insets(0, 0, 5, 5);
