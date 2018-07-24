@@ -159,7 +159,6 @@ public class EcranPriseRendezVous extends JFrame {
 			try {
 				lesClients = clientsDAO.allClients();
 			} catch (DALException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (!lesClients.isEmpty()) {
@@ -176,7 +175,6 @@ public class EcranPriseRendezVous extends JFrame {
 			comboBxClients.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					System.out.print(comboBxClients.getSelectedIndex());
 					if (comboBxClients.getSelectedIndex() != 0) {
 						AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
 						try {

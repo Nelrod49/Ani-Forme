@@ -34,8 +34,8 @@ public class EcranDossierMedical extends JFrame{
 	private JLabel lblClient, lblNomCli;
 	private JLabel lblAnimal, lblNomAni, lblCodeAni, lblCouleurSexe, lblEspece, lblTatou;
 	JPanel panelPrincipal = new JPanel();
-	private Clients cli = new Clients();
-	private Animaux ani = new Animaux();
+	private Clients cli;
+	private Animaux ani;
 
 	public EcranDossierMedical() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +124,7 @@ public class EcranDossierMedical extends JFrame{
 		gbc_lblAnimalCode.gridy = 2;
 		panelPrincipal.add(lblAnimal, gbc_lblAnimalCode);
 		
-		lblCodeAni = new JLabel(ani.getCodeAnimal().toString());
+		lblCodeAni = new JLabel(ani.getCodeAnimal()+"");
 		GridBagConstraints gbc_lblCodeAnimal
 		= new GridBagConstraints();
 		gbc_lblCodeAnimal.anchor = GridBagConstraints.WEST;
