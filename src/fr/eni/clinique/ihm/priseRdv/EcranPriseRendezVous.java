@@ -67,12 +67,12 @@ public class EcranPriseRendezVous extends JFrame {
 	private ArrayList<ArrayList> lesRendezVous = new ArrayList<ArrayList>();
 	private ArrayList<Animaux> lesAnimaux = null;
 
-	public EcranPriseRendezVous(String titre) {
-		super(titre);
+	public EcranPriseRendezVous() {
 		this.setSize(new Dimension(1000, 600));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Prise de rendez-vous");
 		this.initIHM();
 	}
 

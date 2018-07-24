@@ -48,7 +48,7 @@ public class EcranAgendas extends JFrame {
 	private Personnels leVeterinaire;
 	
 	public EcranAgendas() {
-		this.setSize(new Dimension(1000, 600));
+		this.setBounds(400, 250, 1000, 600);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -3,6 +3,7 @@ package fr.eni.clinique.ihm;
 import javax.swing.SwingUtilities;
 
 import fr.eni.clinique.ihm.agendas.EcranAgendas;
+import fr.eni.clinique.ihm.agendas.EcranDossierMedical;
 import fr.eni.clinique.ihm.gestionPerso.EcranAjoutPerso;
 import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
 import fr.eni.clinique.ihm.login.EcranLogin;
@@ -17,7 +18,7 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranLogin ecranLogin = new EcranLogin();
+				EcranDossierMedical ecranLogin = new EcranDossierMedical();
 				ecranLogin.setVisible(true);
 			}
 		});
