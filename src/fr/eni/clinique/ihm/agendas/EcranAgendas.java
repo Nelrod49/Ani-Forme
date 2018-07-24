@@ -47,12 +47,12 @@ public class EcranAgendas extends JFrame {
 	private ArrayList<Personnels> lesPersonnels;
 	private Personnels leVeterinaire;
 	
-	public EcranAgendas(String titre/*,Personnels leVeterinaire*/) {
-		super(titre);
+	public EcranAgendas() {
 		this.setSize(new Dimension(1000, 600));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Agendas");
 		this.initIHM();
 		//leVeterinaire 
 	}
