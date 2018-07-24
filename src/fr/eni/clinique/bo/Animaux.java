@@ -6,24 +6,19 @@ public class Animaux {
 	private String nomAnimal;
 	private String sexe;
 	private String couleur;
-	private String race;
+	private int race;
 	private int codeClient;
 	private String tatouage;
 	private String antecedents;
-<<<<<<< HEAD
 	private boolean archive;
 	
-	//Constructeur
-	public Animaux(int code, String race) {
-=======
-	private int archive;
+
 
 	// Constructeur
 	public Animaux(int code, Races race, String espece) {
 	}
 
 	public Animaux(int code, int race) {
->>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
 		this.codeAnimal = code;
 		this.race = race;
 	}
@@ -31,13 +26,8 @@ public class Animaux {
 	public Animaux() {
 	}
 
-<<<<<<< HEAD
-	public Animaux(int code, String nomAnimal, String sexe, String couleur, String race,  int codeClient,
+	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race,  int codeClient,
 			String tatouage, String antecedent, boolean archive) {
-=======
-	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race, int codeClient, String tatouage,
-			String antecedent, int archive) {
->>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
 		this.codeAnimal = code;
 		this.nomAnimal = nomAnimal;
 		this.sexe = sexe;
@@ -82,15 +72,12 @@ public class Animaux {
 		this.couleur = couleur;
 	}
 
-	public String getRace() {
+	public int getRace() {
 		return race;
 	}
-<<<<<<< HEAD
-	public void setRace(String race) {
-=======
+
 
 	public void setRace(int race) {
->>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
 		this.race = race;
 	}
 
@@ -121,12 +108,9 @@ public class Animaux {
 	public boolean getArchive() {
 		return archive;
 	}
-<<<<<<< HEAD
-	public void setArchive(boolean archive) {
-=======
 
-	public void setArchive(int archive) {
->>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
+	public void setArchive(boolean archive) {
+
 		this.archive = archive;
 	}
 
