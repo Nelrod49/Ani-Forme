@@ -17,8 +17,9 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranAgendas ecranPrincipalGestion = new EcranAgendas("Les Rendez-vous");
+				EcranAgendas ecranPrincipalGestion = new EcranAgendas();
 				ecranPrincipalGestion.setVisible(true);
+
 			}
 		});
 	}

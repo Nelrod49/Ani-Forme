@@ -29,6 +29,7 @@ import java.awt.Dimension;
 import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.dal.jdbc.*;
+import fr.eni.clinique.ihm.agendas.EcranAgendas;
 import fr.eni.clinique.ihm.gestionPerso.EcranAjoutPerso;
 import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
 import fr.eni.clinique.ihm.gestionPerso.EcranRenitialiser;
@@ -52,8 +53,8 @@ public class EcranPrincipal extends JFrame {
 		JMenu mnFichiers = new JMenu("Fichier(s)");
 		mnFichiers.setAutoscrolls(true);
 		menuBar.add(mnFichiers);
-		
-		//Déconnexion
+
+		// Déconnexion
 		JMenuItem mntmDeconnexion = new JMenuItem("Deconnexion");
 		mntmDeconnexion.addActionListener(new ActionListener() {
 			@Override
@@ -62,8 +63,8 @@ public class EcranPrincipal extends JFrame {
 			}
 		});
 		mnFichiers.add(mntmDeconnexion);
-		
-		//Fermer
+
+		// Fermer
 		JMenuItem mntmFermer = new JMenuItem("Fermer");
 		mntmFermer.addActionListener(new ActionListener() {
 			@Override
@@ -72,8 +73,8 @@ public class EcranPrincipal extends JFrame {
 			}
 		});
 		mnFichiers.add(mntmFermer);
-		
-		
+
+		// SECRETAIRE
 		if (pers.equals("sec")) { // If sec then display all management
 									// appointment
 			JMenu mnGestionDesRendezvous = new JMenu("Gestion des Rendez-vous");
@@ -85,10 +86,29 @@ public class EcranPrincipal extends JFrame {
 			JMenuItem mntmNewMenuItem_1 = new JMenuItem("Gestion des clients");
 			mnGestionDesRendezvous.add(mntmNewMenuItem_1);
 		}
+		
+		// VETERINAIRE
 		if (pers.getRole().equals("vet")) { // If vet then display agenda
 			JMenu mnAgenda = new JMenu("Agenda");
+			mnAgenda.addMenuListener(new MenuListener() {
+				@Override
+				public void menuSelected(MenuEvent c) {
+					EcranPrincipal.this.fenetreAgendas();
+				}
+
+				@Override
+				public void menuCanceled(MenuEvent arg0) {
+					// TODO Auto-generated method stub
+				}
+				@Override
+				public void menuDeselected(MenuEvent arg0) {
+					// TODO Auto-generated method stub
+				}
+			});
 			menuBar.add(mnAgenda);
 		}
+		
+		// ADMINISTRATEUR
 		if (pers.getRole().equals("adm")) { // If adm then display the
 											// management of the user
 			JMenu mnGestionDuPersonnels = new JMenu("Gestion du Personnels");
@@ -105,13 +125,10 @@ public class EcranPrincipal extends JFrame {
 				@Override
 				public void menuCanceled(MenuEvent arg0) {
 					// TODO Auto-generated method stub
-
 				}
-
 				@Override
 				public void menuDeselected(MenuEvent arg0) {
 					// TODO Auto-generated method stub
-
 				}
 			}));
 			menuBar.add(mnGestionDuPersonnels);
@@ -136,11 +153,18 @@ public class EcranPrincipal extends JFrame {
 		PersonnelsDAOJdbcImpl p1 = new PersonnelsDAOJdbcImpl();
 
 	}
-	
+
 	// Retour à l'écran de login
 	public void fenetreLogin() {
 		EcranLogin retourLogin = new EcranLogin();
 		retourLogin.setVisible(true);
+		EcranPrincipal.this.dispose();
+	}
+
+	// Envoie à l'écran agendas
+	public void fenetreAgendas() {
+		EcranAgendas goToAgendas = new EcranAgendas();
+		goToAgendas.setVisible(true);
 		EcranPrincipal.this.dispose();
 	}
 
