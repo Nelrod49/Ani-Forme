@@ -17,7 +17,7 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranAgendas ecranPrincipalGestion = new EcranAgendas();
+				EcranPriseRendezVous ecranPrincipalGestion = new EcranPriseRendezVous("");
 				ecranPrincipalGestion.setVisible(true);
 
 			}

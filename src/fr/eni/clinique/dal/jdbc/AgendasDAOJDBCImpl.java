@@ -28,7 +28,7 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 				+" From Agendas as ag Inner Join Animaux as anm On ag.CodeAnimal = anm.CodeAnimal"
 				+" Inner Join Races as r On anm.CodeRace = r.CodeRace"
 				+" Inner Join Clients as c On anm.CodeClient = c.CodeClient "
-				+" Where CodeVeto = ? And DateRdv >  ? AND DateRdv < ?;";
+				+" Where CodeVeto = ? And DateRdv >  ? AND DateRdv < ? Order By ag.DateRdv;";
 	@Override
 	public ArrayList<ArrayList> getAllRdvVet(int CodeVet) {
 		Connection cnx = null;
