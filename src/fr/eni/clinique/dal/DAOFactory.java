@@ -1,10 +1,8 @@
 package fr.eni.clinique.dal;
 
-<<<<<<< HEAD
 
-=======
 import fr.eni.clinique.dal.jdbc.AgendasDAOJDBCImpl;
->>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
+
 import fr.eni.clinique.dal.jdbc.AnimauxDAOJDBCImpl;
 import fr.eni.clinique.dal.jdbc.ClientsDAOJdbcImpl;
 import fr.eni.clinique.dal.jdbc.PersonnelsDAOJdbcImpl;
@@ -28,16 +26,17 @@ public class DAOFactory {
 		AnimauxDAO dao = new AnimauxDAOJDBCImpl();
 		return dao;
 	}
-<<<<<<< HEAD
+
 
 	public static RacesDAO getRaceDAO() {
 		RacesDAO daoRaces = new RacesDAOJDBCImpl();
 		return daoRaces;
-=======
+}
+
 	
 	public static AgendasDAO getAgendasDAO(){
 		AgendasDAO dao = new AgendasDAOJDBCImpl();
 		return dao;
->>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
+
 	}
 }
