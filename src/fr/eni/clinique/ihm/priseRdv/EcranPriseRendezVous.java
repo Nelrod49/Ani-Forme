@@ -176,7 +176,8 @@ public class EcranPriseRendezVous extends JFrame {
 			comboBxClients.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if (comboBxClients.getSelectedIndex() != -1) {
+					System.out.print(comboBxClients.getSelectedIndex());
+					if (comboBxClients.getSelectedIndex() != 0) {
 						AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
 						try {
 							lesAnimaux = animauxDAO.getAnimauxClients(
@@ -200,6 +201,10 @@ public class EcranPriseRendezVous extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
+					}else{
+						String[] animaux = new String[1];
+						animaux[0] = "Choisissez un clients d'abord";
+						comboBxAnimaux.setModel(new DefaultComboBoxModel(animaux));
 					}
 				}
 			});

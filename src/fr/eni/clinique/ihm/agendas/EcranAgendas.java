@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -158,7 +159,7 @@ public class EcranAgendas extends JFrame {
 				resultat[0][2] = "Acune données";
 				resultat[0][3] = "Acune données";
 			/*}else{
-				
+				 refreshTable();
 			}*/			
 			tableRendezVous = new JTable(resultat, entetes);
 			TableColumnModel columnModel = tableRendezVous.getColumnModel();
@@ -200,9 +201,24 @@ public class EcranAgendas extends JFrame {
 			if (lesRendezVous.size() > 0) {
 				Object[][] resultat = new Object[lesRendezVous.size()][4];
 				int i = 0;
-				
+
+				final String OLD_FORMAT = "yyyy-MM-dd HH:mm:ss";
+				final String NEW_FORMAT = "HH:mm";	
 				while (i < lesRendezVous.size()) {
-					resultat[i][0] = lesRendezVous.get(i).get(2);
+					// Get just hours				
+					String oldDateString = (String) lesRendezVous.get(i).get(2);
+					String newDateString;
+					SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+					java.util.Date d = null;
+					try {
+						d = sdf.parse(oldDateString);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					sdf.applyPattern(NEW_FORMAT);
+					newDateString = sdf.format(d);
+					
+					resultat[i][0] = newDateString;
 					resultat[i][1] = lesRendezVous.get(i).get(3) + " " + lesRendezVous.get(i).get(4);
 					resultat[i][2] = lesRendezVous.get(i).get(5);
 					resultat[i][3] = lesRendezVous.get(i).get(6);
