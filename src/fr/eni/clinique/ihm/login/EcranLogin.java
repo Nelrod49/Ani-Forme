@@ -30,12 +30,12 @@ public class EcranLogin extends JFrame{
 	private JButton buttonLogin;
 	private JPanel panelPrincipal;
 	
-	public EcranLogin(String titre){
-		super(titre);
+	public EcranLogin(){
 		this.setSize(new Dimension(600,400));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setTitle("Login");
 		this.initIHM();
 	}
 	
@@ -105,9 +105,7 @@ public class EcranLogin extends JFrame{
 								//TODO Redirect to 
 								PersonnelsDAO personnelDAO = DAOFactory.getPersonnelsDAO();
 								p1 = personnelDAO.getAllData(p1);
-								System.out.println("Connection réussi");
-								//Renvoie vers fenetre GestionPers
-								
+								//Renvoie vers fenetre GestionPers	
 								
 								EcranPrincipal ecranPrincipal = new EcranPrincipal(p1);
 								ecranPrincipal.setVisible(true);

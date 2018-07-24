@@ -80,6 +80,7 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 		}
 		return resultat;
 	}
+<<<<<<< HEAD
 	
 	/**
 	 * Méthode d'insert d'un animal
@@ -147,6 +148,26 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 					
 						
 					
+=======
+	/**
+	 * {@inheritedDoc}
+	 * @see fr.eni.clinique.dal.AnimauxDAO#insertAnimaux(fr.eni.clinique.bo.Animaux)
+	 */
+	@Override
+	public void insertAnimaux(Animaux ani) throws DALException {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * {@inheritedDoc}
+	 * @see fr.eni.clinique.dal.AnimauxDAO#updateAnimaux(fr.eni.clinique.bo.Animaux)
+	 */
+	@Override
+	public void updateAnimaux(Animaux ani) throws DALException {
+		// TODO Auto-generated method stub
+		
+	}
+>>>>>>> 3470304118a2240b65232b72433cadcfbb28fa77
 
 }
 

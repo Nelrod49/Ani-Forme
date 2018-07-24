@@ -1,52 +1,55 @@
 package fr.eni.clinique.bo;
 
+import java.sql.Date;
 import java.util.List;
 
 public class Agendas {
 	
-	private List<RendezVous> listRdv;
-	RendezVous rdv = new RendezVous();
-	Personnels veto = new Personnels();
-	Clients cli = new Clients();
-	Animaux animal = new Animaux();
+	private int CodeAnimal;
+	private int CodeVeto;
+	private Date DateRdv;
+	
 	
 	//Constructeur
-	public Agendas(List<RendezVous> listRdv) {
-		super();
-		this.listRdv = listRdv;
-	}
+	/**
+	 * Constructeur vide d'Agendas
+	 */
 	public Agendas(){
-		super();
+	}
+	/**
+	 * Constructeur avec les trois paramètres
+	 * @param CodeVeto Code du vétérinaire
+	 * @param DateRdv Date du rendez-vous
+	 * @param CodeAnimal Code de l'animal
+	 */
+	public Agendas(int CodeVeto, Date DateRdv, int CodeAnimal){
+		this.CodeVeto = CodeVeto;
+		this.DateRdv = DateRdv;
+		this.CodeAnimal = CodeAnimal;
 	}
 	
-	
-	public void selectCilent(int codeClient){
-		cli.setCodeClient(codeClient);
-		rdv.setClient(cli);
+	//Getter and Setter
+	public void setCodeVeto(int CodeVeto){
+		this.CodeVeto = CodeVeto;
 	}
-	
-	public void selectVeto(int codeVeto){
-		veto.setCodePersonnel(codeVeto);
-		rdv.setVeto(veto);
+	public int getCodeVeto(){
+		return this.CodeVeto;
 	}
-	
-	public void selectAnimal(int codeAnimal){
-		animal.setCodeAnimal(codeAnimal);
-		rdv.setAnimal(animal);
+	public void setDateRdv(Date DateRdv){
+		this.DateRdv = DateRdv;
 	}
-	
-	public void selectHeure(){
-		
+	public Date getDateRdv(){
+		return this.DateRdv;
 	}
-	
-	public void addRdv(Clients cli, Animaux animal){
-		RendezVous rdv = new RendezVous(cli.getNomClient(), animal.getNomAnimal());
-		//listRdv.add(rdv);
+	public void setCodeAnimal(int CodeAnimal){
+		this.CodeAnimal = CodeAnimal;
+	}
+	public int getCodeAnimal(){
+		return CodeAnimal;
 	}
 	@Override
 	public String toString() {
-		return "Agendas [listRdv=" + listRdv + ", rdv=" + rdv + ", veto=" + veto + ", cli=" + cli + ", animal=" + animal
-				+ "]";
+		return "Agendas [CodeVeto=" + CodeVeto + ", DateRdv=" + DateRdv + ", CodeAnimal=" + CodeAnimal + "]";
 	}
 	
 	

@@ -13,12 +13,14 @@ import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 
-public class ClientsDAOJDBCImpl implements ClientsDAO{
+public class ClientsDAOJdbcImpl implements ClientsDAO{
 	
 	/*Constantes*/
 	private static String SQL_GETALLCLIENTS_CLIENTS = "Select * from Clients where Archive = 0;";
 	private static final String INSERT_CLIENTS = "INSERT INTO Clients (NomClient, PrenomClient, Adresse1, Adresse2, CodePostal, Ville, NumTel, Assurance, Email, Remarque, Archive) values(?,?,?,?,?,?,?,?,?,?,?);";
-	
+	private static String SQL_GETALLCLIENTSPRENOMNOM_CLIENTS = "Select * from Clients where Archive = 0 AND " + 
+	" NomClient LIKE ? OR PrenomClient LIKE ?";
+
 	@Override
 	public ArrayList<Clients> allClients() throws DALException {
 
@@ -154,7 +156,70 @@ public class ClientsDAOJDBCImpl implements ClientsDAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
-		
+	
+	
+	@Override
+	public ArrayList<Clients> allClientsNomPrenom(String nomPrenom) throws DALException {
+
+		ArrayList<Clients> resultat = new ArrayList<Clients>();
+		Connection cnx = null;
+		boolean reponse = false;
+		try {
+			cnx = JdbcTools.getConnection();			
+		}catch(SQLException e1){
+			e1.printStackTrace();
 		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+		
+		try{
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_GETALLCLIENTSPRENOMNOM_CLIENTS, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setString(1, '%' +  nomPrenom + '%');
+			commandeParemetree.setString(2,'%' +  nomPrenom + '%');
+		}catch(SQLException sqle){
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		ResultSet resultatDeLaRequete = null;
+		try{
+			resultatDeLaRequete = commandeParemetree.executeQuery();
+		}catch(SQLException e){
+			System.err.println("Impossible d'éxecuter la requête");
+			e.printStackTrace();
+		}
+		try {
+			while(resultatDeLaRequete.next()){
+				Clients pers = new Clients(
+						resultatDeLaRequete.getInt("CodeClient"),
+						resultatDeLaRequete.getString("NomClient"),
+						resultatDeLaRequete.getString("PrenomClient"),
+						resultatDeLaRequete.getString("Adresse1"),
+						resultatDeLaRequete.getString("Adresse2"),
+						resultatDeLaRequete.getString("CodePostal"),
+						resultatDeLaRequete.getString("Ville"),
+						resultatDeLaRequete.getString("NumTel"),
+						resultatDeLaRequete.getString("Assurance"),
+						resultatDeLaRequete.getString("Email"),
+						resultatDeLaRequete.getString("Remarque"));
+				resultat.add(pers);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try{
+			if(cnx != null){
+				cnx.close();
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return resultat;
+	}
+	
+		
+}
 
 
