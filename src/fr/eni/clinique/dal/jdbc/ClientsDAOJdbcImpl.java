@@ -18,8 +18,8 @@ public class ClientsDAOJdbcImpl implements ClientsDAO{
 	/*Constantes*/
 	private static String SQL_GETALLCLIENTS_CLIENTS = "Select * from Clients where Archive = 0;";
 	private static final String INSERT_CLIENTS = "INSERT INTO Clients (NomClient, PrenomClient, Adresse1, Adresse2, CodePostal, Ville, NumTel, Assurance, Email, Remarque, Archive) values(?,?,?,?,?,?,?,?,?,?,?);";
-	private static String SQL_GETALLCLIENTSPRENOMNOM_CLIENTS = "Select * from Clients where Archive = 0 AND " + 
-	" NomClient LIKE ? OR PrenomClient LIKE ?";
+	private static String SQL_GETALLCLIENTSPRENOMNOM_CLIENTS = "Select * from Clients where Archive = 0 AND  NomClient LIKE ? OR " + 
+	" Archive = 0 AND PrenomClient LIKE ?";
 	static String SQL_DELETE_CLIENT = "Update Clients SET Archive = 1 Where CodeClient = ?;";
 
 	@Override
