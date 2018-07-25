@@ -27,6 +27,7 @@ import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
+import fr.eni.clinique.ihm.gestionAnimal.EcranAnimal;
 import fr.eni.clinique.ihm.login.EcranPrincipal;
 import java.awt.Insets;
 
@@ -101,6 +102,15 @@ public class EcranGestionClients extends JFrame {
 		panelGestionClients.add(btnRechercher, gbc_btnRechercher);
 
 		JButton buttonAjouterClient = new JButton("Ajouter");
+		buttonAjouterClient.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EcranAjouterClient ecranAjouterClient = new EcranAjouterClient();
+				ecranAjouterClient.setVisible(true);
+				EcranGestionClients.this.dispose();
+
+			}
+		});
 		GridBagConstraints gbc_btnAjouter = new GridBagConstraints();
 		gbc_btnAjouter.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAjouter.gridx = 3;
@@ -279,6 +289,18 @@ public class EcranGestionClients extends JFrame {
 		textFieldVille.setColumns(10);
 
 		JButton btnAjouterAnimaux = new JButton("Ajouter");
+		//TODO Relier à l'écran animal
+		/*
+		btnAjouterAnimaux.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EcranAnimal ecranAnimal = new EcranAnimal();
+				ecranAnimal.setVisible(true);
+				EcranGestionClients.this.dispose();
+
+			}
+		});
+		*/
 		GridBagConstraints gbc_btnAjouter_1 = new GridBagConstraints();
 		gbc_btnAjouter_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAjouter_1.gridx = 6;
@@ -316,6 +338,18 @@ public class EcranGestionClients extends JFrame {
 		panelGestionClients.add(btnSupprimerAnimaux, gbc_btnSupprimer_1);
 
 		JButton btnEditerAnimaux = new JButton("\u00C9diter");
+		//TODO Relier à l'écran animal
+				/*
+				btnEditerAnimaux.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						EcranAnimal ecranAnimal = new EcranAnimal();
+						ecranAnimal.setVisible(true);
+						EcranGestionClients.this.dispose();
+
+					}
+				});
+				*/
 		GridBagConstraints gbc_btnditer = new GridBagConstraints();
 		gbc_btnditer.insets = new Insets(0, 0, 0, 5);
 		gbc_btnditer.gridx = 8;
