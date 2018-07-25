@@ -12,4 +12,5 @@ public interface AnimauxDAO {
 	public void insertAnimaux(Animaux ani) throws DALException;
 	public void updateAnimaux(Animaux ani)throws DALException;
 	public ArrayList<ArrayList> getAnimauxClientsRaces(int client) throws DALException;  
+	public void delete(int CodeAnimal) throws DALException;
 }

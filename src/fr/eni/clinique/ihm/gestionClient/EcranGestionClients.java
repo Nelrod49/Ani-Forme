@@ -5,11 +5,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -19,6 +22,7 @@ import javax.swing.table.TableColumnModel;
 
 import fr.eni.clinique.bo.Animaux;
 import fr.eni.clinique.bo.Clients;
+import fr.eni.clinique.dal.AgendasDAO;
 import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
@@ -131,56 +135,12 @@ public class EcranGestionClients extends JFrame {
 		
 		
 		
-		Object[][] resultat;
-		if (null == leClient) {
-			resultat = new Object[1][7];
-			resultat[0][0] = "Acune données";
-			resultat[0][1] = "Acune données";
-			resultat[0][2] = "Acune données";
-			resultat[0][3] = "Acune données";
-			resultat[0][4] = "Acune données";
-			resultat[0][5] = "Acune données";
-			resultat[0][6] = "Acune données";
-		} else {
-			AnimauxDAO animauxDAO = new DAOFactory().getAnimauxDAO();
-			try {
-				lesAnimaux = animauxDAO.getAnimauxClientsRaces(leClient.getCodeClient());
-			} catch (DALException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if (!lesAnimaux.isEmpty()) {
-				int i = 0;
-				resultat = new Object[lesAnimaux.size()][7];
-				while(i < lesAnimaux.size()) {
-					resultat[i][0] = lesAnimaux.get(i).get(0);
-					resultat[i][1] = lesAnimaux.get(i).get(1);
-					resultat[i][2] = lesAnimaux.get(i).get(2);
-					resultat[i][3] = lesAnimaux.get(i).get(3);
-					resultat[i][4] = lesAnimaux.get(i).get(4);
-					resultat[i][5] = lesAnimaux.get(i).get(5);
-					resultat[i][6] = lesAnimaux.get(i).get(6);
-					i++;
-				}
-			} else {
-				resultat = new Object[1][7];
-				resultat[0][0] = "Acune données";
-				resultat[0][1] = "Acune données";
-				resultat[0][2] = "Acune données";
-				resultat[0][3] = "Acune données";
-				resultat[0][4] = "Acune données";
-				resultat[0][5] = "Acune données";
-				resultat[0][6] = "Acune données";
-			}
-
-		}
-		String[] entetes = { "Numéro", "Nom", "Sexe", "Couleur", "Race", "Espèce", "Tatouage" };
 		tableAnimaux = new JTable() {
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		tableAnimaux.setModel(new DefaultTableModel(resultat, entetes));
+		refreshTable();
 		GridBagConstraints gbc_tableAnimaux = new GridBagConstraints();
 		gbc_tableAnimaux.insets = new Insets(0, 0, 5, 5);
 		gbc_tableAnimaux.gridwidth = 6;
@@ -311,6 +271,28 @@ public class EcranGestionClients extends JFrame {
 		panelGestionClients.add(btnAjouterAnimaux, gbc_btnAjouter_1);
 
 		JButton btnSupprimerAnimaux = new JButton("Supprimer");
+		btnSupprimerAnimaux.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (tableAnimaux.getSelectedRow() == -1) {
+					JOptionPane d = new JOptionPane();
+					d.showMessageDialog(panelGestionClients, "Vous devez selectionnez un animal.",
+							"Attention", JOptionPane.WARNING_MESSAGE);
+				} else {
+					AnimauxDAO animauxDAO = new DAOFactory().getAnimauxDAO();
+					try {
+						animauxDAO.delete(Integer.parseInt((String) lesAnimaux.get(tableAnimaux.getSelectedRow()).get(0)));
+					} catch (DALException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					refreshTable();
+				}
+
+			}
+		});
 		GridBagConstraints gbc_btnSupprimer_1 = new GridBagConstraints();
 		gbc_btnSupprimer_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSupprimer_1.gridx = 7;
@@ -323,5 +305,55 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnditer.gridx = 8;
 		gbc_btnditer.gridy = 10;
 		panelGestionClients.add(btnEditerAnimaux, gbc_btnditer);
+	}
+	
+	private void refreshTable(){
+
+		Object[][] resultat;
+		if (null == leClient) {
+			resultat = new Object[1][7];
+			resultat[0][0] = "Acune données";
+			resultat[0][1] = "Acune données";
+			resultat[0][2] = "Acune données";
+			resultat[0][3] = "Acune données";
+			resultat[0][4] = "Acune données";
+			resultat[0][5] = "Acune données";
+			resultat[0][6] = "Acune données";
+		} else {
+			AnimauxDAO animauxDAO = new DAOFactory().getAnimauxDAO();
+			try {
+				lesAnimaux = animauxDAO.getAnimauxClientsRaces(leClient.getCodeClient());
+			} catch (DALException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if (!lesAnimaux.isEmpty()) {
+				int i = 0;
+				resultat = new Object[lesAnimaux.size()][7];
+				while(i < lesAnimaux.size()) {
+					resultat[i][0] = lesAnimaux.get(i).get(0);
+					resultat[i][1] = lesAnimaux.get(i).get(1);
+					resultat[i][2] = lesAnimaux.get(i).get(2);
+					resultat[i][3] = lesAnimaux.get(i).get(3);
+					resultat[i][4] = lesAnimaux.get(i).get(4);
+					resultat[i][5] = lesAnimaux.get(i).get(5);
+					resultat[i][6] = lesAnimaux.get(i).get(6);
+					i++;
+				}
+			} else {
+				resultat = new Object[1][7];
+				resultat[0][0] = "Acune données";
+				resultat[0][1] = "Acune données";
+				resultat[0][2] = "Acune données";
+				resultat[0][3] = "Acune données";
+				resultat[0][4] = "Acune données";
+				resultat[0][5] = "Acune données";
+				resultat[0][6] = "Acune données";
+			}
+
+		}
+		String[] entetes = { "Numéro", "Nom", "Sexe", "Couleur", "Race", "Espèce", "Tatouage" };
+		tableAnimaux.setModel(new DefaultTableModel(resultat, entetes));
+
 	}
 }

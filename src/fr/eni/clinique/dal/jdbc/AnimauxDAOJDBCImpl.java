@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import fr.eni.clinique.bo.Animaux;
 import fr.eni.clinique.bo.Clients;
+import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.DALException;
 
@@ -26,6 +27,7 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 			+ " FROM Animaux as a Inner Join Races as r On a.CodeRace = r.CodeRace "
 			+ " Inner Join Espece as e On r.CodeEspece = e.CodeEspece Where CodeClient = ? and Archive = 0;";
 
+	static String SQL_DELETE_ANIMAUX = "Update Animaux SET Archive = 1 Where CodeAnimal = ?;";
 	@Override
 	public ArrayList<Animaux> getAnimauxClients(int client) throws DALException {
 		// TODO Auto-generated method stub
@@ -240,5 +242,41 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 			e.printStackTrace();
 		}
 		return resultat;
+	}
+	
+	@Override
+	public void delete(int CodeAnimal) throws DALException {
+		Connection cnx = null;
+		try {
+			cnx = JdbcTools.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+
+		try {
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_DELETE_ANIMAUX, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setInt(1, CodeAnimal);
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		try {
+			commandeParemetree.executeUpdate();
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+
+		try {
+			if (cnx != null) {
+				cnx.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
