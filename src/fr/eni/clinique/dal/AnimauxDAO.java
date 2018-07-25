@@ -11,4 +11,5 @@ public interface AnimauxDAO {
 	//Méthode pour l'ajou d'un animal client et la modification d'un de ses animal
 	public void insertAnimaux(Animaux ani) throws DALException;
 	public void updateAnimaux(Animaux ani)throws DALException;
+	public ArrayList<ArrayList> getAnimauxClientsRaces(int client) throws DALException;  
 }
