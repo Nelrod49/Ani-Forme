@@ -60,7 +60,7 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 						resultatDeLaRequete.getString("NomAnimal"),
 						resultatDeLaRequete.getString("Sexe"),
 						resultatDeLaRequete.getString("Couleur"),
-						resultatDeLaRequete.getString("Race"),
+						resultatDeLaRequete.getInt("CodeRace"),
 						resultatDeLaRequete.getInt("CodeClient"),
 						resultatDeLaRequete.getString("Tatouage"),
 						resultatDeLaRequete.getString("Antecedents"),
@@ -108,7 +108,7 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 						prestmt.setString(2, ani.getSexe());
 						prestmt.setString(3, ani.getCouleur());
 						/*TODO voir exemple EcranPrise rendez-vous fait par Nelson*/
-						prestmt.setString(4, ani.getRace());
+						prestmt.setInt(4, ani.getRace());
 						prestmt.setInt(5, ani.getCodeClient());
 						prestmt.setString(6, ani.getTatouage());
 						prestmt.setBoolean(7, ani.getArchive());
@@ -173,7 +173,7 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 					prestmt.setString(2, ani.getSexe());
 					prestmt.setString(3, ani.getCouleur());
 					/*TODO voir exemple EcranPrise rendez-vous fait par Nelson*/
-					prestmt.setString(4, ani.getRace());
+					prestmt.setInt(4, ani.getRace());
 					prestmt.setString(6, ani.getTatouage());
 				}catch(SQLException sqle){
 					System.err.println("Impossible d'éxecuter la requête d'update d'un animal");

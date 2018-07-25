@@ -35,14 +35,17 @@ import fr.eni.clinique.bo.Agendas;
 import fr.eni.clinique.bo.Animaux;
 import fr.eni.clinique.bo.Clients;
 import fr.eni.clinique.bo.Personnels;
+import fr.eni.clinique.bo.Races;
 import fr.eni.clinique.dal.AgendasDAO;
 import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
+import fr.eni.clinique.dal.RacesDAO;
 import fr.eni.clinique.ihm.DateLabelFormatter;
 import fr.eni.clinique.ihm.login.EcranPrincipal;
+import fr.eni.clinique.ihm.priseRdv.EcranPriseRendezVous;
 
 public class EcranAgendas extends JFrame {
 	private JPanel panelAgendas;
@@ -55,6 +58,7 @@ public class EcranAgendas extends JFrame {
 	private Personnels leVeterinaire;
 	private Clients cli;
 	private Animaux ani;
+	private Races espece;
 
 	public EcranAgendas() {
 		this.setBounds(400, 250, 1000, 600);
@@ -132,7 +136,7 @@ public class EcranAgendas extends JFrame {
 						if (leVeterinaire.getNom() == lesPersonnels.get(i).getNom()) {
 							comboBxPersonnels.addItem(lesPersonnels.get(i).getNom());
 							leConnecter = i + i;
-						} 
+						}
 					} else {
 						comboBxPersonnels.addItem(lesPersonnels.get(i).getNom());
 						i = i + 1;
@@ -287,7 +291,7 @@ public class EcranAgendas extends JFrame {
 		}
 	}
 
-	//Bouton Dossier Medic
+	// Bouton Dossier Medic
 	public JButton getDossierMedic() {
 		if (dossierMedic == null) {
 			dossierMedic = new JButton("Dossier Médical");
@@ -295,16 +299,61 @@ public class EcranAgendas extends JFrame {
 		dossierMedic.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent a) {
-				
-				EcranAgendas.this.fntrDossierMedic();
+				// getSelectedRow()
+				// EcranPriseRendezVous rdv = new EcranPriseRendezVous();
+				ClientsDAO clientsDAO = DAOFactory.getClientsDAO();
+				AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
+				RacesDAO racesDAO = new DAOFactory().getRaceDAO();
+				JOptionPane display = new JOptionPane();
+				AgendasDAO agendasDAO = DAOFactory.getAgendasDAO();
+
+				if (comboBxPersonnels.getSelectedIndex() == 0) {
+					display.showMessageDialog(panelAgendas, "Veuillez sélectionnez un vétérinaire", "Attention",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					if (datePickerRendezVous.getJFormattedTextField().getText().isEmpty()) {
+						display.showMessageDialog(panelAgendas, "Veuillez sélectionnez une date ", "Attention",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						int ligne = tableRendezVous.getSelectedRow();
+						int colonne = tableRendezVous.getSelectedColumn();
+						if (!tableRendezVous.getValueAt(ligne, colonne).equals("Aucune données")) {
+							System.out.println("valide");
+							try {
+								cli = clientsDAO.getClient(tableRendezVous.getValueAt(ligne, 1).toString());
+								System.out.println(cli);
+							} catch (DALException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							try {
+								ani = animauxDAO.getAnimauxClients(cli.getCodeClient()).get(0);
+							} catch (DALException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							try {
+								espece = racesDAO.allRaces().get(0);
+							} catch (DALException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							EcranAgendas.this.fntrDossierMedic();
+						} else {
+							display.showMessageDialog(panelAgendas, "Veuillez sélectionner un rendez-vous valide",
+									"Attention", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+				}
 			}
 		});
 		return dossierMedic;
+
 	}
-	
-	//Envoie à l'écran Dossier Medic
+
+	// Envoie à l'écran Dossier Medic
 	public void fntrDossierMedic() {
-		EcranDossierMedical goToDossierMedic = new EcranDossierMedical(cli, ani);
+		EcranDossierMedical goToDossierMedic = new EcranDossierMedical(cli, ani, espece);
 		goToDossierMedic.setVisible(true);
 		EcranAgendas.this.dispose();
 	}

@@ -302,10 +302,10 @@ public class EcranPriseRendezVous extends JFrame {
 		if (null == tableRendezVous) {
 			String[] entetes = { "Heure", "Nom du Client", "Animal", "Espèce" };
 			Object[][] resultat = new Object[1][5];
-			resultat[0][0] = "Acune données";
-			resultat[0][1] = "Acune données";
-			resultat[0][2] = "Acune données";
-			resultat[0][3] = "Acune données";
+			resultat[0][0] = "Aucune données";
+			resultat[0][1] = "Aucune données";
+			resultat[0][2] = "Aucune données";
+			resultat[0][3] = "Aucune données";
 			tableRendezVous = new JTable(resultat, entetes);
 			TableColumnModel columnModel = tableRendezVous.getColumnModel();
 			tableRendezVous.setPreferredSize(new Dimension(600, 200));
@@ -469,10 +469,10 @@ public class EcranPriseRendezVous extends JFrame {
 				columnModel.getColumn(3).setPreferredWidth(150);
 			} else {
 				Object[][] resultat = new Object[1][5];
-				resultat[0][0] = "Acune données";
-				resultat[0][1] = "Acune données";
-				resultat[0][2] = "Acune données";
-				resultat[0][3] = "Acune données";
+				resultat[0][0] = "Aucune données";
+				resultat[0][1] = "Aucune données";
+				resultat[0][2] = "Aucune données";
+				resultat[0][3] = "Aucune données";
 				String[] entetes = { "Heure", "Nom du Client", "Animal", "Espèce" };
 				tableRendezVous.setModel(new DefaultTableModel(resultat, entetes));
 				TableColumnModel columnModel = tableRendezVous.getColumnModel();
@@ -483,10 +483,10 @@ public class EcranPriseRendezVous extends JFrame {
 			}
 		} else {
 			Object[][] resultat = new Object[1][5];
-			resultat[0][0] = "Acune données";
-			resultat[0][1] = "Acune données";
-			resultat[0][2] = "Acune données";
-			resultat[0][3] = "Acune données";
+			resultat[0][0] = "Aucune données";
+			resultat[0][1] = "Aucune données";
+			resultat[0][2] = "Aucune données";
+			resultat[0][3] = "Aucune données";
 			String[] entetes = { "Heure", "Nom du Client", "Animal", "Espèce" };
 			tableRendezVous.setModel(new DefaultTableModel(resultat, entetes));
 			TableColumnModel columnModel = tableRendezVous.getColumnModel();
@@ -495,5 +495,10 @@ public class EcranPriseRendezVous extends JFrame {
 			columnModel.getColumn(2).setPreferredWidth(150);
 			columnModel.getColumn(3).setPreferredWidth(150);
 		}
+	}
+	
+	//Getter liste animaux
+	public ArrayList<Animaux> getLesAnimaux() {
+		return lesAnimaux;
 	}
 }

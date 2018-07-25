@@ -36,6 +36,7 @@ public class EcranDossierMedical extends JFrame{
 	JPanel panelPrincipal = new JPanel();
 	private Clients cli;
 	private Animaux ani;
+	private Races espece;
 
 	public EcranDossierMedical() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,7 +47,7 @@ public class EcranDossierMedical extends JFrame{
 		this.initIhm();
 	}
 	
-	public EcranDossierMedical(Clients cli, Animaux ani) {
+	public EcranDossierMedical(Clients cli, Animaux ani, Races espece) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -55,6 +56,7 @@ public class EcranDossierMedical extends JFrame{
 		this.initIhm();
 		this.cli = cli;
 		this.ani = ani;
+		this.espece = espece;
 	}
 	
 	public void initIhm() {

@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -148,14 +149,6 @@ public class ClientsDAOJdbcImpl implements ClientsDAO{
 				
 		}
 
-
-
-	@Override
-	public boolean ajouterClient(String NomClient, String PrenomClient, String Adress1, Integer CodePostal,
-			String Ville) throws DALException {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 	@Override
@@ -217,6 +210,41 @@ public class ClientsDAOJdbcImpl implements ClientsDAO{
 			e.printStackTrace();
 		}
 		return resultat;
+	}
+
+
+
+	/**
+	 * {@inheritedDoc}
+	 * @see fr.eni.clinique.dal.ClientsDAO#getClient(java.lang.String)
+	 */
+	@Override
+	public Clients getClient(String nomCli) throws DALException {
+		Clients client = null;
+		
+		Connection cnx = null;
+		try { 
+			cnx = JdbcTools.getConnection();
+		}catch (SQLException e1){
+			e1.printStackTrace();
+		}
+		Statement stmt = null;
+		ResultSet rslt = null;
+		
+		try{
+			//Ma requete préparé
+			stmt = cnx.createStatement();
+			/*retourne les clés autogénéré par le statement*/
+			rslt = stmt.executeQuery("SELECT nomCli FROM Clients");
+			rslt.getString("nomClients");
+			
+			
+		}catch(SQLException sqle){
+			System.err.println("Impossible de préparer la requête d'insertion d'un client");
+			sqle.printStackTrace();
+		}
+		
+		return client;
 	}
 	
 		

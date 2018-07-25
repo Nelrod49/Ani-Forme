@@ -3,11 +3,9 @@ package fr.eni.clinique.ihm;
 import javax.swing.SwingUtilities;
 
 import fr.eni.clinique.ihm.agendas.EcranAgendas;
-<<<<<<< HEAD
 import fr.eni.clinique.ihm.agendas.EcranDossierMedical;
-=======
+import fr.eni.clinique.ihm.gestionAnimal.EcranAnimal;
 import fr.eni.clinique.ihm.gestionClient.EcranGestionClients;
->>>>>>> 74333e0770e11029869a3a2fa4d21c19ada6fc20
 import fr.eni.clinique.ihm.gestionPerso.EcranAjoutPerso;
 import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
 import fr.eni.clinique.ihm.login.EcranGestionPersonnel;
@@ -23,14 +21,9 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-<<<<<<< HEAD
-				EcranDossierMedical ecranLogin = new EcranDossierMedical();
+				EcranAgendas ecranLogin = new EcranAgendas();
 				ecranLogin.setVisible(true);
-=======
-				EcranGestionClients ecranPrincipalGestion = new EcranGestionClients();
-				ecranPrincipalGestion.setVisible(true);
 
->>>>>>> 74333e0770e11029869a3a2fa4d21c19ada6fc20
 			}
 		});
 	}
