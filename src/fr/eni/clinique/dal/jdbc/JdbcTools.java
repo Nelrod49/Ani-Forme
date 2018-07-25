@@ -16,7 +16,7 @@ public class JdbcTools{
 	}*/
 	static{
 		try{
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Class.forName(Settings.getProperty("driverdb"));
 		}catch(ClassNotFoundException e){
 			e.printStackTrace();
 		}
@@ -29,7 +29,7 @@ public class JdbcTools{
 				urldb, Settings.getProperty("userdb"), 
 				Settings.getProperty("passwordddb")
 				);*/
-		String urldb = "jdbc:sqlserver://localhost;databaseName=clinique;";
+		String urldb = Settings.getProperty("urldb");
 		connection = DriverManager.getConnection(
 				urldb,"sa", 
 				"Pa$$w0rd"

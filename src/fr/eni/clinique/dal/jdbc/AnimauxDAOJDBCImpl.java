@@ -61,10 +61,14 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 		try {
 			while (resultatDeLaRequete.next()) {
 				Animaux animal = new Animaux(resultatDeLaRequete.getInt("CodeAnimal"),
-						resultatDeLaRequete.getString("NomAnimal"), resultatDeLaRequete.getString("Sexe"),
-						resultatDeLaRequete.getString("Couleur"), resultatDeLaRequete.getInt("Race"),
-						resultatDeLaRequete.getInt("CodeClient"), resultatDeLaRequete.getString("Tatouage"),
-						resultatDeLaRequete.getString("Antecedents"), resultatDeLaRequete.getBoolean("Archive"));
+						resultatDeLaRequete.getString("NomAnimal"), 
+						resultatDeLaRequete.getString("Sexe"),
+						resultatDeLaRequete.getString("Couleur"),
+						resultatDeLaRequete.getInt("Race"),
+						resultatDeLaRequete.getInt("CodeClient"),
+						resultatDeLaRequete.getString("Tatouage"),
+						resultatDeLaRequete.getString("Antecedents"),
+						resultatDeLaRequete.getBoolean("Archive"));
 				resultat.add(animal);
 			}
 		} catch (SQLException e1) {
