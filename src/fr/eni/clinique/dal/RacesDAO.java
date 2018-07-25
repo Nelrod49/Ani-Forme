@@ -8,4 +8,6 @@ public interface RacesDAO {
 
 	//Méthode pour l'affichage de toutes les races pour ma comboboxRace
 	public ArrayList<Races> allRaces() throws DALException;
+
+	public ArrayList<Races> getRaceEspeces(int codeEspece) throws DALException;
 }
