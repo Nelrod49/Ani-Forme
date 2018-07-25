@@ -18,8 +18,9 @@ public class ClientsDAOJdbcImpl implements ClientsDAO{
 	/*Constantes*/
 	private static String SQL_GETALLCLIENTS_CLIENTS = "Select * from Clients where Archive = 0;";
 	private static final String INSERT_CLIENTS = "INSERT INTO Clients (NomClient, PrenomClient, Adresse1, Adresse2, CodePostal, Ville, NumTel, Assurance, Email, Remarque, Archive) values(?,?,?,?,?,?,?,?,?,?,?);";
-	private static String SQL_GETALLCLIENTSPRENOMNOM_CLIENTS = "Select * from Clients where Archive = 0 AND " + 
-	" NomClient LIKE ? OR PrenomClient LIKE ?";
+	private static String SQL_GETALLCLIENTSPRENOMNOM_CLIENTS = "Select * from Clients where Archive = 0 AND  NomClient LIKE ? OR " + 
+	" Archive = 0 AND PrenomClient LIKE ?";
+	static String SQL_DELETE_CLIENT = "Update Clients SET Archive = 1 Where CodeClient = ?;";
 
 	@Override
 	public ArrayList<Clients> allClients() throws DALException {
@@ -219,6 +220,41 @@ public class ClientsDAOJdbcImpl implements ClientsDAO{
 		return resultat;
 	}
 	
+	@Override
+	public void delete(int CodeClient) throws DALException {
+		Connection cnx = null;
+		try {
+			cnx = JdbcTools.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		Statement commande = null;
+		PreparedStatement commandeParemetree = null;
+		CallableStatement appelProcedureStockee = null;
+
+		try {
+			commande = cnx.createStatement();
+			commandeParemetree = cnx.prepareStatement(SQL_DELETE_CLIENT, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree.setInt(1, CodeClient);
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+		try {
+			commandeParemetree.executeUpdate();
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'éxecuter la requête");
+			sqle.printStackTrace();
+		}
+
+		try {
+			if (cnx != null) {
+				cnx.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 		
 }
 

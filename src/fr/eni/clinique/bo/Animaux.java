@@ -2,7 +2,7 @@ package fr.eni.clinique.bo;
 
 public class Animaux {
 
-	private int codeAnimal;
+	private Integer codeAnimal;
 	private String nomAnimal;
 	private String sexe;
 	private String couleur;
@@ -40,11 +40,11 @@ public class Animaux {
 	}
 
 	// Getter et Setter
-	public int getCodeAnimal() {
+	public Integer getCodeAnimal() {
 		return codeAnimal;
 	}
 
-	public void setCodeAnimal(int codeAnimal) {
+	public void setCodeAnimal(Integer codeAnimal) {
 		this.codeAnimal = codeAnimal;
 	}
 

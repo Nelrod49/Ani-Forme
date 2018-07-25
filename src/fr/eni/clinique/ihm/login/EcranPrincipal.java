@@ -163,7 +163,7 @@ public class EcranPrincipal extends JFrame {
 
 	// Envoie à l'écran agendas
 	public void fenetreAgendas() {
-		EcranAgendas goToAgendas = new EcranAgendas();
+		EcranAgendas goToAgendas = new EcranAgendas(pers);
 		goToAgendas.setVisible(true);
 		EcranPrincipal.this.dispose();
 	}

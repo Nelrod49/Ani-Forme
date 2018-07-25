@@ -3,6 +3,7 @@ package fr.eni.clinique.ihm;
 import javax.swing.SwingUtilities;
 
 import fr.eni.clinique.ihm.agendas.EcranAgendas;
+import fr.eni.clinique.ihm.agendas.EcranDossierMedical;
 import fr.eni.clinique.ihm.gestionClient.EcranGestionClients;
 import fr.eni.clinique.ihm.gestionPerso.EcranAjoutPerso;
 import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
@@ -21,7 +22,6 @@ public class DemoApp {
 
 				EcranGestionClients ecranPrincipalGestion = new EcranGestionClients();
 				ecranPrincipalGestion.setVisible(true);
-
 			}
 		});
 	}
