@@ -2,7 +2,7 @@ package fr.eni.clinique.bo;
 
 public class Animaux {
 
-	private int codeAnimal;
+	private Integer codeAnimal;
 	private String nomAnimal;
 	private String sexe;
 	private String couleur;
@@ -10,7 +10,9 @@ public class Animaux {
 	private int codeClient;
 	private String tatouage;
 	private String antecedents;
-	private int archive;
+	private boolean archive;
+	
+
 
 	// Constructeur
 	public Animaux(int code, Races race, String espece) {
@@ -24,8 +26,8 @@ public class Animaux {
 	public Animaux() {
 	}
 
-	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race, int codeClient, String tatouage,
-			String antecedent, int archive) {
+	public Animaux(int code, String nomAnimal, String sexe, String couleur, int race,  int codeClient,
+			String tatouage, String antecedent, boolean archive) {
 		this.codeAnimal = code;
 		this.nomAnimal = nomAnimal;
 		this.sexe = sexe;
@@ -38,11 +40,11 @@ public class Animaux {
 	}
 
 	// Getter et Setter
-	public int getCodeAnimal() {
+	public Integer getCodeAnimal() {
 		return codeAnimal;
 	}
 
-	public void setCodeAnimal(int codeAnimal) {
+	public void setCodeAnimal(Integer codeAnimal) {
 		this.codeAnimal = codeAnimal;
 	}
 
@@ -74,6 +76,7 @@ public class Animaux {
 		return race;
 	}
 
+
 	public void setRace(int race) {
 		this.race = race;
 	}
@@ -102,11 +105,12 @@ public class Animaux {
 		this.antecedents = antecedents;
 	}
 
-	public int getArchive() {
+	public boolean getArchive() {
 		return archive;
 	}
 
-	public void setArchive(int archive) {
+	public void setArchive(boolean archive) {
+
 		this.archive = archive;
 	}
 

@@ -13,12 +13,19 @@ import fr.eni.clinique.bo.Clients;
 import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.DALException;
 
-public class AnimauxDAOJDBCImpl implements AnimauxDAO{
+public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 
+	private static final String UPDATE_ANIMALS = "Update Animals SET (NomAnimal, Sexe, Couleur, Race, Espece, Tatouage);";
+	// private static final String GET_CODECLIENT = "Select codeClient From
+	// Clients where codeAnimal = ?;";
+	/* TODO retravailler la requête pour insérer le CodeClient */
+	private static final String INSERT_ANIMAUX = "INSERT INTO Animaux (NomAnimal, Sexe, Couleur, Race, Espece, CodeClient, Tatouage, Archive) "
+			+ "values(?,?,?,?,?,?,?,0) WHERE CodeClient=GET_CODECLIENT;";
 	static String SQL_GETANIMAUXCLIENTS_ANIMAUX = "Select * FROM Animaux Where CodeClient = ? and Archive = 0;";
-	static String SQL_GETANIMAUXCLIENTSRACES_ANIMAUX = "Select a.CodeAnimal, a.NomAnimal, a.Sexe, a.Couleur, e.Espece, r.Race,  a.Tatouage "+ 
-	" FROM Animaux as a Inner Join Races as r On a.CodeRace = r.CodeRace " +
-	" Inner Join Espece as e On r.CodeEspece = e.CodeEspece Where CodeClient = ? and Archive = 0;";
+	static String SQL_GETANIMAUXCLIENTSRACES_ANIMAUX = "Select a.CodeAnimal, a.NomAnimal, a.Sexe, a.Couleur, e.Espece, r.Race,  a.Tatouage "
+			+ " FROM Animaux as a Inner Join Races as r On a.CodeRace = r.CodeRace "
+			+ " Inner Join Espece as e On r.CodeEspece = e.CodeEspece Where CodeClient = ? and Archive = 0;";
+
 	@Override
 	public ArrayList<Animaux> getAnimauxClients(int client) throws DALException {
 		// TODO Auto-generated method stub
@@ -26,74 +33,159 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO{
 		Connection cnx = null;
 		boolean reponse = false;
 		try {
-			cnx = JdbcTools.getConnection();			
-		}catch(SQLException e1){
+			cnx = JdbcTools.getConnection();
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		Statement commande = null;
 		PreparedStatement commandeParemetree = null;
 		CallableStatement appelProcedureStockee = null;
-		
-		try{
+
+		try {
 			commande = cnx.createStatement();
 			commandeParemetree = cnx.prepareStatement(SQL_GETANIMAUXCLIENTS_ANIMAUX, Statement.RETURN_GENERATED_KEYS);
 			commandeParemetree.setInt(1, client);
-		}catch(SQLException sqle){
+		} catch (SQLException sqle) {
 			System.err.println("Impossible d'éxecuter la requête");
 			sqle.printStackTrace();
 		}
 		ResultSet resultatDeLaRequete = null;
-		try{
+		try {
 			resultatDeLaRequete = commandeParemetree.executeQuery();
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			System.err.println("Impossible d'éxecuter la requête");
 			e.printStackTrace();
 		}
 		try {
-			while(resultatDeLaRequete.next()){
-				Animaux animal = new Animaux(
-						resultatDeLaRequete.getInt("CodeAnimal"),
-						resultatDeLaRequete.getString("NomAnimal"),
-						resultatDeLaRequete.getString("Sexe"),
-						resultatDeLaRequete.getString("Couleur"),
-						resultatDeLaRequete.getInt("CodeRace"),
-						resultatDeLaRequete.getInt("CodeClient"),
-						resultatDeLaRequete.getString("Tatouage"),
-						resultatDeLaRequete.getString("Antecedents"),
-						resultatDeLaRequete.getInt("Archive"));
+			while (resultatDeLaRequete.next()) {
+				Animaux animal = new Animaux(resultatDeLaRequete.getInt("CodeAnimal"),
+						resultatDeLaRequete.getString("NomAnimal"), resultatDeLaRequete.getString("Sexe"),
+						resultatDeLaRequete.getString("Couleur"), resultatDeLaRequete.getInt("Race"),
+						resultatDeLaRequete.getInt("CodeClient"), resultatDeLaRequete.getString("Tatouage"),
+						resultatDeLaRequete.getString("Antecedents"), resultatDeLaRequete.getBoolean("Archive"));
 				resultat.add(animal);
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try{
-			if(cnx != null){
+		try {
+			if (cnx != null) {
 				cnx.close();
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return resultat;
 	}
+
 	/**
-	 * {@inheritedDoc}
-	 * @see fr.eni.clinique.dal.AnimauxDAO#insertAnimaux(fr.eni.clinique.bo.Animaux)
+	 * Méthode d'insert d'un animal
 	 */
-	@Override
+
 	public void insertAnimaux(Animaux ani) throws DALException {
-		// TODO Auto-generated method stub
-		
+		/* Connection à la base de données */
+		Connection cnx = null;
+
+		try {
+			cnx = JdbcTools.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		Statement stmt = null;
+		PreparedStatement prestmt = null;
+
+		try {
+			// Ma requete préparé
+			stmt = cnx.createStatement();
+			/* retourne les clés autogénéré par le statement */
+			prestmt = cnx.prepareStatement(INSERT_ANIMAUX, Statement.RETURN_GENERATED_KEYS);
+			prestmt.setString(1, ani.getNomAnimal());
+			prestmt.setString(2, ani.getSexe());
+			prestmt.setString(3, ani.getCouleur());
+			/* TODO voir exemple EcranPrise rendez-vous fait par Nelson */
+			prestmt.setInt(4, ani.getRace());
+			prestmt.setInt(5, ani.getCodeClient());
+			prestmt.setString(6, ani.getTatouage());
+			prestmt.setBoolean(7, ani.getArchive());
+
+		} catch (SQLException sqle) {
+			System.err.println("Impossible de préparer la requête d'insertion d'un animal");
+			sqle.printStackTrace();
+		}
+
+		// on execute la requête
+		try {
+			prestmt.executeUpdate();
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'executer la requête d'insertion d'un animal");
+			sqle.printStackTrace();
+		}
+
+		// On génère une clé que l'on met dans un resultset voir
+		// ==>Statement.RETURN_GENERATED_KEYS
+		// C'est pour le CodeClient qui est en AI
+		try {
+			ResultSet genKey = prestmt.getGeneratedKeys();
+			if (genKey.next()) {
+				ani.setCodeAnimal(genKey.getInt(1));
+			}
+		} catch (SQLException e) {
+			System.err.println("Impossible de récupérer la clé autogénéré");
+			e.printStackTrace();
+		}
+
+		try {
+			if (cnx != null) {
+				cnx.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-	/**
-	 * {@inheritedDoc}
-	 * @see fr.eni.clinique.dal.AnimauxDAO#updateAnimaux(fr.eni.clinique.bo.Animaux)
-	 */
+
 	@Override
 	public void updateAnimaux(Animaux ani) throws DALException {
-		// TODO Auto-generated method stub
-		
+		Connection cnx = null;
+		try {
+			cnx = JdbcTools.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		Statement stmt = null;
+		PreparedStatement prestmt = null;
+		CallableStatement appelProcedureStockee = null;
+
+		try {
+			stmt = cnx.createStatement();
+			prestmt = cnx.prepareStatement(UPDATE_ANIMALS, Statement.RETURN_GENERATED_KEYS);
+			prestmt.setString(1, ani.getNomAnimal());
+			prestmt.setString(2, ani.getSexe());
+			prestmt.setString(3, ani.getCouleur());
+			/* TODO voir exemple EcranPrise rendez-vous fait par Nelson */
+			prestmt.setInt(4, ani.getRace());
+			prestmt.setString(6, ani.getTatouage());
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'éxecuter la requête d'update d'un animal");
+			sqle.printStackTrace();
+		}
+		try {
+			prestmt.executeUpdate();
+		} catch (SQLException sqle) {
+			System.err.println("Impossible d'éxecuter la requête d'update d'un animal");
+			sqle.printStackTrace();
+		}
+
+		try {
+			if (cnx != null) {
+				cnx.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+
+
 	@Override
 	public ArrayList<ArrayList> getAnimauxClientsRaces(int client) throws DALException {
 		// TODO Auto-generated method stub
