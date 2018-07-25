@@ -24,6 +24,7 @@ import fr.eni.clinique.bo.Animaux;
 import fr.eni.clinique.bo.Clients;
 import fr.eni.clinique.dal.AgendasDAO;
 import fr.eni.clinique.dal.AnimauxDAO;
+import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.ihm.login.EcranPrincipal;
@@ -107,6 +108,22 @@ public class EcranGestionClients extends JFrame {
 		panelGestionClients.add(buttonAjouterClient, gbc_btnAjouter);
 
 		JButton buttonSupprimerClient = new JButton("Supprimer");
+		buttonSupprimerClient.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ClientsDAO clientsDAO = new DAOFactory().getClientsDAO();
+				try {
+					clientsDAO.delete(leClient.getCodeClient());
+				} catch (DALException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				EcranGestionClients.this.dispose();
+				EcranGestionClients ecranGestionClients = new EcranGestionClients();
+				ecranGestionClients.setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_btnSupprimer = new GridBagConstraints();
 		gbc_btnSupprimer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSupprimer.gridx = 4;
@@ -122,19 +139,17 @@ public class EcranGestionClients extends JFrame {
 		panelGestionClients.add(lblCode, gbc_lblCode);
 
 		JLabel lblCodeResultat;
-		if(null != leClient){
-			lblCodeResultat = new JLabel(leClient.getCodeClient() + "");			
-		}else{
-			lblCodeResultat = new JLabel("");			
+		if (null != leClient) {
+			lblCodeResultat = new JLabel(leClient.getCodeClient() + "");
+		} else {
+			lblCodeResultat = new JLabel("");
 		}
 		GridBagConstraints gbc_lblCodeResultat = new GridBagConstraints();
 		gbc_lblCodeResultat.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCodeResultat.gridx = 1;
 		gbc_lblCodeResultat.gridy = 3;
 		panelGestionClients.add(lblCodeResultat, gbc_lblCodeResultat);
-		
-		
-		
+
 		tableAnimaux = new JTable() {
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -278,12 +293,13 @@ public class EcranGestionClients extends JFrame {
 
 				if (tableAnimaux.getSelectedRow() == -1) {
 					JOptionPane d = new JOptionPane();
-					d.showMessageDialog(panelGestionClients, "Vous devez selectionnez un animal.",
-							"Attention", JOptionPane.WARNING_MESSAGE);
+					d.showMessageDialog(panelGestionClients, "Vous devez selectionnez un animal.", "Attention",
+							JOptionPane.WARNING_MESSAGE);
 				} else {
 					AnimauxDAO animauxDAO = new DAOFactory().getAnimauxDAO();
 					try {
-						animauxDAO.delete(Integer.parseInt((String) lesAnimaux.get(tableAnimaux.getSelectedRow()).get(0)));
+						animauxDAO.delete(
+								Integer.parseInt((String) lesAnimaux.get(tableAnimaux.getSelectedRow()).get(0)));
 					} catch (DALException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -306,8 +322,8 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnditer.gridy = 10;
 		panelGestionClients.add(btnEditerAnimaux, gbc_btnditer);
 	}
-	
-	private void refreshTable(){
+
+	private void refreshTable() {
 
 		Object[][] resultat;
 		if (null == leClient) {
@@ -330,7 +346,7 @@ public class EcranGestionClients extends JFrame {
 			if (!lesAnimaux.isEmpty()) {
 				int i = 0;
 				resultat = new Object[lesAnimaux.size()][7];
-				while(i < lesAnimaux.size()) {
+				while (i < lesAnimaux.size()) {
 					resultat[i][0] = lesAnimaux.get(i).get(0);
 					resultat[i][1] = lesAnimaux.get(i).get(1);
 					resultat[i][2] = lesAnimaux.get(i).get(2);

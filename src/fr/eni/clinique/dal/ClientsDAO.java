@@ -17,6 +17,7 @@ public interface ClientsDAO {
 	public ArrayList<Clients> allClientsNomPrenom(String nomprenom) throws DALException;
 //	public boolean insertClient(String nomClient, String prenomClient, String adresse1, String codePostal,
 //			String ville);
+	public void delete(int CodeClient) throws DALException;
 
 
 }
