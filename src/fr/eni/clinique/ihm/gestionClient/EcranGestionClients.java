@@ -115,7 +115,7 @@ public class EcranGestionClients extends JFrame {
 		buttonAjouterClient.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EcranAjouterClient ecranAjouterClient = new EcranAjouterClient();
+				EcranAjouterClient ecranAjouterClient = new EcranAjouterClient(pers);
 				ecranAjouterClient.setVisible(true);
 				EcranGestionClients.this.dispose();
 
