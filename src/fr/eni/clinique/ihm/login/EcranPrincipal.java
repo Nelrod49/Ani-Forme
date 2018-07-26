@@ -30,9 +30,11 @@ import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.dal.jdbc.*;
 import fr.eni.clinique.ihm.agendas.EcranAgendas;
+import fr.eni.clinique.ihm.gestionClient.EcranGestionClients;
 import fr.eni.clinique.ihm.gestionPerso.EcranAjoutPerso;
 import fr.eni.clinique.ihm.gestionPerso.EcranPrincipalGestion;
 import fr.eni.clinique.ihm.gestionPerso.EcranRenitialiser;
+import fr.eni.clinique.ihm.priseRdv.EcranPriseRendezVous;
 
 public class EcranPrincipal extends JFrame {
 
@@ -75,18 +77,35 @@ public class EcranPrincipal extends JFrame {
 		mnFichiers.add(mntmFermer);
 
 		// SECRETAIRE
-		if (pers.equals("sec")) { // If sec then display all management
-									// appointment
+		if (pers.getRole().equals("sec")) { // If sec then display all
+											// management
+			// appointment
 			JMenu mnGestionDesRendezvous = new JMenu("Gestion des Rendez-vous");
 			menuBar.add(mnGestionDesRendezvous);
 
 			JMenuItem mntmNewMenuItem = new JMenuItem("Prise de rendez-vous");
+			mntmNewMenuItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					EcranPrincipal.this.fenetrePriseRdv();
+
+				}
+			});
 			mnGestionDesRendezvous.add(mntmNewMenuItem);
 
 			JMenuItem mntmNewMenuItem_1 = new JMenuItem("Gestion des clients");
+			mntmNewMenuItem_1.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					EcranPrincipal.this.fenetreGestionCli();
+					
+				}
+			});
 			mnGestionDesRendezvous.add(mntmNewMenuItem_1);
 		}
-		
+
 		// VETERINAIRE
 		if (pers.getRole().equals("vet")) { // If vet then display agenda
 			JMenu mnAgenda = new JMenu("Agenda");
@@ -100,6 +119,7 @@ public class EcranPrincipal extends JFrame {
 				public void menuCanceled(MenuEvent arg0) {
 					// TODO Auto-generated method stub
 				}
+
 				@Override
 				public void menuDeselected(MenuEvent arg0) {
 					// TODO Auto-generated method stub
@@ -107,7 +127,7 @@ public class EcranPrincipal extends JFrame {
 			});
 			menuBar.add(mnAgenda);
 		}
-		
+
 		// ADMINISTRATEUR
 		if (pers.getRole().equals("adm")) { // If adm then display the
 											// management of the user
@@ -126,6 +146,7 @@ public class EcranPrincipal extends JFrame {
 				public void menuCanceled(MenuEvent arg0) {
 					// TODO Auto-generated method stub
 				}
+
 				@Override
 				public void menuDeselected(MenuEvent arg0) {
 					// TODO Auto-generated method stub
@@ -168,4 +189,18 @@ public class EcranPrincipal extends JFrame {
 		EcranPrincipal.this.dispose();
 	}
 
+	// Envoie à l'écran prise de rdv
+	public void fenetrePriseRdv() {
+		EcranPriseRendezVous goToPriseRdv = new EcranPriseRendezVous();
+		goToPriseRdv.setVisible(true);
+		EcranPrincipal.this.dispose();
+	}
+
+	// Envoie à l'écran gestion client
+	public void fenetreGestionCli() {
+		EcranGestionClients goToGestionCli = new EcranGestionClients();
+		goToGestionCli.setVisible(true);
+		EcranPrincipal.this.dispose();
+	}
+	
 }
