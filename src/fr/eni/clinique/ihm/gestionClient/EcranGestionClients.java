@@ -60,13 +60,14 @@ public class EcranGestionClients extends JFrame {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public EcranGestionClients(Clients leClient) {
+	public EcranGestionClients(Clients leClient, Personnels pers) {
 		this.setTitle("Gestion des clients");
 		this.setSize(new Dimension(1000, 600));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.leClient = leClient;
+		this.pers = pers;
 		this.initIHM();
 	}
 
@@ -102,7 +103,7 @@ public class EcranGestionClients extends JFrame {
 		btnRechercher.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EcranRechercheClients ecranRechercheClients = new EcranRechercheClients();
+				EcranRechercheClients ecranRechercheClients = new EcranRechercheClients(pers);
 				ecranRechercheClients.setVisible(true);
 				EcranGestionClients.this.dispose();
 
