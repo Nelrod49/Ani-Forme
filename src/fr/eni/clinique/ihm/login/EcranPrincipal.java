@@ -191,14 +191,14 @@ public class EcranPrincipal extends JFrame {
 
 	// Envoie à l'écran prise de rdv
 	public void fenetrePriseRdv() {
-		EcranPriseRendezVous goToPriseRdv = new EcranPriseRendezVous();
+		EcranPriseRendezVous goToPriseRdv = new EcranPriseRendezVous(pers);
 		goToPriseRdv.setVisible(true);
 		EcranPrincipal.this.dispose();
 	}
 
 	// Envoie à l'écran gestion client
 	public void fenetreGestionCli() {
-		EcranGestionClients goToGestionCli = new EcranGestionClients();
+		EcranGestionClients goToGestionCli = new EcranGestionClients(pers);
 		goToGestionCli.setVisible(true);
 		EcranPrincipal.this.dispose();
 	}
