@@ -20,6 +20,7 @@ import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.EspecesDAO;
 import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.dal.RacesDAO;
+import fr.eni.clinique.ihm.gestionClient.EcranGestionClients;
 
 import java.awt.GridBagLayout;
 
@@ -108,7 +109,8 @@ public class EcranAnimal extends JFrame {
 		gbc_lblClient.gridy = 1;
 		panel.add(lblClient, gbc_lblClient);
 		
-		textFieldClient = new JTextField();
+		textFieldClient = new JTextField(EcranGestionClients.getCodeClient());
+		textFieldClient.setEnabled(false);
 		GridBagConstraints gbc_textFieldClient = new GridBagConstraints();
 		gbc_textFieldClient.gridwidth = 3;
 		gbc_textFieldClient.insets = new Insets(0, 0, 5, 5);
@@ -125,7 +127,7 @@ public class EcranAnimal extends JFrame {
 		gbc_lblCode.gridy = 3;
 		panel.add(lblCode, gbc_lblCode);
 		
-		textFieldCode = new JTextField();
+		textFieldCode = new JTextField("12");
 		GridBagConstraints gbc_textFieldCode = new GridBagConstraints();
 		gbc_textFieldCode.gridwidth = 3;
 		gbc_textFieldCode.insets = new Insets(0, 0, 5, 5);
@@ -178,7 +180,7 @@ public class EcranAnimal extends JFrame {
 		
 		
 		//Creation Combobox avec insertion de données
-		String[] sexeStrings = { "Male", "Femelle", "Hermaphrodite" };
+		String[] sexeStrings = { "M", "F", "H" };
 		JComboBox comboBoxSexe = new JComboBox(sexeStrings);
 		GridBagConstraints gbc_comboBoxSexe = new GridBagConstraints();
 		gbc_comboBoxSexe.gridwidth = 3;
@@ -311,6 +313,7 @@ public class EcranAnimal extends JFrame {
 			});
 		}
 		return comboBoxEspeces;
+
 	}
 	private JComboBox<String> getComboBoxRace() {
 		if (comboBoxRace == null) {

@@ -39,6 +39,7 @@ public class Animaux {
 		this.archive = archive;
 	}
 
+
 	// Getter et Setter
 	public Integer getCodeAnimal() {
 		return codeAnimal;

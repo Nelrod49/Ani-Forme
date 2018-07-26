@@ -53,8 +53,6 @@ public class GestionAnimauxManager {
 					return valide;
 				}
 				
-
-			
 			return valide;
 		
 		}
