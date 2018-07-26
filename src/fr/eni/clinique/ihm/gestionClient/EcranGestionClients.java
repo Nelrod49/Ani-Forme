@@ -22,6 +22,7 @@ import javax.swing.table.TableColumnModel;
 
 import fr.eni.clinique.bo.Animaux;
 import fr.eni.clinique.bo.Clients;
+import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.AgendasDAO;
 import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.ClientsDAO;
@@ -29,6 +30,8 @@ import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.ihm.gestionAnimal.EcranAnimal;
 import fr.eni.clinique.ihm.login.EcranPrincipal;
+import fr.eni.clinique.ihm.priseRdv.EcranPriseRendezVous;
+
 import java.awt.Insets;
 
 public class EcranGestionClients extends JFrame {
@@ -44,6 +47,7 @@ public class EcranGestionClients extends JFrame {
 	private JButton buttonAjouterAnimaux;
 	private JButton buttonSupprimerAnimaux;
 	private JButton buttonEditerAnimaux;
+	private JButton btnRetour;
 	private JTextField textFieldNom;
 	private JTextField textFieldPrenom;
 	private JTextField textFieldVille;
@@ -51,24 +55,30 @@ public class EcranGestionClients extends JFrame {
 	private JTextField textFieldAdresse1;
 	private JTable tableAnimaux;
 	private JTextField textFieldCodePostal;
+	private Personnels pers;
 
-	public EcranGestionClients(Clients leClient) {
+	/**
+	 * @wbp.parser.constructor
+	 */
+	public EcranGestionClients(Clients leClient, Personnels pers) {
 		this.setTitle("Gestion des clients");
 		this.setSize(new Dimension(1000, 600));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.leClient = leClient;
+		this.pers = pers;
 		this.initIHM();
 	}
 
-	public EcranGestionClients() {
+	public EcranGestionClients(Personnels pers) {
 		this.setTitle("Gestion des clients");
 		this.setSize(new Dimension(1000, 600));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.initIHM();
+		this.pers = pers;
 	}
 
 	private void initIHM() {
@@ -93,7 +103,7 @@ public class EcranGestionClients extends JFrame {
 		btnRechercher.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EcranRechercheClients ecranRechercheClients = new EcranRechercheClients();
+				EcranRechercheClients ecranRechercheClients = new EcranRechercheClients(pers);
 				ecranRechercheClients.setVisible(true);
 				EcranGestionClients.this.dispose();
 
@@ -105,7 +115,7 @@ public class EcranGestionClients extends JFrame {
 		buttonAjouterClient.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				EcranAjouterClient ecranAjouterClient = new EcranAjouterClient();
+				EcranAjouterClient ecranAjouterClient = new EcranAjouterClient(pers);
 				ecranAjouterClient.setVisible(true);
 				EcranGestionClients.this.dispose();
 
@@ -130,7 +140,7 @@ public class EcranGestionClients extends JFrame {
 					e1.printStackTrace();
 				}
 				EcranGestionClients.this.dispose();
-				EcranGestionClients ecranGestionClients = new EcranGestionClients();
+				EcranGestionClients ecranGestionClients = new EcranGestionClients(pers);
 				ecranGestionClients.setVisible(true);
 			}
 		});
@@ -139,6 +149,12 @@ public class EcranGestionClients extends JFrame {
 		gbc_btnSupprimer.gridx = 4;
 		gbc_btnSupprimer.gridy = 1;
 		panelGestionClients.add(buttonSupprimerClient, gbc_btnSupprimer);
+
+		GridBagConstraints gbc_btnRetour_1 = new GridBagConstraints();
+		gbc_btnRetour_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRetour_1.gridx = 5;
+		gbc_btnRetour_1.gridy = 1;
+		panelGestionClients.add(getBtnRetour(), gbc_btnRetour_1);
 
 		JLabel lblCode = new JLabel("Code");
 		GridBagConstraints gbc_lblCode = new GridBagConstraints();
@@ -289,18 +305,16 @@ public class EcranGestionClients extends JFrame {
 		textFieldVille.setColumns(10);
 
 		JButton btnAjouterAnimaux = new JButton("Ajouter");
-		//TODO Relier à l'écran animal
+		// TODO Relier à l'écran animal
 		/*
-		btnAjouterAnimaux.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				EcranAnimal ecranAnimal = new EcranAnimal();
-				ecranAnimal.setVisible(true);
-				EcranGestionClients.this.dispose();
-
-			}
-		});
-		*/
+		 * btnAjouterAnimaux.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { EcranAnimal
+		 * ecranAnimal = new EcranAnimal(); ecranAnimal.setVisible(true);
+		 * EcranGestionClients.this.dispose();
+		 * 
+		 * } });
+		 */
 		GridBagConstraints gbc_btnAjouter_1 = new GridBagConstraints();
 		gbc_btnAjouter_1.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAjouter_1.gridx = 6;
@@ -338,18 +352,16 @@ public class EcranGestionClients extends JFrame {
 		panelGestionClients.add(btnSupprimerAnimaux, gbc_btnSupprimer_1);
 
 		JButton btnEditerAnimaux = new JButton("\u00C9diter");
-		//TODO Relier à l'écran animal
-				/*
-				btnEditerAnimaux.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						EcranAnimal ecranAnimal = new EcranAnimal();
-						ecranAnimal.setVisible(true);
-						EcranGestionClients.this.dispose();
-
-					}
-				});
-				*/
+		// TODO Relier à l'écran animal
+		/*
+		 * btnEditerAnimaux.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) { EcranAnimal
+		 * ecranAnimal = new EcranAnimal(); ecranAnimal.setVisible(true);
+		 * EcranGestionClients.this.dispose();
+		 * 
+		 * } });
+		 */
 		GridBagConstraints gbc_btnditer = new GridBagConstraints();
 		gbc_btnditer.insets = new Insets(0, 0, 0, 5);
 		gbc_btnditer.gridx = 8;
@@ -406,4 +418,28 @@ public class EcranGestionClients extends JFrame {
 		tableAnimaux.setModel(new DefaultTableModel(resultat, entetes));
 
 	}
+
+	// Bouton Retour ecran principal
+	private JButton getBtnRetour() {
+		if (btnRetour == null) {
+			btnRetour = new JButton("Retour");
+			btnRetour.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					EcranGestionClients.this.fenetreGestionCli();
+
+				}
+			});
+		}
+		return btnRetour;
+	}
+
+	// Renvoie à l'écran Principal
+	public void fenetreGestionCli() {
+		EcranPrincipal goToPrincipal = new EcranPrincipal(pers);
+		goToPrincipal.setVisible(true);
+		EcranGestionClients.this.dispose();
+	}
+
 }

@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import fr.eni.clinique.bo.Clients;
+import fr.eni.clinique.bo.Personnels;
 import fr.eni.clinique.dal.AnimauxDAO;
 import fr.eni.clinique.dal.ClientsDAO;
 import fr.eni.clinique.dal.DALException;
@@ -34,14 +35,16 @@ public class EcranRechercheClients extends JFrame {
 	private JButton buttonRecherche;
 	private JTable tableResultat;
 	private ArrayList<Clients> lesClients;
+	private Personnels pers;
 	
-	public EcranRechercheClients() {
+	public EcranRechercheClients(Personnels pers) {
 		this.setTitle("Recherche des clients");
 		this.setSize(new Dimension(800, 400));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.initIHM();
+		this.pers = pers;
 	}
 	
 	
@@ -97,7 +100,7 @@ public class EcranRechercheClients extends JFrame {
 						}
 						if(lesClients.size() == 1){
 							EcranRechercheClients.this.dispose();
-							EcranGestionClients ecranGestionClients = new EcranGestionClients(lesClients.get(0));
+							EcranGestionClients ecranGestionClients = new EcranGestionClients(lesClients.get(0), pers);
 							ecranGestionClients.setVisible(true);
 						}else if(lesClients.size() > 0){
 							Object[][] resultat = new Object[lesClients.size()][4];
@@ -171,8 +174,7 @@ public class EcranRechercheClients extends JFrame {
 						if(!lesClients.isEmpty()){
 							EcranRechercheClients.this.dispose();
 							EcranGestionClients ecranGestionClients = new EcranGestionClients(
-									lesClients.get(tableResultat.getSelectedRow())
-									);
+									lesClients.get(tableResultat.getSelectedRow()), pers);
 							ecranGestionClients.setVisible(true);
 						}	
 					}

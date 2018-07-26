@@ -23,7 +23,7 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 
 	static String SQL_DELETE_DELETEAGENDAS = "DELETE FROM Agendas Where CodeVeto = ? AND CodeAnimal = ? AND DateRdv = ?;";
 	static String SQL_ADD_ADDAGENDAS = "Insert Into Agendas (CodeVeto, DateRdv, CodeAnimal) values (?,?,?);";
-	static String SQL_SELECT_CHECKAGENDAS  = "Select * From Agendas Where CodeVeto = ? And DateRdv = ?;";
+	static String SQL_SELECT_CHECKAGENDAS  = "Select * From Agendas Where CodeAnimal = ? And DateRdv = ?;";
 	static String SQL_SELECT_AGENDASVETERINAIRE = "Select ag.CodeVeto, ag.CodeAnimal, ag.DateRdv, c.NomClient, c.PrenomClient, anm.NomAnimal, r.Race " 
 				+" From Agendas as ag Inner Join Animaux as anm On ag.CodeAnimal = anm.CodeAnimal"
 				+" Inner Join Races as r On anm.CodeRace = r.CodeRace"
@@ -137,7 +137,7 @@ public class AgendasDAOJDBCImpl implements AgendasDAO{
 		try{
 			commande = cnx.createStatement();
 			commandeParemetree = cnx.prepareStatement(SQL_SELECT_CHECKAGENDAS, Statement.RETURN_GENERATED_KEYS);
-			commandeParemetree.setInt(1, CodeVet);
+			commandeParemetree.setInt(1, CodeAnimal);
 			commandeParemetree.setString(2, dateRdv);
 		}catch(SQLException sqle){
 			System.err.println("Impossible d'éxecuter la requête");
