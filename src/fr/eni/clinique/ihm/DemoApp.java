@@ -20,7 +20,7 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranGestionClients ecranPrincipalGestion = new EcranGestionClients();
+				EcranPriseRendezVous ecranPrincipalGestion = new EcranPriseRendezVous();
 				ecranPrincipalGestion.setVisible(true);
 			}
 		});
