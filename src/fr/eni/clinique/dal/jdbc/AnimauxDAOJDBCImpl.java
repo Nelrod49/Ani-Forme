@@ -28,6 +28,7 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 			+ " Inner Join Espece as e On r.CodeEspece = e.CodeEspece Where CodeClient = ? and Archive = 0;";
 
 	static String SQL_DELETE_ANIMAUX = "Update Animaux SET Archive = 1 Where CodeAnimal = ?;";
+
 	@Override
 	public ArrayList<Animaux> getAnimauxClients(int client) throws DALException {
 		// TODO Auto-generated method stub
@@ -61,14 +62,10 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 		try {
 			while (resultatDeLaRequete.next()) {
 				Animaux animal = new Animaux(resultatDeLaRequete.getInt("CodeAnimal"),
-						resultatDeLaRequete.getString("NomAnimal"), 
-						resultatDeLaRequete.getString("Sexe"),
-						resultatDeLaRequete.getString("Couleur"),
-						resultatDeLaRequete.getInt("Race"),
-						resultatDeLaRequete.getInt("CodeClient"),
-						resultatDeLaRequete.getString("Tatouage"),
-						resultatDeLaRequete.getString("Antecedents"),
-						resultatDeLaRequete.getBoolean("Archive"));
+						resultatDeLaRequete.getString("NomAnimal"), resultatDeLaRequete.getString("Sexe"),
+						resultatDeLaRequete.getString("Couleur"), resultatDeLaRequete.getInt("CodeRace"),
+						resultatDeLaRequete.getInt("CodeClient"), resultatDeLaRequete.getString("Tatouage"),
+						resultatDeLaRequete.getString("Antecedents"), resultatDeLaRequete.getBoolean("Archive"));
 				resultat.add(animal);
 			}
 		} catch (SQLException e1) {
@@ -191,7 +188,6 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 		}
 	}
 
-
 	@Override
 	public ArrayList<ArrayList> getAnimauxClientsRaces(int client) throws DALException {
 		// TODO Auto-generated method stub
@@ -199,31 +195,32 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 		Connection cnx = null;
 		boolean reponse = false;
 		try {
-			cnx = JdbcTools.getConnection();			
-		}catch(SQLException e1){
+			cnx = JdbcTools.getConnection();
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		Statement commande = null;
 		PreparedStatement commandeParemetree = null;
 		CallableStatement appelProcedureStockee = null;
-		
-		try{
+
+		try {
 			commande = cnx.createStatement();
-			commandeParemetree = cnx.prepareStatement(SQL_GETANIMAUXCLIENTSRACES_ANIMAUX, Statement.RETURN_GENERATED_KEYS);
+			commandeParemetree = cnx.prepareStatement(SQL_GETANIMAUXCLIENTSRACES_ANIMAUX,
+					Statement.RETURN_GENERATED_KEYS);
 			commandeParemetree.setInt(1, client);
-		}catch(SQLException sqle){
+		} catch (SQLException sqle) {
 			System.err.println("Impossible d'éxecuter la requête");
 			sqle.printStackTrace();
 		}
 		ResultSet resultatDeLaRequete = null;
-		try{
+		try {
 			resultatDeLaRequete = commandeParemetree.executeQuery();
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			System.err.println("Impossible d'éxecuter la requête");
 			e.printStackTrace();
 		}
 		try {
-			while(resultatDeLaRequete.next()){
+			while (resultatDeLaRequete.next()) {
 				ArrayList<String> data = new ArrayList<>();
 				data.add(resultatDeLaRequete.getString("CodeAnimal"));
 				data.add(resultatDeLaRequete.getString("NomAnimal"));
@@ -238,16 +235,16 @@ public class AnimauxDAOJDBCImpl implements AnimauxDAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try{
-			if(cnx != null){
+		try {
+			if (cnx != null) {
 				cnx.close();
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return resultat;
 	}
-	
+
 	@Override
 	public void delete(int CodeAnimal) throws DALException {
 		Connection cnx = null;

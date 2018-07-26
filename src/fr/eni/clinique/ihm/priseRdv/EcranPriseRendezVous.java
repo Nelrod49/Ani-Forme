@@ -47,7 +47,9 @@ import fr.eni.clinique.dal.DALException;
 import fr.eni.clinique.dal.DAOFactory;
 import fr.eni.clinique.dal.PersonnelsDAO;
 import fr.eni.clinique.ihm.DateLabelFormatter;
+import fr.eni.clinique.ihm.gestionClient.EcranGestionClients;
 import fr.eni.clinique.ihm.gestionPerso.EcranRenitialiser;
+import fr.eni.clinique.ihm.login.EcranPrincipal;
 
 public class EcranPriseRendezVous extends JFrame {
 	private JPanel panelPriseRendezVous;
@@ -55,6 +57,7 @@ public class EcranPriseRendezVous extends JFrame {
 	private JComboBox<String> comboBxAnimaux;
 	private JButton buttonClients;
 	private JButton buttonAnimaux;
+	private JButton btnRetour;
 	private JComboBox<String> comboBxPersonnels;
 	private JDatePickerImpl datePickerRendezVous;
 	private JComboBox comboBxHeure;
@@ -66,14 +69,16 @@ public class EcranPriseRendezVous extends JFrame {
 	private ArrayList<Personnels> lesPersonnels = null;
 	private ArrayList<ArrayList> lesRendezVous = new ArrayList<ArrayList>();
 	private ArrayList<Animaux> lesAnimaux = null;
+	private Personnels pers;
 
-	public EcranPriseRendezVous() {
+	public EcranPriseRendezVous(Personnels pers) {
 		this.setSize(new Dimension(1000, 600));
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Prise de rendez-vous");
 		this.initIHM();
+		this.pers = pers;
 	}
 
 	private void initIHM() {
@@ -146,6 +151,12 @@ public class EcranPriseRendezVous extends JFrame {
 		gbc.gridy = 5;
 		gbc.gridwidth = 5;
 		panelPriseRendezVous.add(getButtonAjouter(), gbc);
+		
+		gbc.gridx = 2;
+		gbc.gridy = 5;
+		gbc.gridwidth = 5;
+		panelPriseRendezVous.add(getBtnRetour(), gbc);
+		
 
 		this.setContentPane(panelPriseRendezVous);
 
@@ -199,7 +210,7 @@ public class EcranPriseRendezVous extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-					}else{
+					} else {
 						String[] animaux = new String[1];
 						animaux[0] = "Choisissez un clients d'abord";
 						comboBxAnimaux.setModel(new DefaultComboBoxModel(animaux));
@@ -302,10 +313,10 @@ public class EcranPriseRendezVous extends JFrame {
 		if (null == tableRendezVous) {
 			String[] entetes = { "Heure", "Nom du Client", "Animal", "Espèce" };
 			Object[][] resultat = new Object[1][5];
-			resultat[0][0] = "Acune données";
-			resultat[0][1] = "Acune données";
-			resultat[0][2] = "Acune données";
-			resultat[0][3] = "Acune données";
+			resultat[0][0] = "Aucune données";
+			resultat[0][1] = "Aucune données";
+			resultat[0][2] = "Aucune données";
+			resultat[0][3] = "Aucune données";
 			tableRendezVous = new JTable(resultat, entetes);
 			TableColumnModel columnModel = tableRendezVous.getColumnModel();
 			tableRendezVous.setPreferredSize(new Dimension(600, 200));
@@ -322,64 +333,57 @@ public class EcranPriseRendezVous extends JFrame {
 		return tableRendezVous;
 	}
 
-	private JButton getButtonAjouter(){
-		if(null == buttonAjouter){
+	private JButton getButtonAjouter() {
+		if (null == buttonAjouter) {
 			buttonAjouter = new JButton();
 			buttonAjouter.setText("Ajouter");
-			buttonAjouter.addActionListener(new ActionListener(){
+			buttonAjouter.addActionListener(new ActionListener() {
 				@Override
-				public void actionPerformed(ActionEvent e){
+				public void actionPerformed(ActionEvent e) {
 					JOptionPane display = new JOptionPane();
-					if(comboBxAnimaux.getSelectedItem() == "Aucun animal pour ce client" || comboBxClients.getSelectedIndex() == 0 ){
-						display.showMessageDialog(panelPriseRendezVous,								
-								"Veuillez sélectionnez un animal",
-								"Attention",
+					if (comboBxAnimaux.getSelectedItem() == "Aucun animal pour ce client"
+							|| comboBxClients.getSelectedIndex() == 0) {
+						display.showMessageDialog(panelPriseRendezVous, "Veuillez sélectionnez un animal", "Attention",
 								JOptionPane.WARNING_MESSAGE);
-					}else{
-						if(comboBxPersonnels.getSelectedIndex() == 0){
-							display.showMessageDialog(panelPriseRendezVous,								
-									"Veuillez sélectionnez un vétérinaire",
-									"Attention",
-									JOptionPane.WARNING_MESSAGE);
-						}else{
-							if(datePickerRendezVous.getJFormattedTextField().getText().isEmpty()){
-								display.showMessageDialog(panelPriseRendezVous,								
-										"Veuillez sélectionnez une date ",
-										"Attention",
-										JOptionPane.WARNING_MESSAGE);
-							}
-							else{
+					} else {
+						if (comboBxPersonnels.getSelectedIndex() == 0) {
+							display.showMessageDialog(panelPriseRendezVous, "Veuillez sélectionnez un vétérinaire",
+									"Attention", JOptionPane.WARNING_MESSAGE);
+						} else {
+							if (datePickerRendezVous.getJFormattedTextField().getText().isEmpty()) {
+								display.showMessageDialog(panelPriseRendezVous, "Veuillez sélectionnez une date ",
+										"Attention", JOptionPane.WARNING_MESSAGE);
+							} else {
 								System.out.println(datePickerRendezVous.getJFormattedTextField().getText());
-							//Recréer la date et l'heure 
-							String dateRdv = datePickerRendezVous.getJFormattedTextField().getText() + ' ' 
-									+comboBxHeure.getSelectedItem() + ':' + comboBxMinute.getSelectedItem();
-							AgendasDAO agendasDAO = DAOFactory.getAgendasDAO();
-							boolean resultat = false; //Variable pour savoir si l'ajout à fonctionner
-							try {
-								resultat = agendasDAO.insertAgendas(
-										lesPersonnels.get(comboBxPersonnels.getSelectedIndex() - 1).getCodePersonnel(), 
-										dateRdv, 
-										lesAnimaux.get(comboBxAnimaux.getSelectedIndex()).getCodeAnimal());
-							} catch (DALException e1) {
+								// Recréer la date et l'heure
+								String dateRdv = datePickerRendezVous.getJFormattedTextField().getText() + ' '
+										+ comboBxHeure.getSelectedItem() + ':' + comboBxMinute.getSelectedItem();
+								AgendasDAO agendasDAO = DAOFactory.getAgendasDAO();
+								boolean resultat = false; // Variable pour
+															// savoir si l'ajout
+															// à fonctionner
+								try {
+									resultat = agendasDAO.insertAgendas(
+											lesPersonnels.get(comboBxPersonnels.getSelectedIndex() - 1)
+													.getCodePersonnel(),
+											dateRdv, lesAnimaux.get(comboBxAnimaux.getSelectedIndex()).getCodeAnimal());
+								} catch (DALException e1) {
+								}
+								if (resultat == true) {
+									display.showMessageDialog(panelPriseRendezVous, "Ajout réussi.");
+									refreshTable();
+								} else {
+									display.showMessageDialog(panelPriseRendezVous,
+											"Ajout échoué (vérifier les disponibilité et autres)", "Erreur",
+											JOptionPane.ERROR_MESSAGE);
+								}
 							}
-							if(resultat  == true){
-								display.showMessageDialog(panelPriseRendezVous,
-									    "Ajout réussi.");
-								refreshTable();
-							}else{
-								display.showMessageDialog(panelPriseRendezVous,
-										"Ajout échoué (vérifier les disponibilité et autres)",
-										"Erreur",								    
-										JOptionPane.ERROR_MESSAGE
-									);
-							}
+
 						}
-							
 					}
 				}
-				}
 			});
-		}		 
+		}
 		return buttonAjouter;
 	}
 
@@ -469,10 +473,10 @@ public class EcranPriseRendezVous extends JFrame {
 				columnModel.getColumn(3).setPreferredWidth(150);
 			} else {
 				Object[][] resultat = new Object[1][5];
-				resultat[0][0] = "Acune données";
-				resultat[0][1] = "Acune données";
-				resultat[0][2] = "Acune données";
-				resultat[0][3] = "Acune données";
+				resultat[0][0] = "Aucune données";
+				resultat[0][1] = "Aucune données";
+				resultat[0][2] = "Aucune données";
+				resultat[0][3] = "Aucune données";
 				String[] entetes = { "Heure", "Nom du Client", "Animal", "Espèce" };
 				tableRendezVous.setModel(new DefaultTableModel(resultat, entetes));
 				TableColumnModel columnModel = tableRendezVous.getColumnModel();
@@ -483,10 +487,10 @@ public class EcranPriseRendezVous extends JFrame {
 			}
 		} else {
 			Object[][] resultat = new Object[1][5];
-			resultat[0][0] = "Acune données";
-			resultat[0][1] = "Acune données";
-			resultat[0][2] = "Acune données";
-			resultat[0][3] = "Acune données";
+			resultat[0][0] = "Aucune données";
+			resultat[0][1] = "Aucune données";
+			resultat[0][2] = "Aucune données";
+			resultat[0][3] = "Aucune données";
 			String[] entetes = { "Heure", "Nom du Client", "Animal", "Espèce" };
 			tableRendezVous.setModel(new DefaultTableModel(resultat, entetes));
 			TableColumnModel columnModel = tableRendezVous.getColumnModel();
@@ -495,5 +499,33 @@ public class EcranPriseRendezVous extends JFrame {
 			columnModel.getColumn(2).setPreferredWidth(150);
 			columnModel.getColumn(3).setPreferredWidth(150);
 		}
+	}
+
+	// Getter liste animaux
+	public ArrayList<Animaux> getLesAnimaux() {
+		return lesAnimaux;
+	}
+
+	// Bouton Retour ecran principal
+	private JButton getBtnRetour() {
+		if (btnRetour == null) {
+			btnRetour = new JButton("Retour");
+			btnRetour.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					EcranPriseRendezVous.this.fenetreGestionCli();
+
+				}
+			});
+		}
+		return btnRetour;
+	}
+
+	// Renvoie à l'écran Principal
+	public void fenetreGestionCli() {
+		EcranPrincipal goToPrincipal = new EcranPrincipal(pers);
+		goToPrincipal.setVisible(true);
+		EcranPriseRendezVous.this.dispose();
 	}
 }
