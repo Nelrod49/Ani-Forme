@@ -15,6 +15,7 @@ public interface ClientsDAO {
 //	public boolean insertClient(String nomClient, String prenomClient, String adresse1, String codePostal,
 //			String ville);
 	public Clients getClient(String nomCli) throws DALException;
+	public void delete(int CodeClient) throws DALException;
 
 
 }

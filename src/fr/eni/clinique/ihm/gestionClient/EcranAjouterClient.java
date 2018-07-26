@@ -91,8 +91,7 @@ public class EcranAjouterClient extends JFrame {
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*Dois-je crée un nouveau client oui je pense sinon ajouter client n'aura rien en paramère 
-				 * et devrait renvoyer un nullpointer exception*/
+
 				Clients c = new Clients(textFieldNomClient.getText(), 
 										textFieldPrenomClient.getText(),
 										textFieldAdresseClient_1.getText(), 
@@ -286,37 +285,6 @@ public class EcranAjouterClient extends JFrame {
 		
 	
 	}
-	
-	
-
-//	private JButton getBtnAjouter() {
-//		if (btnAjouter == null) {
-//			btnAjouter = new JButton();
-//			
-//			// définition du comportement du bouton
-//			btnAjouter.addActionListener( new ActionListener() {
-//				
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//					/*Dois-je crée un nouveau client oui je pense sinon ajouter client n'aura rien en paramère 
-//					 * et devrait renvoyer un nullpointer exception*/
-//					Clients c = new Clients(textFieldNomClient.getText(), textFieldPrenomClient.getText(),textFieldAdresseClient_1.getText(), textFieldCodePostalClient.getText(), textFieldVilleClient.getText());
-//					System.out.println(c);
-////					ClientsDAO clientDAO = DAOFactory.getClientsDAO();
-////					clientDAO.insertClient(cli);
-//					try {
-//						GestionClientManager.getInstance().ajouterClient(c);
-//					} catch (BLLException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//					
-//				}
-//			});
-//			
-//		}
-//		return btnAjouter;
-//	}
 	
 
 }

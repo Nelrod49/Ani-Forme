@@ -48,10 +48,6 @@ public class GestionAnimauxManager {
 					return valide;
 				}
 
-				if (a.getRace() == null || a.getRace().trim().length() == 0) {
-					sb.append("Le code postal est obligatoire.\n");
-					return valide;
-				}
 				if (a.getTatouage() == null || a.getTatouage().trim().length() == 0) {
 					sb.append("Le tatouage  est obligatoire.\n");
 					return valide;

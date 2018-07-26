@@ -21,9 +21,8 @@ public class DemoApp {
 			@Override
 			public void run(){
 
-				EcranAgendas ecranLogin = new EcranAgendas();
+				EcranLogin ecranLogin = new EcranLogin();
 				ecranLogin.setVisible(true);
-
 			}
 		});
 	}

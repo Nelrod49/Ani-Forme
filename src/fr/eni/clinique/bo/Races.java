@@ -2,6 +2,8 @@ package fr.eni.clinique.bo;
 
 public class Races{
 
+	private int codeRace;
+	private int codeEspece;
 	private String race;
 	private String espece;
 	
@@ -17,8 +19,27 @@ public class Races{
 	}
 
 	
-	public Races() {
-		// TODO Auto-generated constructor stub
+
+	public Races(int codeRace, String race, int codeEspece) {
+		this.codeRace = codeRace;
+		this.race = race;
+		this.codeEspece = codeEspece;
+	}
+
+	public int getCodeRace() {
+		return codeRace;
+	}
+
+	public void setCodeRace(int codeRace) {
+		this.codeRace = codeRace;
+	}
+
+	public int getCodeEspece() {
+		return codeEspece;
+	}
+
+	public void setCodeEspece(int codeEspece) {
+		this.codeEspece = codeEspece;
 	}
 
 	//Getter et Setter
