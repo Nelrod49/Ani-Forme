@@ -295,65 +295,60 @@ public class EcranAgendas extends JFrame {
 	public JButton getDossierMedic() {
 		if (dossierMedic == null) {
 			dossierMedic = new JButton("Dossier Médical");
-		}
-		dossierMedic.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent a) {
-				// getSelectedRow()
-				// EcranPriseRendezVous rdv = new EcranPriseRendezVous();
-				ClientsDAO clientsDAO = DAOFactory.getClientsDAO();
-				AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
-				RacesDAO racesDAO = new DAOFactory().getRaceDAO();
-				JOptionPane display = new JOptionPane();
-				AgendasDAO agendasDAO = DAOFactory.getAgendasDAO();
+			dossierMedic.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent a) {
+					// getSelectedRow()
+					// EcranPriseRendezVous rdv = new EcranPriseRendezVous();
+					ClientsDAO clientsDAO = DAOFactory.getClientsDAO();
+					AnimauxDAO animauxDAO = DAOFactory.getAnimauxDAO();
+					RacesDAO racesDAO = new DAOFactory().getRaceDAO();
+					JOptionPane display = new JOptionPane();
+					AgendasDAO agendasDAO = DAOFactory.getAgendasDAO();
 
-				if (comboBxPersonnels.getSelectedIndex() == 0) {
-					display.showMessageDialog(panelAgendas, "Veuillez sélectionnez un vétérinaire", "Attention",
-							JOptionPane.WARNING_MESSAGE);
-				} else {
-					if (datePickerRendezVous.getJFormattedTextField().getText().isEmpty()) {
-						display.showMessageDialog(panelAgendas, "Veuillez sélectionnez une date ", "Attention",
+					if (comboBxPersonnels.getSelectedIndex() == 0) {
+						display.showMessageDialog(panelAgendas, "Veuillez sélectionnez un vétérinaire", "Attention",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
-						int ligne = tableRendezVous.getSelectedRow();
-						int colonne = tableRendezVous.getSelectedColumn();
-						if (!tableRendezVous.getValueAt(ligne, colonne).equals("Aucune données")) {
-							System.out.println("valide");
-							try {
-								cli = clientsDAO.getClient(tableRendezVous.getValueAt(ligne, 1).toString());
-								System.out.println(cli);
-							} catch (DALException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							try {
-								ani = animauxDAO.getAnimauxClients(cli.getCodeClient()).get(0);
-							} catch (DALException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							try {
-								espece = racesDAO.allRaces().get(0);
-							} catch (DALException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							EcranAgendas.this.fntrDossierMedic();
+						if (datePickerRendezVous.getJFormattedTextField().getText().isEmpty()) {
+							display.showMessageDialog(panelAgendas, "Veuillez sélectionnez une date ", "Attention",
+									JOptionPane.WARNING_MESSAGE);
 						} else {
-							display.showMessageDialog(panelAgendas, "Veuillez sélectionner un rendez-vous valide",
-									"Attention", JOptionPane.WARNING_MESSAGE);
+							int ligne = tableRendezVous.getSelectedRow();
+							int colonne = tableRendezVous.getSelectedColumn();
+							if (!tableRendezVous.getValueAt(ligne, colonne).equals("Aucune données")) {
+								/*
+								 * System.out.println("valide"); try { cli =
+								 * clientsDAO.getClient(tableRendezVous.
+								 * getValueAt(ligne, 1).toString());
+								 * System.out.println(cli); } catch
+								 * (DALException e) { // TODO Auto-generated
+								 * catch block e.printStackTrace(); } try { ani
+								 * = animauxDAO.getAnimauxClients(cli.
+								 * getCodeClient()).get(0); } catch
+								 * (DALException e) { // TODO Auto-generated
+								 * catch block e.printStackTrace(); } try {
+								 * espece = racesDAO.allRaces().get(0); } catch
+								 * (DALException e) { // TODO Auto-generated
+								 * catch block e.printStackTrace(); }
+								 */
+								EcranAgendas.this.fntrDossierMedic();
+							} else {
+								display.showMessageDialog(panelAgendas, "Veuillez sélectionner un rendez-vous valide",
+										"Attention", JOptionPane.WARNING_MESSAGE);
+							}
 						}
 					}
 				}
-			}
-		});
+			});
+		}
 		return dossierMedic;
 
 	}
 
 	// Envoie à l'écran Dossier Medic
 	public void fntrDossierMedic() {
-		EcranDossierMedical goToDossierMedic = new EcranDossierMedical(cli, ani, espece);
+		EcranDossierMedical goToDossierMedic = new EcranDossierMedical();
 		goToDossierMedic.setVisible(true);
 		EcranAgendas.this.dispose();
 	}
